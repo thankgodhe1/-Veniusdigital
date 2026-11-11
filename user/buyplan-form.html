@@ -1,0 +1,178 @@
+ 
+    <div x-data="{ open: false }" x-on:open-invest-drawer.window="open = true" x-on:keydown.escape.window="open = false">
+        
+        <div x-show="open" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 z-40" style="background: rgba(0, 0, 0, 0.72); backdrop-filter: blur(4px); display: none;" @click="open = false"></div>
+        
+        <div x-show="open" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="translate-x-full" x-transition:enter-end="translate-x-0" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="translate-x-0" x-transition:leave-end="translate-x-full" class="fixed inset-y-0 right-0 z-50 w-full max-w-lg overflow-y-auto" style="background: rgb(13, 13, 13); border-left: 1px solid rgb(30, 30, 30); display: none;">
+            
+            <div class="sticky top-0 z-10 flex items-center justify-between px-[18px] py-[14px]" style="background:rgba(13,13,13,.98);border-bottom:1px solid #161616;">
+                <div class="flex items-center gap-[12px]">
+                    <button @click="open = false" class="w-[36px] h-[36px] flex items-center justify-center rounded-[10px] text-[#888] hover:text-white transition-colors" style="background:#111;border:1px solid #1e1e1e;">
+                        <i class="fa-solid fa-chevron-left text-[.75rem]"></i>
+                    </button>
+                    <div class="text-[.95rem] font-[500] text-white">Invest in Plan</div>
+                </div>
+                <button @click="open = false" class="w-[36px] h-[36px] flex items-center justify-center rounded-[10px] text-[#888] hover:text-white transition-colors" style="background:#111;border:1px solid #1e1e1e;">
+                    <i class="fa-solid fa-xmark text-[.85rem]"></i>
+                </button>
+            </div>
+            
+            <div class="p-[18px]">
+                <div wire:id="QcjJLurJiyvqmsy3a7DJ">
+            <div class="space-y-[9px] mt-[4px]">
+
+            <div>
+    </div>            <div>
+    </div>
+
+            
+            <div class="bg-[#111] border border-[#1e1e1e] rounded-[13px] p-[15px]">
+                <div class="text-[#444] text-[.68rem] uppercase tracking-[.07em] mb-[10px]">Select Investment Plan</div>
+                <div x-data="{ open: false }" class="relative">
+                    <button type="button" @click="open = !open" class="w-full flex items-center justify-between bg-[#0d0d0d] border border-[#1e1e1e] rounded-[10px] px-[13px] py-[11px] text-left hover:border-[#2a2a2a] transition-colors">
+                        <div class="flex items-center gap-[10px]">
+                            <div class="w-[32px] h-[32px] rounded-[8px] bg-[#1a1a1a] flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-chart-bar text-[#6e8efb] text-[.75rem]"></i>
+                            </div>
+                                                            <span class="text-white text-[.88rem] font-[500]">Elite Plan</span>
+                                                    </div>
+                        <i class="fa-solid fa-chevron-down text-[#444] text-[.75rem] transition-transform" :class="open ? 'rotate-180' : ''"></i>
+                    </button>
+                    <ul x-show="open" @click.outside="open = false" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" class="absolute z-20 mt-[6px] w-full rounded-[10px] overflow-hidden max-h-[220px] overflow-y-auto" style="background: rgb(13, 13, 13); border: 1px solid rgb(42, 42, 42); box-shadow: rgba(0, 0, 0, 0.6) 0px 8px 32px; display: none;">
+                                                    <li wire:click="selectPlan(15)" @click="open = false" class="flex items-center gap-[10px] px-[13px] py-[11px] cursor-pointer transition-colors" style="border-bottom:1px solid #161616;" onmouseover="this.style.background='rgba(74,108,247,.06)'" onmouseout="this.style.background=''">
+                                <i class="fa-solid fa-chart-bar text-[#6e8efb] text-[.75rem]"></i>
+                                <span class="text-[#aaa] text-[.88rem]">Elite Plan</span>
+                            </li>
+                                                    <li wire:click="selectPlan(14)" @click="open = false" class="flex items-center gap-[10px] px-[13px] py-[11px] cursor-pointer transition-colors" style="border-bottom:1px solid #161616;" onmouseover="this.style.background='rgba(74,108,247,.06)'" onmouseout="this.style.background=''">
+                                <i class="fa-solid fa-chart-bar text-[#6e8efb] text-[.75rem]"></i>
+                                <span class="text-[#aaa] text-[.88rem]">Premium Plan</span>
+                            </li>
+                                                    <li wire:click="selectPlan(13)" @click="open = false" class="flex items-center gap-[10px] px-[13px] py-[11px] cursor-pointer transition-colors" style="border-bottom:1px solid #161616;" onmouseover="this.style.background='rgba(74,108,247,.06)'" onmouseout="this.style.background=''">
+                                <i class="fa-solid fa-chart-bar text-[#6e8efb] text-[.75rem]"></i>
+                                <span class="text-[#aaa] text-[.88rem]">Basic Plan</span>
+                            </li>
+                                                    <li wire:click="selectPlan(12)" @click="open = false" class="flex items-center gap-[10px] px-[13px] py-[11px] cursor-pointer transition-colors" style="border-bottom:1px solid #161616;" onmouseover="this.style.background='rgba(74,108,247,.06)'" onmouseout="this.style.background=''">
+                                <i class="fa-solid fa-chart-bar text-[#6e8efb] text-[.75rem]"></i>
+                                <span class="text-[#aaa] text-[.88rem]">Starter Plan</span>
+                            </li>
+                                            </ul>
+                </div>
+            </div>
+
+            
+            <div class="bg-[#111] border border-[#1e1e1e] rounded-[13px] p-[15px]">
+                <div class="text-[#444] text-[.68rem] uppercase tracking-[.07em] mb-[10px]">Quick Amount</div>
+                <div class="flex flex-wrap gap-[6px]">
+                                            <button wire:click="selectAmount('100')" class="flex-1 min-w-[70px] py-[7px] text-[.75rem] text-[#666] rounded-[8px] transition-all hover:border-[#333] hover:text-[#ccc]" style="background:#1a1a1a;border:1px solid #222;">
+                            $100.00                        </button>
+                                            <button wire:click="selectAmount('250')" class="flex-1 min-w-[70px] py-[7px] text-[.75rem] text-[#666] rounded-[8px] transition-all hover:border-[#333] hover:text-[#ccc]" style="background:#1a1a1a;border:1px solid #222;">
+                            $250.00                        </button>
+                                            <button wire:click="selectAmount('500')" class="flex-1 min-w-[70px] py-[7px] text-[.75rem] text-[#666] rounded-[8px] transition-all hover:border-[#333] hover:text-[#ccc]" style="background:#1a1a1a;border:1px solid #222;">
+                            $500.00                        </button>
+                                            <button wire:click="selectAmount('1000')" class="flex-1 min-w-[70px] py-[7px] text-[.75rem] text-[#666] rounded-[8px] transition-all hover:border-[#333] hover:text-[#ccc]" style="background:#1a1a1a;border:1px solid #222;">
+                            $1,000.00                        </button>
+                                            <button wire:click="selectAmount('1500')" class="flex-1 min-w-[70px] py-[7px] text-[.75rem] text-[#666] rounded-[8px] transition-all hover:border-[#333] hover:text-[#ccc]" style="background:#1a1a1a;border:1px solid #222;">
+                            $1,500.00                        </button>
+                                            <button wire:click="selectAmount('2000')" class="flex-1 min-w-[70px] py-[7px] text-[.75rem] text-[#666] rounded-[8px] transition-all hover:border-[#333] hover:text-[#ccc]" style="background:#1a1a1a;border:1px solid #222;">
+                            $2,000.00                        </button>
+                                    </div>
+            </div>
+
+            
+            <div class="bg-[#111] border border-[#1e1e1e] rounded-[13px] p-[15px]">
+                <div class="text-[#444] text-[.68rem] uppercase tracking-[.07em] mb-[10px]">Enter Amount</div>
+                <div class="flex items-center rounded-[14px] px-[15px] py-[12px]" style="background:#0d0d0d;border:1px solid #1e1e1e;" x-data="" @focusin="$el.style.borderColor='rgba(74,108,247,.4)'" @focusout="$el.style.borderColor='#1e1e1e'">
+                    <span class="font-sora text-[1.6rem] font-[300] text-[#333] mr-[4px]">$</span>
+                    <input type="number" required="" wire:model="amountToInvest" wire:keyup="checkIfAmountIsEmpty" placeholder="0.00" min="10000" max="1000000" class="flex-1 border-none outline-none font-sora text-[1.6rem] font-[300] placeholder-[#333] w-full" style="background:transparent;color:#fff;-webkit-appearance:none;">
+                </div>
+                                    <div class="flex items-center justify-between mt-[8px]">
+                        <span class="text-[#444] text-[.72rem]">Min: <span class="text-[#666]">$10,000.00</span></span>
+                        <span class="text-[#444] text-[.72rem]">Max: <span class="text-[#666]">$1,000,000.00</span></span>
+                    </div>
+                            </div>
+
+            
+            <div class="bg-[#111] border border-[#1e1e1e] rounded-[13px] p-[15px]">
+                <div class="text-[#444] text-[.68rem] uppercase tracking-[.07em] mb-[10px]">Payment Method</div>
+                <button wire:click="chanegePaymentMethod('Account Balance')" class="w-full flex items-center gap-[14px] px-[15px] py-[14px] rounded-[13px] transition-all cursor-pointer text-left" style="background:rgba(74,108,247,.06);border:1px solid #4a6cf7;">
+                    <div class="w-[44px] h-[44px] rounded-[12px] bg-[#1a1a1a] flex items-center justify-center flex-shrink-0">
+                        <i class="fa-solid fa-wallet text-[#6e8efb]"></i>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="text-white text-[.88rem] font-[500]">Account Balance</div>
+                        <div class="text-[#555] text-[.78rem] font-sora mt-[1px]">$11,130.00</div>
+                    </div>
+                                            <div class="w-[20px] h-[20px] rounded-full flex items-center justify-center flex-shrink-0" style="background:rgba(74,108,247,.15);border:1px solid rgba(74,108,247,.4);">
+                            <i class="fa-solid fa-check text-[#6e8efb] text-[.6rem]"></i>
+                        </div>
+                                    </button>
+            </div>
+
+            
+                            <div class="rounded-[12px] overflow-hidden" style="background:#111;border:1px solid #1e1e1e;">
+                    <div class="px-[14px] py-[10px]" style="border-bottom:1px solid #161616;">
+                        <div class="text-[#444] text-[.68rem] uppercase tracking-[.07em]">Your Investment Details</div>
+                    </div>
+                                                                <div class="flex items-center justify-between px-[14px] py-[10px]" style="border-bottom:1px solid #161616;">
+                            <span class="text-[#444] text-[.81rem]">Name of Plan</span>
+                            <span class="text-white text-[.81rem] font-[500]">Elite Plan</span>
+                        </div>
+                                            <div class="flex items-center justify-between px-[14px] py-[10px]" style="border-bottom:1px solid #161616;">
+                            <span class="text-[#444] text-[.81rem]">Plan Price</span>
+                            <span class="text-white text-[.81rem] font-[500]">$10,000.00</span>
+                        </div>
+                                            <div class="flex items-center justify-between px-[14px] py-[10px]" style="border-bottom:1px solid #161616;">
+                            <span class="text-[#444] text-[.81rem]">Duration</span>
+                            <span class="text-white text-[.81rem] font-[500]">45 Days</span>
+                        </div>
+                                            <div class="flex items-center justify-between px-[14px] py-[10px]" style="border-bottom:1px solid #161616;">
+                            <span class="text-[#444] text-[.81rem]">Profit</span>
+                            <span class="text-white text-[.81rem] font-[500]">55% Daily</span>
+                        </div>
+                                            <div class="flex items-center justify-between px-[14px] py-[10px]" style="border-bottom:1px solid #161616;">
+                            <span class="text-[#444] text-[.81rem]">Min Deposit</span>
+                            <span class="text-white text-[.81rem] font-[500]">$10,000.00</span>
+                        </div>
+                                            <div class="flex items-center justify-between px-[14px] py-[10px]" style="border-bottom:1px solid #161616;">
+                            <span class="text-[#444] text-[.81rem]">Max Deposit</span>
+                            <span class="text-white text-[.81rem] font-[500]">$1,000,000.00</span>
+                        </div>
+                                            <div class="flex items-center justify-between px-[14px] py-[10px]" style="border-bottom:1px solid #161616;">
+                            <span class="text-[#444] text-[.81rem]">Min Return</span>
+                            <span class="text-white text-[.81rem] font-[500]">50%</span>
+                        </div>
+                                            <div class="flex items-center justify-between px-[14px] py-[10px]" style="border-bottom:1px solid #161616;">
+                            <span class="text-[#444] text-[.81rem]">Max Return</span>
+                            <span class="text-white text-[.81rem] font-[500]">60%</span>
+                        </div>
+                                            <div class="flex items-center justify-between px-[14px] py-[10px]" style="border-bottom:1px solid #161616;">
+                            <span class="text-[#444] text-[.81rem]">Bonus</span>
+                            <span class="text-white text-[.81rem] font-[500]">$0.00</span>
+                        </div>
+                                            <div class="flex items-center justify-between px-[14px] py-[10px]" style="border-bottom:1px solid #161616;">
+                            <span class="text-[#444] text-[.81rem]">Payment Method</span>
+                            <span class="text-white text-[.81rem] font-[500]">Account Balance</span>
+                        </div>
+                                        <div class="flex items-center justify-between px-[14px] py-[12px]">
+                        <span class="text-[#aaa] text-[.88rem] font-[500]">Amount to Invest</span>
+                        <span class="font-sora text-[1.2rem] font-[700] text-blue2">$0.00</span>
+                    </div>
+                </div>
+            
+            
+            <form wire:submit.prevent="joinPlan">
+                <button type="submit" disabled="" class="w-full py-[14px] rounded-[12px] text-[.95rem] font-[500] transition-all" style="background:#161616;color:#2a2a2a;cursor:not-allowed;">
+                    Confirm &amp; Invest
+                </button>
+            </form>
+
+            <p class="text-center text-[.82rem] text-[#6e8efb]" wire:loading="" wire:target="joinPlan">
+                <i class="fa-solid fa-circle-notch fa-spin mr-[6px]"></i>Processingâ€¦
+            </p>
+
+        </div>
+    </div>
+
+<!-- Livewire Component wire-end:QcjJLurJiyvqmsy3a7DJ -->            </div>
+        </div>
+    </div>

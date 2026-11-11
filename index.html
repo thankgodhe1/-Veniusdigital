@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Digital-grownt. — Trade like a pro with D.G</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: { primary: { DEFAULT: 'rgb(0 82 255)', hover: 'rgb(59 123 255)' },
+          accent:  { DEFAULT: 'rgb(0 212 154)', hover: 'rgb(0 184 130)' },
+          surface: { base: 'rgb(0 0 0)', raised: 'rgb(17 17 17)', card: 'rgb(22 22 22)', deep: 'rgb(26 26 26)' },
+          content: { primary: 'rgb(255 255 255)', secondary: 'rgb(170 170 170)', muted: 'rgb(85 85 85)' },
+          line:    { DEFAULT: 'rgb(30 30 30)', subtle: 'rgb(17 17 17)', strong: 'rgb(42 42 42)' },
+          positive:'rgb(0 212 124)', negative:'rgb(255 69 96)', star:'rgb(245 197 66)',
+          coin: { btc:'rgb(247 147 26)', eth:'rgb(98 126 234)', sol:'rgb(153 69 255)', usdt:'rgb(38 161 123)' }
+         
+        },
+        fontFamily: { sans:['DM Sans','sans-serif'], display:['Sora','sans-serif'] },
+        borderRadius: { card: '18px' },
+        keyframes: {
+          fadeUp:    { from:{opacity:'0',transform:'translateY(30px)'}, to:{opacity:'1',transform:'translateY(0)'} },
+          tickerScroll: { from:{transform:'translateX(0)'}, to:{transform:'translateX(-50%)'} },
+          ping2:     { '0%,100%':{transform:'scale(1)',opacity:'1'}, '50%':{transform:'scale(1.7)',opacity:'0.35'} }
+        },
+        animation: {
+          'fade-up':'fadeUp .8s ease both',
+          'ticker':'tickerScroll 28s linear infinite',
+          'ping2':'ping2 1.8s ease-in-out infinite'
+        }
+      }
+    }
+  }
+</script>
+<style>
+  /* Resets and JS-driven states only — no hex colors, no decorative styling */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; cursor: none; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: rgb(4 9 15); }
+  ::-webkit-scrollbar-thumb { background: rgb(0 212 154); border-radius: 4px; }
+
+  /* Background canvas */
+  #cryptoBg { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+
+  /* Custom cursor */
+  #cursor { position: fixed; width: 10px; height: 10px; background: rgb(0 212 154); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: width .2s, height .2s; mix-blend-mode: screen; }
+  #cursor-ring { position: fixed; width: 36px; height: 36px; border: 1px solid rgba(0,212,154,0.4); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%, -50%); transition: width .15s, height .15s, opacity .15s; }
+  .link-hov #cursor { width: 22px; height: 22px; }
+  .link-hov #cursor-ring { width: 52px; height: 52px; opacity: 0; }
+
+  /* Nav scrolled state — toggled by JS */
+  #mainnav.scrolled { background-color: rgba(4,9,15,0.85); border-bottom-color: rgba(255,255,255,0.06); backdrop-filter: blur(16px); }
+
+  /* Market tab active state — toggled by JS */
+  .mkttab { color: rgb(93 122 153); border-bottom: 2px solid transparent; }
+  .mkttab.on { color: rgb(232 242 255); border-bottom-color: rgb(0 212 154); }
+
+  /* Pause ticker on hover */
+  .ticker-track:hover { animation-play-state: paused; }
+
+  /* Scroll-reveal initial state and transitions */
+  .rv  { opacity: 0; transform: translateY(32px); transition: opacity .75s ease, transform .75s ease; }
+  .rvl { opacity: 0; transform: translateX(-32px); transition: opacity .75s ease, transform .75s ease; }
+  .rvr { opacity: 0; transform: translateX(32px); transition: opacity .75s ease, transform .75s ease; }
+  .rv.on, .rvl.on, .rvr.on { opacity: 1; transform: translate(0); }
+  .d1 { transition-delay: .1s; } .d2 { transition-delay: .2s; } .d3 { transition-delay: .3s; }
+  .d4 { transition-delay: .4s; } .d5 { transition-delay: .5s; }
+
+  /* Hide custom cursor on touch */
+  @media (max-width: 640px) {
+    body { cursor: auto; }
+    #cursor, #cursor-ring { display: none; }
+  }
+  html { scroll-behavior: smooth; }
+</style>
+</head>
+<body class="bg-surface-base text-content-primary overflow-x-hidden font-sans">
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<canvas id="cryptoBg"></canvas>
+
+<!-- ── NAV ── -->
+<nav id="mainnav" class="fixed top-0 inset-x-0 z-50 h-16 flex items-center justify-between px-6 lg:px-12 border-b border-transparent transition-colors">
+  <a href="#" class="flex items-center gap-3 font-display font-extrabold text-content-primary no-underline">
+    <img src="./storage/app/public/photos/DjH2X9jdLXAgNMV4LJyhCMJ34SrNFTDSlxA6Qk7I.png" alt="Digital-grownt" class="h-8">
+  </a>
+  <ul class="hidden md:flex gap-8 list-none">
+    <li><a href="#features" class="text-content-secondary hover:text-content-primary text-sm font-medium no-underline transition-colors">Explore</a></li>
+    <li><a href="#about" class="text-content-secondary hover:text-content-primary text-sm font-medium no-underline transition-colors">Company</a></li>
+    <li><a href="#trade" class="text-content-secondary hover:text-content-primary text-sm font-medium no-underline transition-colors">Trade</a></li>
+  </ul>
+  <div class="flex items-center gap-3">
+    <a href="login.html" class="inline-flex items-center text-content-secondary hover:text-content-primary text-xs sm:text-sm font-medium px-3 sm:px-4 py-2 no-underline transition-colors">Log in</a>
+    <a href="register.html" class="inline-flex items-center bg-primary hover:bg-primary-hover text-surface-base text-xs sm:text-sm font-display font-bold px-4 sm:px-5 py-2 sm:py-2.5 rounded-full no-underline transition-colors">Get started</a>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero" class="min-h-screen flex flex-col items-center justify-center text-center px-6 pt-32 pb-20 relative z-10">
+  <div class="inline-flex items-center gap-2 text-content-secondary text-xs font-medium tracking-widest uppercase mb-7">
+    <span class="w-2 h-2 rounded-full bg-primary animate-ping2"></span>
+    <span>Live Trading Platform</span>
+  </div>
+
+  <h1 class="font-display font-black text-5xl sm:text-6xl lg:text-7xl leading-tight tracking-tight max-w-4xl mx-auto">
+    Upgrade the way<br/>you
+    <span class="bg-gradient-to-r from-primary to-primary-hover bg-clip-text text-transparent">trade</span>
+  </h1>
+
+  <p class="text-content-secondary text-base sm:text-lg max-w-xl mx-auto mt-6 mb-10 leading-relaxed">
+    Digital-grownt blends advanced power with simplicity, offering strong security, 24/7 support, and an intuitive trading platform.
+  </p>
+
+  <div class="flex flex-wrap gap-4 justify-center">
+    <a href="register.html" class="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-surface-base font-display font-bold text-base px-8 py-4 rounded-full no-underline transition-colors">
+      <i class="fa-solid fa-rocket"></i>
+      <span>Get started</span>
+    </a>
+    <a href="login.html" class="inline-flex items-center gap-2 bg-transparent border border-line-strong hover:border-content-primary text-content-primary font-display font-bold text-base px-8 py-4 rounded-full no-underline transition-colors">
+      <i class="fa-solid fa-right-to-bracket"></i>
+      <span>Log in</span>
+    </a>
+  </div>
+
+  <!-- Stats -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-12 mt-16 max-w-4xl w-full">
+    <div class="text-center md:text-left md:border-l md:border-line md:pl-6">
+      <div class="font-display font-black text-3xl text-content-primary leading-none" data-count="150000" data-suffix="+">0+</div>
+      <div class="text-content-secondary text-xs mt-2 tracking-wide">Active traders</div>
+    </div>
+    <div class="text-center md:text-left md:border-l md:border-line md:pl-6">
+      <div class="font-display font-black text-3xl text-content-primary leading-none" data-count="2.8" data-prefix="$" data-suffix="B">$0B</div>
+      <div class="text-content-secondary text-xs mt-2 tracking-wide">Volume traded</div>
+    </div>
+    <div class="text-center md:text-left md:border-l md:border-line md:pl-6">
+      <div class="font-display font-black text-3xl text-content-primary leading-none" data-count="99.9" data-suffix="%">0%</div>
+      <div class="text-content-secondary text-xs mt-2 tracking-wide">Platform uptime</div>
+    </div>
+    <div class="text-center md:text-left md:border-l md:border-line md:pl-6">
+      <div class="font-display font-black text-3xl text-content-primary leading-none" data-count="50" data-suffix="+">0+</div>
+      <div class="text-content-secondary text-xs mt-2 tracking-wide">Global markets</div>
+    </div>
+  </div>
+
+  <!-- Hero image -->
+  <div class="relative inline-block mt-16 rv">
+    <img class="block w-full max-w-4xl rounded-2xl border border-line"
+         src="./assets/imgs/desktop-preview.png"
+         onerror="this.src='https://images.unsplash.com/photo-1642790551116-18e4f75e2b09?w=1400&q=90'"
+         alt="Trading platform preview"/>
+    <img class="hidden sm:block absolute -right-6 -bottom-6 w-28 lg:w-32 rounded-xl border border-line"
+         src="./assets/imgs/mobile-preview.png"
+         onerror="this.style.display='none'"
+         alt="Mobile app"/>
+  </div>
+</section>
+
+<!-- ── TICKER ── -->
+<div class="border-y border-line py-3 overflow-hidden relative z-10">
+  <div id="tickerTrack" class="ticker-track flex gap-10 w-max animate-ticker">
+    
+                <span class="flex items-center gap-2 text-sm whitespace-nowrap">
+                  <img src="https://coin-images.coingecko.com/coins/images/1/large/bitcoin.png?1696501400" alt="BTC" class="w-4 h-4 rounded-full">
+                <span class="font-display font-bold">BTC</span>
+        <span class="text-content-secondary">$80,402.00</span>
+        <span class="text-negative">▼ 1.48%</span>
+      </span>
+                <span class="flex items-center gap-2 text-sm whitespace-nowrap">
+                  <img src="https://coin-images.coingecko.com/coins/images/279/large/ethereum.png?1696501628" alt="ETH" class="w-4 h-4 rounded-full">
+                <span class="font-display font-bold">ETH</span>
+        <span class="text-content-secondary">$2,274.34</span>
+        <span class="text-negative">▼ 2.34%</span>
+      </span>
+                <span class="flex items-center gap-2 text-sm whitespace-nowrap">
+                  <img src="https://coin-images.coingecko.com/coins/images/325/large/Tether.png?1696501661" alt="USDT" class="w-4 h-4 rounded-full">
+                <span class="font-display font-bold">USDT</span>
+        <span class="text-content-secondary">$0.9996</span>
+        <span class="text-positive">▲ 0.01%</span>
+      </span>
+                <span class="flex items-center gap-2 text-sm whitespace-nowrap">
+                  <img src="https://coin-images.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png?1696501442" alt="XRP" class="w-4 h-4 rounded-full">
+                <span class="font-display font-bold">XRP</span>
+        <span class="text-content-secondary">$1.43</span>
+        <span class="text-negative">▼ 2.74%</span>
+      </span>
+                <span class="flex items-center gap-2 text-sm whitespace-nowrap">
+                  <img src="https://coin-images.coingecko.com/coins/images/825/large/bnb-icon2_2x.png?1696501970" alt="BNB" class="w-4 h-4 rounded-full">
+                <span class="font-display font-bold">BNB</span>
+        <span class="text-content-secondary">$654.68</span>
+        <span class="text-negative">▼ 0.77%</span>
+      </span>
+                <span class="flex items-center gap-2 text-sm whitespace-nowrap">
+                  <img src="https://coin-images.coingecko.com/coins/images/6319/large/USDC.png?1769615602" alt="USDC" class="w-4 h-4 rounded-full">
+                <span class="font-display font-bold">USDC</span>
+        <span class="text-content-secondary">$0.9999</span>
+        <span class="text-positive">▲ 0.02%</span>
+      </span>
+                <span class="flex items-center gap-2 text-sm whitespace-nowrap">
+                  <img src="https://coin-images.coingecko.com/coins/images/4128/large/solana.png?1718769756" alt="SOL" class="w-4 h-4 rounded-full">
+                <span class="font-display font-bold">SOL</span>
+        <span class="text-content-secondary">$94.43</span>
+        <span class="text-negative">▼ 2.83%</span>
+      </span>
+                <span class="flex items-center gap-2 text-sm whitespace-nowrap">
+                  <img src="https://coin-images.coingecko.com/coins/images/1094/large/photo_2026-04-13_09-59-16.png?1776048311" alt="TRX" class="w-4 h-4 rounded-full">
+                <span class="font-display font-bold">TRX</span>
+        <span class="text-content-secondary">$0.3479</span>
+        <span class="text-negative">▼ 0.84%</span>
+      </span>
+        
+                <span class="flex items-center gap-2 text-sm whitespace-nowrap">
+                  <img src="https://coin-images.coingecko.com/coins/images/1/large/bitcoin.png?1696501400" alt="BTC" class="w-4 h-4 rounded-full">
+                <span class="font-display font-bold">BTC</span>
+        <span class="text-content-secondary">$80,402.00</span>
+        <span class="text-negative">▼ 1.48%</span>
+      </span>
+                <span class="flex items-center gap-2 text-sm whitespace-nowrap">
+                  <img src="https://coin-images.coingecko.com/coins/images/279/large/ethereum.png?1696501628" alt="ETH" class="w-4 h-4 rounded-full">
+                <span class="font-display font-bold">ETH</span>
+        <span class="text-content-secondary">$2,274.34</span>
+        <span class="text-negative">▼ 2.34%</span>
+      </span>
+                <span class="flex items-center gap-2 text-sm whitespace-nowrap">
+                  <img src="https://coin-images.coingecko.com/coins/images/325/large/Tether.png?1696501661" alt="USDT" class="w-4 h-4 rounded-full">
+                <span class="font-display font-bold">USDT</span>
+        <span class="text-content-secondary">$0.9996</span>
+        <span class="text-positive">▲ 0.01%</span>
+      </span>
+                <span class="flex items-center gap-2 text-sm whitespace-nowrap">
+                  <img src="https://coin-images.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png?1696501442" alt="XRP" class="w-4 h-4 rounded-full">
+                <span class="font-display font-bold">XRP</span>
+        <span class="text-content-secondary">$1.43</span>
+        <span class="text-negative">▼ 2.74%</span>
+      </span>
+                <span class="flex items-center gap-2 text-sm whitespace-nowrap">
+                  <img src="https://coin-images.coingecko.com/coins/images/825/large/bnb-icon2_2x.png?1696501970" alt="BNB" class="w-4 h-4 rounded-full">
+                <span class="font-display font-bold">BNB</span>
+        <span class="text-content-secondary">$654.68</span>
+        <span class="text-negative">▼ 0.77%</span>
+      </span>
+                <span class="flex items-center gap-2 text-sm whitespace-nowrap">
+                  <img src="https://coin-images.coingecko.com/coins/images/6319/large/USDC.png?1769615602" alt="USDC" class="w-4 h-4 rounded-full">
+                <span class="font-display font-bold">USDC</span>
+        <span class="text-content-secondary">$0.9999</span>
+        <span class="text-positive">▲ 0.02%</span>
+      </span>
+                <span class="flex items-center gap-2 text-sm whitespace-nowrap">
+                  <img src="https://coin-images.coingecko.com/coins/images/4128/large/solana.png?1718769756" alt="SOL" class="w-4 h-4 rounded-full">
+                <span class="font-display font-bold">SOL</span>
+        <span class="text-content-secondary">$94.43</span>
+        <span class="text-negative">▼ 2.83%</span>
+      </span>
+                <span class="flex items-center gap-2 text-sm whitespace-nowrap">
+                  <img src="https://coin-images.coingecko.com/coins/images/1094/large/photo_2026-04-13_09-59-16.png?1776048311" alt="TRX" class="w-4 h-4 rounded-full">
+                <span class="font-display font-bold">TRX</span>
+        <span class="text-content-secondary">$0.3479</span>
+        <span class="text-negative">▼ 0.84%</span>
+      </span>
+      </div>
+</div>
+
+<!-- ── FEATURES ── -->
+<section id="features" class="py-24 px-6 lg:px-12 relative z-10">
+  <div class="text-center max-w-2xl mx-auto rv">
+    <div class="text-primary text-xs font-display font-bold uppercase tracking-widest mb-3">Features</div>
+    <h2 class="font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl text-content-primary tracking-tight leading-tight">All the features you need for profits</h2>
+    <p class="text-content-secondary text-base mt-4 leading-relaxed">Everything a modern trader needs — built into one seamless, powerful platform.</p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mt-16">
+    <div class="fcard rv d1 border border-line rounded-card p-7 hover:bg-surface-card transition-colors">
+      <i class="fa-solid fa-chart-pie text-primary text-2xl mb-5"></i>
+      <h3 class="font-display font-bold text-content-primary text-base mb-2">Portfolio management</h3>
+      <p class="text-content-secondary text-sm leading-relaxed">Effortlessly manage your portfolio with our intuitive platform. Track all assets across markets in one unified view.</p>
+      <img class="w-full h-40 object-cover rounded-lg mt-5 opacity-90" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80" alt="Portfolio charts"/>
+    </div>
+    <div class="fcard rv d2 border border-line rounded-card p-7 hover:bg-surface-card transition-colors">
+      <i class="fa-solid fa-copy text-primary text-2xl mb-5"></i>
+      <h3 class="font-display font-bold text-content-primary text-base mb-2">One-click copy trading</h3>
+      <p class="text-content-secondary text-sm leading-relaxed">Copy the trades of experienced traders with just a single click and mirror winning strategies automatically.</p>
+      <img class="w-full h-40 object-cover rounded-lg mt-5 opacity-90" src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&q=80" alt="Copy trading"/>
+    </div>
+    <div class="fcard rv d3 border border-line rounded-card p-7 hover:bg-surface-card transition-colors">
+      <i class="fa-solid fa-bolt text-primary text-2xl mb-5"></i>
+      <h3 class="font-display font-bold text-content-primary text-base mb-2">Up to 100x leverage</h3>
+      <p class="text-content-secondary text-sm leading-relaxed">Maximize your trading potential with up to 100x leverage on major crypto and forex pairs globally.</p>
+      <img class="w-full h-40 object-cover rounded-lg mt-5 opacity-90" src="https://images.unsplash.com/photo-1642790106117-e829e14a795f?w=600&q=80" alt="Leverage"/>
+    </div>
+    <div class="fcard rv d1 border border-line rounded-card p-7 hover:bg-surface-card transition-colors">
+      <i class="fa-solid fa-flask text-primary text-2xl mb-5"></i>
+      <h3 class="font-display font-bold text-content-primary text-base mb-2">Demo Accounts</h3>
+      <p class="text-content-secondary text-sm leading-relaxed">Test your trading strategies risk-free with a fully-featured demo account before committing real funds.</p>
+      <img class="w-full h-40 object-cover rounded-lg mt-5 opacity-90" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80" alt="Analytics dashboard"/>
+    </div>
+    <div class="fcard rv d2 border border-line rounded-card p-7 hover:bg-surface-card transition-colors">
+      <i class="fa-solid fa-satellite-dish text-primary text-2xl mb-5"></i>
+      <h3 class="font-display font-bold text-content-primary text-base mb-2">Real-time trading</h3>
+      <p class="text-content-secondary text-sm leading-relaxed">Experience real-time trading with seamless execution, sub-millisecond order fills, and tight spreads.</p>
+      <img class="w-full h-40 object-cover rounded-lg mt-5 opacity-90" src="https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=600&q=80" alt="Data streams"/>
+    </div>
+    <div class="fcard rv d3 border border-line rounded-card p-7 hover:bg-surface-card transition-colors">
+      <i class="fa-solid fa-headset text-primary text-2xl mb-5"></i>
+      <h3 class="font-display font-bold text-content-primary text-base mb-2">24/7 live-chat support</h3>
+      <p class="text-content-secondary text-sm leading-relaxed">World-class support team available around the clock to assist you with any questions or issues.</p>
+      <img class="w-full h-40 object-cover rounded-lg mt-5 opacity-90" src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=600&q=80" alt="Support team"/>
+    </div>
+  </div>
+</section>
+
+<!-- ── SPLIT — Markets ── -->
+<section id="markets" class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center py-24 px-6 lg:px-12 relative z-10 max-w-7xl mx-auto">
+  <div class="rvl">
+    <div class="text-primary text-xs font-display font-bold uppercase tracking-widest mb-3">Why choose us?</div>
+    <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-content-primary tracking-tight leading-tight">Everything you need to trade, in one place</h2>
+    <p class="text-content-secondary text-base mt-4 leading-relaxed max-w-md">Manage assets, place trades, track progress, and move funds seamlessly across markets, accounts, and devices.</p>
+
+    <div class="mt-10 space-y-6">
+      <div class="flex gap-4">
+        <i class="fa-solid fa-landmark text-primary text-lg mt-1 w-6 flex-shrink-0"></i>
+        <div>
+          <h4 class="font-display font-semibold text-content-primary text-sm mb-1">Unified asset management</h4>
+          <p class="text-content-secondary text-sm leading-relaxed">Manage multiple assets and accounts from a single beautifully designed interface.</p>
+        </div>
+      </div>
+      <div class="flex gap-4">
+        <i class="fa-solid fa-earth-americas text-primary text-lg mt-1 w-6 flex-shrink-0"></i>
+        <div>
+          <h4 class="font-display font-semibold text-content-primary text-sm mb-1">Global market access</h4>
+          <p class="text-content-secondary text-sm leading-relaxed">Trade across crypto, stocks, forex and commodities in one unified view.</p>
+        </div>
+      </div>
+      <div class="flex gap-4">
+        <i class="fa-solid fa-repeat text-primary text-lg mt-1 w-6 flex-shrink-0"></i>
+        <div>
+          <h4 class="font-display font-semibold text-content-primary text-sm mb-1">Multi-account support</h4>
+          <p class="text-content-secondary text-sm leading-relaxed">Swap between accounts and currencies instantly and conveniently.</p>
+        </div>
+      </div>
+      <div class="flex gap-4">
+        <i class="fa-solid fa-credit-card text-primary text-lg mt-1 w-6 flex-shrink-0"></i>
+        <div>
+          <h4 class="font-display font-semibold text-content-primary text-sm mb-1">Fast deposits &amp; withdrawals</h4>
+          <p class="text-content-secondary text-sm leading-relaxed">Move funds in and out quickly with all major payment methods supported.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rvr">
+    <!-- Market table -->
+    <div class="border border-line rounded-card overflow-hidden">
+      <div class="flex border-b border-line px-6">
+        <div class="mkttab on px-4 py-4 text-sm font-medium cursor-pointer transition-colors -mb-px">Markets</div>
+        <div class="mkttab px-4 py-4 text-sm font-medium cursor-pointer transition-colors -mb-px">Crypto</div>
+        <div class="mkttab px-4 py-4 text-sm font-medium cursor-pointer transition-colors -mb-px">Stocks</div>
+      </div>
+      <table class="w-full border-collapse">
+        <thead>
+          <tr>
+            <th class="text-content-secondary text-xs font-semibold uppercase tracking-wider px-6 py-3 text-left">Asset</th>
+            <th class="text-content-secondary text-xs font-semibold uppercase tracking-wider px-6 py-3 text-left">Price (USD)</th>
+            <th class="text-content-secondary text-xs font-semibold uppercase tracking-wider px-6 py-3 text-left">24h Chg.</th>
+          </tr>
+        </thead>
+        <tbody>
+                                  <tr class="border-t border-line-subtle">
+              <td class="px-6 py-3 text-sm font-display font-bold text-content-primary">
+                <span class="flex items-center gap-2">
+                                      <img src="https://coin-images.coingecko.com/coins/images/1/large/bitcoin.png?1696501400" alt="BTC" class="w-5 h-5 rounded-full">
+                                    BTC
+                </span>
+              </td>
+              <td class="px-6 py-3 text-sm text-content-primary">80,402.00</td>
+              <td class="px-6 py-3 text-sm text-negative">▼ 1.48%</td>
+            </tr>
+                                  <tr class="border-t border-line-subtle">
+              <td class="px-6 py-3 text-sm font-display font-bold text-content-primary">
+                <span class="flex items-center gap-2">
+                                      <img src="https://coin-images.coingecko.com/coins/images/279/large/ethereum.png?1696501628" alt="ETH" class="w-5 h-5 rounded-full">
+                                    ETH
+                </span>
+              </td>
+              <td class="px-6 py-3 text-sm text-content-primary">2,274.34</td>
+              <td class="px-6 py-3 text-sm text-negative">▼ 2.34%</td>
+            </tr>
+                                  <tr class="border-t border-line-subtle">
+              <td class="px-6 py-3 text-sm font-display font-bold text-content-primary">
+                <span class="flex items-center gap-2">
+                                      <img src="https://coin-images.coingecko.com/coins/images/325/large/Tether.png?1696501661" alt="USDT" class="w-5 h-5 rounded-full">
+                                    USDT
+                </span>
+              </td>
+              <td class="px-6 py-3 text-sm text-content-primary">0.9996</td>
+              <td class="px-6 py-3 text-sm text-positive">▲ 0.01%</td>
+            </tr>
+                                  <tr class="border-t border-line-subtle">
+              <td class="px-6 py-3 text-sm font-display font-bold text-content-primary">
+                <span class="flex items-center gap-2">
+                                      <img src="https://coin-images.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png?1696501442" alt="XRP" class="w-5 h-5 rounded-full">
+                                    XRP
+                </span>
+              </td>
+              <td class="px-6 py-3 text-sm text-content-primary">1.43</td>
+              <td class="px-6 py-3 text-sm text-negative">▼ 2.74%</td>
+            </tr>
+                                  <tr class="border-t border-line-subtle">
+              <td class="px-6 py-3 text-sm font-display font-bold text-content-primary">
+                <span class="flex items-center gap-2">
+                                      <img src="https://coin-images.coingecko.com/coins/images/825/large/bnb-icon2_2x.png?1696501970" alt="BNB" class="w-5 h-5 rounded-full">
+                                    BNB
+                </span>
+              </td>
+              <td class="px-6 py-3 text-sm text-content-primary">654.68</td>
+              <td class="px-6 py-3 text-sm text-negative">▼ 0.77%</td>
+            </tr>
+                                  <tr class="border-t border-line-subtle">
+              <td class="px-6 py-3 text-sm font-display font-bold text-content-primary">
+                <span class="flex items-center gap-2">
+                                      <img src="https://coin-images.coingecko.com/coins/images/6319/large/USDC.png?1769615602" alt="USDC" class="w-5 h-5 rounded-full">
+                                    USDC
+                </span>
+              </td>
+              <td class="px-6 py-3 text-sm text-content-primary">0.9999</td>
+              <td class="px-6 py-3 text-sm text-positive">▲ 0.02%</td>
+            </tr>
+                                  <tr class="border-t border-line-subtle">
+              <td class="px-6 py-3 text-sm font-display font-bold text-content-primary">
+                <span class="flex items-center gap-2">
+                                      <img src="https://coin-images.coingecko.com/coins/images/4128/large/solana.png?1718769756" alt="SOL" class="w-5 h-5 rounded-full">
+                                    SOL
+                </span>
+              </td>
+              <td class="px-6 py-3 text-sm text-content-primary">94.43</td>
+              <td class="px-6 py-3 text-sm text-negative">▼ 2.83%</td>
+            </tr>
+                                  <tr class="border-t border-line-subtle">
+              <td class="px-6 py-3 text-sm font-display font-bold text-content-primary">
+                <span class="flex items-center gap-2">
+                                      <img src="https://coin-images.coingecko.com/coins/images/1094/large/photo_2026-04-13_09-59-16.png?1776048311" alt="TRX" class="w-5 h-5 rounded-full">
+                                    TRX
+                </span>
+              </td>
+              <td class="px-6 py-3 text-sm text-content-primary">0.3479</td>
+              <td class="px-6 py-3 text-sm text-negative">▼ 0.84%</td>
+            </tr>
+                  </tbody>
+      </table>
+    </div>
+
+    <!-- Copy trading card -->
+    <div class="border border-line rounded-card p-6 mt-5">
+      <div class="text-content-secondary text-xs font-semibold uppercase tracking-wider mb-4">Copy trading</div>
+      <div class="flex items-center gap-4 mb-5">
+        <div class="w-11 h-11 rounded-full bg-surface-deep flex items-center justify-center font-display font-bold text-content-primary text-sm flex-shrink-0">AM</div>
+        <div class="flex-1">
+          <div class="font-display font-bold text-content-primary text-sm">Alertia Mars</div>
+          <div class="text-content-secondary text-xs">@alertiam_  · 69.6K Followers</div>
+        </div>
+        <button class="border border-primary text-primary hover:bg-primary hover:text-surface-base text-xs font-semibold px-4 py-1.5 rounded-full transition-colors cursor-pointer">Follow</button>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div><div class="text-content-secondary text-xs uppercase tracking-wide mb-1">Win rate</div><div class="font-display font-bold text-primary text-lg">54.81%</div></div>
+        <div><div class="text-content-secondary text-xs uppercase tracking-wide mb-1">Profit share</div><div class="font-display font-bold text-content-primary text-lg">43.3%</div></div>
+        <div><div class="text-content-secondary text-xs uppercase tracking-wide mb-1">Total trades</div><div class="font-display font-bold text-content-primary text-lg">578</div></div>
+        <div><div class="text-content-secondary text-xs uppercase tracking-wide mb-1">Min. startup</div><div class="font-display font-bold text-content-primary text-lg">$5,000</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CRYPTO SHOWCASE ── -->
+<section id="trade" class="py-24 px-6 lg:px-12 relative z-10">
+  <div class="text-center max-w-2xl mx-auto rv">
+    <div class="text-primary text-xs font-display font-bold uppercase tracking-widest mb-3">Supported assets</div>
+    <h2 class="font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl text-content-primary tracking-tight leading-tight">Trade the world's biggest assets</h2>
+    <p class="text-content-secondary text-base mt-4 leading-relaxed">From Bitcoin to blue-chip stocks — access 50+ markets from one account.</p>
+  </div>
+
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-14 max-w-6xl mx-auto">
+                <div class="cryc rv d1 border border-line rounded-card p-6 text-center hover:bg-surface-card transition-colors">
+                  <img src="https://coin-images.coingecko.com/coins/images/1/large/bitcoin.png?1696501400" alt="BTC" class="w-10 h-10 mx-auto mb-4 rounded-full">
+                <div class="font-display font-bold text-content-primary text-base">Bitcoin</div>
+        <div class="text-content-tertiary text-xs mt-0.5">BTC</div>
+        <div class="text-content-secondary text-sm mt-1">$80,402.00</div>
+        <div class="text-negative text-sm font-semibold mt-2">▼ 1.48%</div>
+        <div class="h-1 rounded-full bg-surface-raised mt-4 overflow-hidden">
+          <div class="h-full bg-primary rounded-full" style="width:44.8%"></div>
+        </div>
+      </div>
+                <div class="cryc rv d2 border border-line rounded-card p-6 text-center hover:bg-surface-card transition-colors">
+                  <img src="https://coin-images.coingecko.com/coins/images/279/large/ethereum.png?1696501628" alt="ETH" class="w-10 h-10 mx-auto mb-4 rounded-full">
+                <div class="font-display font-bold text-content-primary text-base">Ethereum</div>
+        <div class="text-content-tertiary text-xs mt-0.5">ETH</div>
+        <div class="text-content-secondary text-sm mt-1">$2,274.34</div>
+        <div class="text-negative text-sm font-semibold mt-2">▼ 2.34%</div>
+        <div class="h-1 rounded-full bg-surface-raised mt-4 overflow-hidden">
+          <div class="h-full bg-primary rounded-full" style="width:53.4%"></div>
+        </div>
+      </div>
+                <div class="cryc rv d3 border border-line rounded-card p-6 text-center hover:bg-surface-card transition-colors">
+                  <img src="https://coin-images.coingecko.com/coins/images/325/large/Tether.png?1696501661" alt="USDT" class="w-10 h-10 mx-auto mb-4 rounded-full">
+                <div class="font-display font-bold text-content-primary text-base">Tether</div>
+        <div class="text-content-tertiary text-xs mt-0.5">USDT</div>
+        <div class="text-content-secondary text-sm mt-1">$0.999631</div>
+        <div class="text-positive text-sm font-semibold mt-2">▲ 0.01%</div>
+        <div class="h-1 rounded-full bg-surface-raised mt-4 overflow-hidden">
+          <div class="h-full bg-primary rounded-full" style="width:30.1%"></div>
+        </div>
+      </div>
+                <div class="cryc rv d4 border border-line rounded-card p-6 text-center hover:bg-surface-card transition-colors">
+                  <img src="https://coin-images.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png?1696501442" alt="XRP" class="w-10 h-10 mx-auto mb-4 rounded-full">
+                <div class="font-display font-bold text-content-primary text-base">XRP</div>
+        <div class="text-content-tertiary text-xs mt-0.5">XRP</div>
+        <div class="text-content-secondary text-sm mt-1">$1.43</div>
+        <div class="text-negative text-sm font-semibold mt-2">▼ 2.74%</div>
+        <div class="h-1 rounded-full bg-surface-raised mt-4 overflow-hidden">
+          <div class="h-full bg-primary rounded-full" style="width:57.4%"></div>
+        </div>
+      </div>
+                <div class="cryc rv d5 border border-line rounded-card p-6 text-center hover:bg-surface-card transition-colors">
+                  <img src="https://coin-images.coingecko.com/coins/images/825/large/bnb-icon2_2x.png?1696501970" alt="BNB" class="w-10 h-10 mx-auto mb-4 rounded-full">
+                <div class="font-display font-bold text-content-primary text-base">BNB</div>
+        <div class="text-content-tertiary text-xs mt-0.5">BNB</div>
+        <div class="text-content-secondary text-sm mt-1">$654.68</div>
+        <div class="text-negative text-sm font-semibold mt-2">▼ 0.77%</div>
+        <div class="h-1 rounded-full bg-surface-raised mt-4 overflow-hidden">
+          <div class="h-full bg-primary rounded-full" style="width:37.7%"></div>
+        </div>
+      </div>
+                <div class="cryc rv d6 border border-line rounded-card p-6 text-center hover:bg-surface-card transition-colors">
+                  <img src="https://coin-images.coingecko.com/coins/images/6319/large/USDC.png?1769615602" alt="USDC" class="w-10 h-10 mx-auto mb-4 rounded-full">
+                <div class="font-display font-bold text-content-primary text-base">USDC</div>
+        <div class="text-content-tertiary text-xs mt-0.5">USDC</div>
+        <div class="text-content-secondary text-sm mt-1">$0.999855</div>
+        <div class="text-positive text-sm font-semibold mt-2">▲ 0.02%</div>
+        <div class="h-1 rounded-full bg-surface-raised mt-4 overflow-hidden">
+          <div class="h-full bg-primary rounded-full" style="width:30.2%"></div>
+        </div>
+      </div>
+                <div class="cryc rv d7 border border-line rounded-card p-6 text-center hover:bg-surface-card transition-colors">
+                  <img src="https://coin-images.coingecko.com/coins/images/4128/large/solana.png?1718769756" alt="SOL" class="w-10 h-10 mx-auto mb-4 rounded-full">
+                <div class="font-display font-bold text-content-primary text-base">Solana</div>
+        <div class="text-content-tertiary text-xs mt-0.5">SOL</div>
+        <div class="text-content-secondary text-sm mt-1">$94.43</div>
+        <div class="text-negative text-sm font-semibold mt-2">▼ 2.83%</div>
+        <div class="h-1 rounded-full bg-surface-raised mt-4 overflow-hidden">
+          <div class="h-full bg-primary rounded-full" style="width:58.3%"></div>
+        </div>
+      </div>
+                <div class="cryc rv d8 border border-line rounded-card p-6 text-center hover:bg-surface-card transition-colors">
+                  <img src="https://coin-images.coingecko.com/coins/images/1094/large/photo_2026-04-13_09-59-16.png?1776048311" alt="TRX" class="w-10 h-10 mx-auto mb-4 rounded-full">
+                <div class="font-display font-bold text-content-primary text-base">TRON</div>
+        <div class="text-content-tertiary text-xs mt-0.5">TRX</div>
+        <div class="text-content-secondary text-sm mt-1">$0.347940</div>
+        <div class="text-negative text-sm font-semibold mt-2">▼ 0.84%</div>
+        <div class="h-1 rounded-full bg-surface-raised mt-4 overflow-hidden">
+          <div class="h-full bg-primary rounded-full" style="width:38.4%"></div>
+        </div>
+      </div>
+      </div>
+</section>
+
+<!-- ── STAKING ── -->
+<section id="staking" class="py-24 px-6 lg:px-12 relative z-10">
+  <div class="text-center max-w-2xl mx-auto rv">
+    <div class="text-primary text-xs font-display font-bold uppercase tracking-widest mb-3">Earn while you hold</div>
+    <h2 class="font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl text-content-primary tracking-tight leading-tight">Staking — put your crypto to work</h2>
+    <p class="text-content-secondary text-base mt-4 leading-relaxed">Stake your assets and earn passive rewards daily with no lock-in commitment on flexible plans.</p>
+  </div>
+
+  <div class="max-w-4xl mx-auto mt-14 border border-line rounded-card overflow-hidden rv">
+    <div class="grid grid-cols-4 bg-surface-raised border-b border-line px-6 py-3 text-content-secondary text-xs font-display font-semibold uppercase tracking-widest">
+      <span>Asset</span>
+      <span class="text-center">APY</span>
+      <span class="text-center">Min. stake</span>
+      <span class="text-right">Lock period</span>
+    </div>
+
+    <div class="flex items-center gap-4 px-6 py-5 border-b border-line hover:bg-surface-raised transition-colors">
+      <i class="fa-brands fa-bitcoin text-coin-btc text-2xl w-8 flex-shrink-0"></i>
+      <div class="flex-1">
+        <div class="font-display font-bold text-content-primary text-sm">Bitcoin</div>
+        <div class="text-content-secondary text-xs mt-0.5">BTC</div>
+      </div>
+      <div class="text-center w-20">
+        <span class="font-display font-bold text-positive text-base">4.5%</span>
+      </div>
+      <div class="text-center w-24 text-content-secondary text-sm">0.001 BTC</div>
+      <div class="text-right w-24 text-content-secondary text-sm">Flexible</div>
+    </div>
+
+    <div class="flex items-center gap-4 px-6 py-5 border-b border-line hover:bg-surface-raised transition-colors">
+      <i class="fa-brands fa-ethereum text-coin-eth text-2xl w-8 flex-shrink-0"></i>
+      <div class="flex-1">
+        <div class="font-display font-bold text-content-primary text-sm">Ethereum</div>
+        <div class="text-content-secondary text-xs mt-0.5">ETH</div>
+      </div>
+      <div class="text-center w-20">
+        <span class="font-display font-bold text-positive text-base">5.8%</span>
+      </div>
+      <div class="text-center w-24 text-content-secondary text-sm">0.05 ETH</div>
+      <div class="text-right w-24 text-content-secondary text-sm">Flexible</div>
+    </div>
+
+    <div class="flex items-center gap-4 px-6 py-5 border-b border-line hover:bg-surface-raised transition-colors">
+      <i class="fa-solid fa-circle-dot text-coin-sol text-2xl w-8 flex-shrink-0"></i>
+      <div class="flex-1">
+        <div class="font-display font-bold text-content-primary text-sm">Solana</div>
+        <div class="text-content-secondary text-xs mt-0.5">SOL</div>
+      </div>
+      <div class="text-center w-20">
+        <span class="font-display font-bold text-positive text-base">7.2%</span>
+      </div>
+      <div class="text-center w-24 text-content-secondary text-sm">1 SOL</div>
+      <div class="text-right w-24 text-content-secondary text-sm">30 days</div>
+    </div>
+
+    <div class="flex items-center gap-4 px-6 py-5 hover:bg-surface-raised transition-colors">
+      <i class="fa-solid fa-dollar-sign text-coin-usdt text-2xl w-8 flex-shrink-0"></i>
+      <div class="flex-1">
+        <div class="font-display font-bold text-content-primary text-sm">Tether</div>
+        <div class="text-content-secondary text-xs mt-0.5">USDT</div>
+      </div>
+      <div class="text-center w-20">
+        <span class="font-display font-bold text-positive text-base">9.0%</span>
+      </div>
+      <div class="text-center w-24 text-content-secondary text-sm">100 USDT</div>
+      <div class="text-right w-24 text-content-secondary text-sm">90 days</div>
+    </div>
+  </div>
+
+  <div class="text-center mt-8">
+    <a href="register.html" class="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-surface-base font-display font-bold px-7 py-3.5 rounded-full text-sm no-underline transition-colors">
+      <i class="fa-solid fa-seedling"></i>
+      <span>Start earning now</span>
+    </a>
+  </div>
+</section>
+
+<!-- ── TOOLS ── -->
+<section id="tools" class="py-24 px-6 lg:px-12 relative z-10">
+  <div class="text-center max-w-2xl mx-auto rv">
+    <div class="text-primary text-xs font-display font-bold uppercase tracking-widest mb-3">Trading tools</div>
+    <h2 class="font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl text-content-primary tracking-tight leading-tight">Tools that move at market speed</h2>
+    <p class="text-content-secondary text-base mt-4 leading-relaxed">Trade in real time, manage multiple assets, and scale exposure confidently with tools built for fast-moving markets.</p>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-14 max-w-6xl mx-auto">
+    <div class="tcard rvl border border-line rounded-card p-8">
+      <h3 class="font-display font-bold text-content-primary text-xl mb-3 flex items-center gap-3">
+        <i class="fa-solid fa-gauge-high text-primary"></i>
+        <span>Built for speed</span>
+      </h3>
+      <p class="text-content-secondary text-sm leading-relaxed mb-7">Built to keep up with live markets — seamless execution and fast-moving signals at your fingertips every second.</p>
+      <div class="grid grid-cols-2 gap-3">
+        <div class="spdcell bg-surface-raised rounded-lg p-4 text-center">
+          <div class="spdnum font-display font-black text-content-primary text-2xl leading-none" data-count="203">0</div>
+          <div class="text-content-secondary text-xs uppercase tracking-wide mt-1">S/H Trades</div>
+        </div>
+        <div class="spdcell bg-surface-raised rounded-lg p-4 text-center">
+          <div class="spdnum font-display font-black text-content-primary text-2xl leading-none" data-count="12">0</div>
+          <div class="text-content-secondary text-xs uppercase tracking-wide mt-1">Profits</div>
+        </div>
+        <div class="spdcell bg-surface-raised rounded-lg p-4 text-center">
+          <div class="spdnum font-display font-black text-content-primary text-2xl leading-none" data-count="400">0</div>
+          <div class="text-content-secondary text-xs uppercase tracking-wide mt-1">Signals</div>
+        </div>
+        <div class="spdcell bg-surface-raised rounded-lg p-4 text-center">
+          <div class="spdnum font-display font-black text-content-primary text-2xl leading-none" data-count="20">0</div>
+          <div class="text-content-secondary text-xs uppercase tracking-wide mt-1">Active signals</div>
+        </div>
+      </div>
+      <img class="w-full h-48 object-cover rounded-lg mt-6 opacity-90" src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=900&q=85" alt="Live trading charts"/>
+    </div>
+
+    <div class="tcard rvr border border-line rounded-card p-8">
+      <h3 class="font-display font-bold text-content-primary text-xl mb-3 flex items-center gap-3">
+        <i class="fa-solid fa-sliders text-primary"></i>
+        <span>Up to 50x leverage</span>
+      </h3>
+      <p class="text-content-secondary text-sm leading-relaxed mb-7">Fine-tune exposure with responsive controls and clear risk boundaries. Scale your positions with confidence.</p>
+      <div class="font-display font-black text-content-primary text-5xl leading-none mb-2">
+        <em id="levNum" class="not-italic text-primary">30</em>x
+      </div>
+      <div class="text-content-secondary text-xs">Current leverage multiplier</div>
+      <div class="h-1.5 rounded-full bg-surface-raised mt-4 overflow-hidden">
+        <div id="levFill" class="h-full bg-primary rounded-full transition-all duration-500" style="width:60%"></div>
+      </div>
+      <div class="flex justify-between text-content-secondary text-xs mt-2">
+        <span>1x</span><span>10x</span><span>25x</span><span>50x</span>
+      </div>
+      <img class="w-full h-48 object-cover rounded-lg mt-6 opacity-90" src="https://images.unsplash.com/photo-1642790106117-e829e14a795f?w=800&q=85" alt="Leverage trading"/>
+    </div>
+  </div>
+</section>
+
+<!-- ── SECURITY SPLIT ── -->
+<section id="security" class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center py-24 px-6 lg:px-12 relative z-10 max-w-7xl mx-auto">
+  <div class="rvl order-2 lg:order-1">
+    <img class="w-full rounded-card border border-line" src="https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?w=800&q=85" alt="Security vault protection"/>
+  </div>
+  <div class="rvr order-1 lg:order-2">
+    <div class="text-primary text-xs font-display font-bold uppercase tracking-widest mb-3">Security first</div>
+    <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-content-primary tracking-tight leading-tight">Bank-grade security for your assets</h2>
+    <p class="text-content-secondary text-base mt-4 leading-relaxed max-w-md">Your funds and data are protected by industry-leading encryption, 2FA authentication, and cold wallet storage.</p>
+
+    <div class="mt-10 space-y-6">
+      <div class="flex gap-4">
+        <i class="fa-solid fa-lock text-primary text-lg mt-1 w-6 flex-shrink-0"></i>
+        <div>
+          <h4 class="font-display font-semibold text-content-primary text-sm mb-1">256-bit AES encryption</h4>
+          <p class="text-content-secondary text-sm leading-relaxed">All data and transactions encrypted end-to-end with military-grade standards.</p>
+        </div>
+      </div>
+      <div class="flex gap-4">
+        <i class="fa-solid fa-snowflake text-primary text-lg mt-1 w-6 flex-shrink-0"></i>
+        <div>
+          <h4 class="font-display font-semibold text-content-primary text-sm mb-1">Cold wallet storage</h4>
+          <p class="text-content-secondary text-sm leading-relaxed">95% of user funds kept offline in air-gapped cold wallets away from any network.</p>
+        </div>
+      </div>
+      <div class="flex gap-4">
+        <i class="fa-solid fa-shield-halved text-primary text-lg mt-1 w-6 flex-shrink-0"></i>
+        <div>
+          <h4 class="font-display font-semibold text-content-primary text-sm mb-1">Regulatory compliance</h4>
+          <p class="text-content-secondary text-sm leading-relaxed">Fully licensed and compliant with international financial regulations worldwide.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ABOUT ── -->
+<section id="about" class="py-24 px-6 lg:px-12 relative z-10">
+  <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+    <div class="rvl">
+      <div class="text-primary text-xs font-display font-bold uppercase tracking-widest mb-3">Who we are</div>
+      <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-content-primary tracking-tight leading-tight">Built by traders, for traders</h2>
+      <p class="text-content-secondary text-base mt-4 leading-relaxed">Digital-grownt was founded in 2018 with a single mission: give every person on the planet access to the world's financial markets. We are a regulated multi-asset brokerage serving clients across 180+ countries with transparent pricing and award-winning support.</p>
+      <p class="text-content-secondary text-base mt-4 leading-relaxed">Our team of 200+ engineers and financial professionals work daily to ensure execution reliability, regulatory compliance, and a trading experience that never settles for second best.</p>
+
+      <div class="grid grid-cols-3 gap-6 mt-10 pt-10 border-t border-line">
+        <div>
+          <div class="font-display font-black text-content-primary text-3xl leading-none">2018</div>
+          <div class="text-content-secondary text-xs mt-1 uppercase tracking-wide">Founded</div>
+        </div>
+        <div>
+          <div class="font-display font-black text-content-primary text-3xl leading-none">150K+</div>
+          <div class="text-content-secondary text-xs mt-1 uppercase tracking-wide">Active traders</div>
+        </div>
+        <div>
+          <div class="font-display font-black text-content-primary text-3xl leading-none">180+</div>
+          <div class="text-content-secondary text-xs mt-1 uppercase tracking-wide">Countries</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rvr">
+      <img class="w-full rounded-card border border-line object-cover" src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=85" alt="Digital-grownt team"/>
+      <div class="grid grid-cols-2 gap-4 mt-4">
+        <div class="border border-line rounded-xl p-5 bg-surface-card">
+          <i class="fa-solid fa-certificate text-primary text-xl mb-3"></i>
+          <div class="font-display font-semibold text-content-primary text-sm mb-1">Fully regulated</div>
+          <div class="text-content-secondary text-xs leading-relaxed">Licensed under international financial regulations across all operating regions.</div>
+        </div>
+        <div class="border border-line rounded-xl p-5 bg-surface-card">
+          <i class="fa-solid fa-award text-primary text-xl mb-3"></i>
+          <div class="font-display font-semibold text-content-primary text-sm mb-1">Award-winning</div>
+          <div class="text-content-secondary text-xs leading-relaxed">Recognised for best execution and customer satisfaction multiple years running.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact" class="py-24 px-6 lg:px-12 relative z-10">
+  <div class="text-center max-w-2xl mx-auto rv">
+    <div class="text-primary text-xs font-display font-bold uppercase tracking-widest mb-3">Get in touch</div>
+    <h2 class="font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl text-content-primary tracking-tight leading-tight">We're here whenever you need us</h2>
+    <p class="text-content-secondary text-base mt-4 leading-relaxed">Reach our support team through any channel — we respond around the clock.</p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mt-14">
+    <div class="rv d1 border border-line rounded-card p-8 text-center hover:bg-surface-card transition-colors">
+      <i class="fa-solid fa-envelope text-primary text-2xl mb-5"></i>
+      <h3 class="font-display font-bold text-content-primary text-sm mb-2">Email support</h3>
+      <p class="text-content-secondary text-xs leading-relaxed mb-4">Send us a message and receive a reply within 2 hours on business days.</p>
+    </div>
+
+    <div class="rv d2 border border-line rounded-card p-8 text-center hover:bg-surface-card transition-colors">
+      <i class="fa-solid fa-comments text-primary text-2xl mb-5"></i>
+      <h3 class="font-display font-bold text-content-primary text-sm mb-2">Live chat</h3>
+      <p class="text-content-secondary text-xs leading-relaxed mb-4">Chat with a real support agent any time — average response under 3 minutes.</p>
+      <button onclick="document.querySelector('.jivo-btn, #jvlabelWrap')?.click()" class="text-primary text-sm font-medium bg-transparent border-0 cursor-pointer hover:opacity-80 transition-opacity p-0">Start a conversation →</button>
+    </div>
+
+    <div class="rv d3 border border-line rounded-card p-8 text-center hover:bg-surface-card transition-colors">
+      <i class="fa-solid fa-circle-question text-primary text-2xl mb-5"></i>
+      <h3 class="font-display font-bold text-content-primary text-sm mb-2">Help center</h3>
+      <p class="text-content-secondary text-xs leading-relaxed mb-4">Browse hundreds of articles covering account setup, trading, and withdrawals.</p>
+      <a href="#" class="text-primary text-sm font-medium no-underline hover:opacity-80 transition-opacity">Browse articles →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── TESTIMONIALS ── -->
+<section id="testimonials" class="py-24 px-6 lg:px-12 relative z-10">
+  <div class="text-center max-w-2xl mx-auto rv">
+    <div class="text-primary text-xs font-display font-bold uppercase tracking-widest mb-3">Testimonials</div>
+    <h2 class="font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl text-content-primary tracking-tight leading-tight">Traders and investors love Realwordglobal</h2>
+    <p class="text-content-secondary text-base mt-4 leading-relaxed">Discover what people are saying about us.</p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mt-14">
+    <div class="tcard2 rv d1 border border-line rounded-card p-7">
+      <div class="text-star text-sm tracking-widest mb-4">★★★★★</div>
+      <p class="text-content-primary text-sm leading-relaxed mb-6">Incredible company, I've been trading for a while with them, had two quick withdrawals and fee refund in less than 48 hours. I absolutely recommend the firm.</p>
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-surface-deep overflow-hidden flex items-center justify-center font-display font-bold text-content-secondary text-xs flex-shrink-0">
+          <img src="https://user-images.trustpilot.com/58c446dd0000ff000a808de2/73x73.png" alt="" class="w-full h-full object-cover" onerror="this.parentNode.textContent='LN'"/>
+        </div>
+        <div>
+          <div class="font-display font-semibold text-content-primary text-sm">Louis van Nuekerk</div>
+          <div class="text-content-secondary text-xs">Professional trader</div>
+        </div>
+      </div>
+    </div>
+    <div class="tcard2 rv d2 border border-line rounded-card p-7">
+      <div class="text-star text-sm tracking-widest mb-4">★★★★★</div>
+      <p class="text-content-primary text-sm leading-relaxed mb-6">This is an amazing platform which gives you the opportunity to achieve your goals and become a successful trader with great financial support.</p>
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-surface-deep overflow-hidden flex items-center justify-center font-display font-bold text-content-secondary text-xs flex-shrink-0">
+          <img src="https://user-images.trustpilot.com/5cac659ab628b746a119fd61/73x73.png" alt="" class="w-full h-full object-cover" onerror="this.parentNode.textContent='AD'"/>
+        </div>
+        <div>
+          <div class="font-display font-semibold text-content-primary text-sm">Adam</div>
+          <div class="text-content-secondary text-xs">User</div>
+        </div>
+      </div>
+    </div>
+    <div class="tcard2 rv d3 border border-line rounded-card p-7">
+      <div class="text-star text-sm tracking-widest mb-4">★★★★★</div>
+      <p class="text-content-primary text-sm leading-relaxed mb-6">Great company, no issues with payouts, great customer support. Highly recommended for experienced traders worldwide.</p>
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-surface-deep overflow-hidden flex items-center justify-center font-display font-bold text-content-secondary text-xs flex-shrink-0">
+          <img src="https://user-images.trustpilot.com/5fd721e2c4a9b800196081bd/73x73.png" alt="" class="w-full h-full object-cover" onerror="this.parentNode.textContent='JS'"/>
+        </div>
+        <div>
+          <div class="font-display font-semibold text-content-primary text-sm">Jakub Szulc</div>
+          <div class="text-content-secondary text-xs">Trader</div>
+        </div>
+      </div>
+    </div>
+    <div class="tcard2 rv d1 border border-line rounded-card p-7">
+      <div class="text-star text-sm tracking-widest mb-4">★★★★★</div>
+      <p class="text-content-primary text-sm leading-relaxed mb-6">Legitimate! Thank you for the opportunity. Nothing out there can compare to this level of service and platform reliability.</p>
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-surface-deep overflow-hidden flex items-center justify-center font-display font-bold text-content-secondary text-xs flex-shrink-0">
+          <img src="https://user-images.trustpilot.com/6321c934f2a8b90013faaf15/73x73.png" alt="" class="w-full h-full object-cover" onerror="this.parentNode.textContent='DE'"/>
+        </div>
+        <div>
+          <div class="font-display font-semibold text-content-primary text-sm">Dee</div>
+          <div class="text-content-secondary text-xs">Review expert</div>
+        </div>
+      </div>
+    </div>
+    <div class="tcard2 rv d2 border border-line rounded-card p-7">
+      <div class="text-star text-sm tracking-widest mb-4">★★★★★</div>
+      <p class="text-content-primary text-sm leading-relaxed mb-6">Digital-grownt has everything you can ask for. I'm super happy it was recommended to me as my first ever broker.</p>
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-surface-deep overflow-hidden flex items-center justify-center font-display font-bold text-content-secondary text-xs flex-shrink-0">
+          <img src="https://user-images.trustpilot.com/64a712e728582c0011a9260e/73x73.png" alt="" class="w-full h-full object-cover" onerror="this.parentNode.textContent='AV'"/>
+        </div>
+        <div>
+          <div class="font-display font-semibold text-content-primary text-sm">Agata Vincent</div>
+          <div class="text-content-secondary text-xs">Trader</div>
+        </div>
+      </div>
+    </div>
+    <div class="tcard2 rv d3 border border-line rounded-card p-7">
+      <div class="text-star text-sm tracking-widest mb-4">★★★★★</div>
+      <p class="text-content-primary text-sm leading-relaxed mb-6">Amazing experience. Execution speed is one of the best across the entire market. I genuinely recommend it to everyone.</p>
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-surface-deep overflow-hidden flex items-center justify-center font-display font-bold text-content-secondary text-xs flex-shrink-0">
+          <img src="https://user-images.trustpilot.com/64c13a9a79f4110012303256/73x73.png" alt="" class="w-full h-full object-cover" onerror="this.parentNode.textContent='PK'"/>
+        </div>
+        <div>
+          <div class="font-display font-semibold text-content-primary text-sm">Pro Kittisak</div>
+          <div class="text-content-secondary text-xs">User</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PARTNERS ── -->
+<section id="partners" class="border-y border-line py-12 px-6 relative z-10 rv">
+  <div class="text-center text-content-secondary text-xs uppercase tracking-widest mb-8">Trusted and integrated with leading platforms</div>
+  <div class="flex flex-wrap gap-x-12 gap-y-6 justify-center items-center">
+    <div class="plogo font-display font-bold text-content-secondary hover:text-content-primary text-base transition-colors cursor-pointer">Visa</div>
+    <div class="plogo font-display font-bold text-content-secondary hover:text-content-primary text-base transition-colors cursor-pointer">Mastercard</div>
+    <div class="plogo font-display font-bold text-content-secondary hover:text-content-primary text-base transition-colors cursor-pointer">TrustPilot</div>
+    <div class="plogo font-display font-bold text-content-secondary hover:text-content-primary text-base transition-colors cursor-pointer">Binance</div>
+    <div class="plogo font-display font-bold text-content-secondary hover:text-content-primary text-base transition-colors cursor-pointer">MetaTrader</div>
+    <div class="plogo font-display font-bold text-content-secondary hover:text-content-primary text-base transition-colors cursor-pointer">CoinGecko</div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section id="cta" class="py-24 px-6 text-center relative z-10 rv">
+  <h2 class="font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl text-content-primary tracking-tight leading-tight max-w-2xl mx-auto">Start trading with confidence today</h2>
+  <p class="text-content-secondary text-base mt-4">Join over 150,000 traders already on Digital-grownt</p>
+  <div class="flex flex-wrap gap-4 justify-center mt-8">
+    <a href="register.html" class="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-surface-base font-display font-bold text-base px-8 py-4 rounded-full no-underline transition-colors">
+      <i class="fa-solid fa-user-plus"></i>
+      <span>Create free account</span>
+    </a>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer class="border-t border-line px-6 lg:px-12 pt-16 pb-10 relative z-10">
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-10 mb-12 max-w-7xl mx-auto">
+    <div class="col-span-2 lg:col-span-1">
+      <a href="#" class="flex items-center gap-3 font-display font-extrabold text-content-primary no-underline">
+        <i class="fa-solid fa-chart-line text-primary text-lg"></i>
+        <span>Digital-grownt</span>
+      </a>
+      <p class="text-content-secondary text-sm mt-4 leading-relaxed max-w-xs">Your trusted partner for multi-asset trading across crypto, stocks, forex and commodities.</p>
+    </div>
+    <div>
+      <h4 class="font-display font-semibold text-content-primary text-xs uppercase tracking-widest mb-5">Explore</h4>
+      <a href="#staking" class="block text-content-secondary hover:text-content-primary text-sm mb-3 no-underline transition-colors">Staking</a>
+      <a href="#markets" class="block text-content-secondary hover:text-content-primary text-sm mb-3 no-underline transition-colors">Markets</a>
+      <a href="#trade" class="block text-content-secondary hover:text-content-primary text-sm mb-3 no-underline transition-colors">Real Estate</a>
+    </div>
+    <div>
+      <h4 class="font-display font-semibold text-content-primary text-xs uppercase tracking-widest mb-5">Company</h4>
+      <a href="#about" class="block text-content-secondary hover:text-content-primary text-sm mb-3 no-underline transition-colors">About us</a>
+      <a href="#contact" class="block text-content-secondary hover:text-content-primary text-sm mb-3 no-underline transition-colors">Contact</a>
+      <a href="#contact" class="block text-content-secondary hover:text-content-primary text-sm mb-3 no-underline transition-colors">Help Center</a>
+    </div>
+    <div>
+      <h4 class="font-display font-semibold text-content-primary text-xs uppercase tracking-widest mb-5">Trade</h4>
+      <a href="#trade" class="block text-content-secondary hover:text-content-primary text-sm mb-3 no-underline transition-colors">Crypto</a>
+      <a href="#markets" class="block text-content-secondary hover:text-content-primary text-sm mb-3 no-underline transition-colors">Stocks &amp; ETFs</a>
+      <a href="#markets" class="block text-content-secondary hover:text-content-primary text-sm mb-3 no-underline transition-colors">Copy Trading</a>
+    </div>
+  </div>
+
+  <div class="flex flex-wrap justify-between items-center gap-4 pt-6 border-t border-line max-w-7xl mx-auto">
+    <p class="text-content-secondary text-xs">© 2023 Digital-grownt. Ltd. All rights reserved</p>
+    <div class="flex gap-5">
+      <a href="#" class="text-content-secondary hover:text-content-primary text-xs no-underline transition-colors">Terms &amp; Conditions</a>
+      <a href="#" class="text-content-secondary hover:text-content-primary text-xs no-underline transition-colors">Privacy Policy</a>
+    </div>
+  </div>
+
+  <p class="text-content-secondary text-xs leading-relaxed mt-7 pt-7 border-t border-line max-w-7xl mx-auto">
+    The risk of loss in online trading of stocks, options, futures, currencies, foreign equities, and fixed income can be substantial. Before trading, clients must read the relevant risk disclosure statements on our Warnings and Disclosures page. Trading on margin is only for experienced investors with high risk tolerance. You may lose more than your initial investment.
+  </p>
+</footer>
+
+<!-- Language Selector -->
+<div class="gtranslate_wrapper"></div>
+<script>
+    window.gtranslateSettings = {
+        default_language: "en",
+        alt_flags:{"en":"usa"},
+        wrapper_selector: ".gtranslate_wrapper",
+        flag_style: "3d",
+    };
+</script>
+<script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
+
+
+<script>
+/* ══ CRYPTO MOVING BACKGROUND ══ */
+const cvs = document.getElementById('cryptoBg');
+const ctx = cvs.getContext('2d');
+let W, H;
+function resize() { W = cvs.width = window.innerWidth; H = cvs.height = window.innerHeight; }
+resize();
+window.addEventListener('resize', resize);
+
+function drawGrid() {
+  ctx.strokeStyle = 'rgba(74,108,247,0.025)';
+  ctx.lineWidth = 1;
+  const gSize = 55;
+  for (let x = 0; x < W; x += gSize) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
+  for (let y = 0; y < H; y += gSize) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+}
+
+const candles = Array.from({ length: 18 }, () => ({
+  x: Math.random() * W, y: Math.random() * H, vy: -(0.18 + Math.random() * 0.28),
+  open: 0, close: 0, high: 0, low: 0,
+  width: 8 + Math.random() * 10, bull: Math.random() > 0.45,
+  alpha: 0.12 + Math.random() * 0.15,
+  reset() {
+    this.x = Math.random() * W; this.y = H + 60;
+    this.vy = -(0.18 + Math.random() * 0.28);
+    this.bull = Math.random() > 0.45;
+    const body = 18 + Math.random() * 34;
+    this.open = 0; this.close = body;
+    this.high = body + Math.random() * 14; this.low = -(Math.random() * 14);
+    this.alpha = 0.1 + Math.random() * 0.14;
+    this.width = 8 + Math.random() * 10;
+  }
+}));
+candles.forEach(c => c.reset());
+
+function drawCandles() {
+  candles.forEach(c => {
+    c.y += c.vy;
+    if (c.y < -80) c.reset();
+    const color = c.bull ? `rgba(0,212,154,${c.alpha})` : `rgba(255,92,124,${c.alpha})`;
+    const bodyTop = c.bull ? c.close : c.open;
+    const bodyH = Math.abs(c.close - c.open) || 6;
+    ctx.strokeStyle = color; ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(c.x + c.width / 2, c.y + (c.bull ? -c.high : c.low));
+    ctx.lineTo(c.x + c.width / 2, c.y + bodyTop + bodyH + (c.bull ? c.low : -c.high) - 6);
+    ctx.stroke();
+    ctx.fillStyle = color;
+    ctx.fillRect(c.x, c.y + bodyTop - bodyH / 2, c.width, bodyH);
+  });
+}
+
+class ChartLine {
+  constructor() { this.reset(); }
+  reset() {
+    this.x = -200; this.y = 80 + Math.random() * (H - 160);
+    this.vx = 0.5 + Math.random() * 0.7;
+    this.points = [{ x: this.x, y: this.y }];
+    this.alpha = 0.09 + Math.random() * 0.12;
+    this.color = Math.random() > 0.5 ? '0,212,154' : '30,122,255';
+    this.drift = (Math.random() - 0.5) * 0.6;
+    this.maxLen = 120 + Math.random() * 100;
+  }
+  update() {
+    const last = this.points[this.points.length - 1];
+    const ny = Math.max(20, Math.min(H - 20, last.y + this.drift + (Math.random() - 0.5) * 3.5));
+    this.points.push({ x: last.x + this.vx * 3, y: ny });
+    if (this.points.length > this.maxLen) this.points.shift();
+    if (last.x > W + 200) this.reset();
+  }
+  draw() {
+    if (this.points.length < 2) return;
+    ctx.beginPath();
+    ctx.moveTo(this.points[0].x, this.points[0].y);
+    for (let i = 1; i < this.points.length; i++) ctx.lineTo(this.points[i].x, this.points[i].y);
+    ctx.strokeStyle = `rgba(${this.color},${this.alpha})`;
+    ctx.lineWidth = 1.2; ctx.stroke();
+    const tip = this.points[this.points.length - 1];
+    ctx.beginPath();
+    ctx.arc(tip.x, tip.y, 2.5, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(${this.color},${this.alpha * 2.5})`;
+    ctx.fill();
+  }
+}
+const chartLines = Array.from({ length: 7 }, () => new ChartLine());
+
+const symbols = ['₿','Ξ','◎','$','€','✦','⟐'];
+const floatSymbols = Array.from({ length: 14 }, () => ({
+  x: Math.random() * W, y: Math.random() * H,
+  sym: symbols[Math.floor(Math.random() * symbols.length)],
+  size: 11 + Math.random() * 18,
+  vx: (Math.random() - 0.5) * 0.22, vy: -(0.12 + Math.random() * 0.2),
+  alpha: 0.04 + Math.random() * 0.1,
+  rotation: Math.random() * Math.PI * 2,
+  rotSpeed: (Math.random() - 0.5) * 0.008,
+  color: Math.random() > 0.5 ? '0,212,154' : '91,164,255'
+}));
+
+function drawSymbols() {
+  floatSymbols.forEach(s => {
+    s.x += s.vx; s.y += s.vy; s.rotation += s.rotSpeed;
+    if (s.y < -40) { s.y = H + 40; s.x = Math.random() * W; }
+    if (s.x < -40) s.x = W + 40;
+    if (s.x > W + 40) s.x = -40;
+    ctx.save();
+    ctx.translate(s.x, s.y);
+    ctx.rotate(s.rotation);
+    ctx.font = `${s.size}px 'Sora', sans-serif`;
+    ctx.fillStyle = `rgba(${s.color},${s.alpha})`;
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText(s.sym, 0, 0);
+    ctx.restore();
+  });
+}
+
+const dataPts = Array.from({ length: 55 }, () => ({
+  x: Math.random() * W, y: Math.random() * H,
+  vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3,
+  r: 0.8 + Math.random() * 1.4,
+  alpha: 0.08 + Math.random() * 0.18,
+  color: Math.random() > 0.6 ? '0,212,154' : '30,122,255'
+}));
+
+function drawParticles() {
+  dataPts.forEach(p => {
+    p.x = (p.x + p.vx + W) % W; p.y = (p.y + p.vy + H) % H;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(${p.color},${p.alpha})`;
+    ctx.fill();
+  });
+  for (let i = 0; i < dataPts.length; i++) {
+    for (let j = i + 1; j < dataPts.length; j++) {
+      const dx = dataPts[i].x - dataPts[j].x, dy = dataPts[i].y - dataPts[j].y;
+      const d = Math.sqrt(dx * dx + dy * dy);
+      if (d < 100) {
+        ctx.beginPath();
+        ctx.moveTo(dataPts[i].x, dataPts[i].y);
+        ctx.lineTo(dataPts[j].x, dataPts[j].y);
+        ctx.strokeStyle = `rgba(0,212,154,${(1 - d / 100) * 0.06})`;
+        ctx.lineWidth = 0.5; ctx.stroke();
+      }
+    }
+  }
+}
+
+function animate() {
+  ctx.clearRect(0, 0, W, H);
+  drawGrid();
+  drawParticles();
+  chartLines.forEach(l => { l.update(); l.draw(); });
+  drawSymbols();
+  drawCandles();
+  requestAnimationFrame(animate);
+}
+animate();
+
+/* ══ CURSOR ══ */
+const cur = document.getElementById('cursor'), ring = document.getElementById('cursor-ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cur.style.left = mx + 'px'; cur.style.top = my + 'px';
+});
+(function lerpRing() {
+  rx += (mx - rx) * 0.13; ry += (my - ry) * 0.13;
+  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+  requestAnimationFrame(lerpRing);
+})();
+document.querySelectorAll('a,button,.plogo,.spdcell,.cryc').forEach(el => {
+  el.addEventListener('mouseenter', () => document.body.classList.add('link-hov'));
+  el.addEventListener('mouseleave', () => document.body.classList.remove('link-hov'));
+});
+
+/* ══ NAV SCROLL ══ */
+const mainnav = document.getElementById('mainnav');
+addEventListener('scroll', () => mainnav.classList.toggle('scrolled', scrollY > 50), { passive: true });
+
+/* ══ SCROLL REVEAL ══ */
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); obs.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.rv,.rvl,.rvr').forEach(el => obs.observe(el));
+
+/* ══ COUNT UP ══ */
+function countUp(el) {
+  const raw = el.dataset.count, isFloat = raw.includes('.');
+  const target = parseFloat(raw), prefix = el.dataset.prefix || '', suffix = el.dataset.suffix || '';
+  const dur = 2200, start = performance.now();
+  (function step(ts) {
+    const p = Math.min((ts - start) / dur, 1), ease = 1 - Math.pow(1 - p, 3), v = target * ease;
+    let disp;
+    if (isFloat) disp = v.toFixed(1);
+    else if (target >= 1000) disp = Math.round(v).toLocaleString();
+    else disp = Math.round(v);
+    el.textContent = prefix + disp + suffix;
+    if (p < 1) requestAnimationFrame(step);
+  })(performance.now());
+}
+const cobs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { countUp(e.target); cobs.unobserve(e.target); } });
+}, { threshold: 0.5 });
+document.querySelectorAll('[data-count]').forEach(el => cobs.observe(el));
+
+/* ══ LEVERAGE ANIMATION ══ */
+const levEl = document.getElementById('levNum'), levFill = document.getElementById('levFill');
+const levTargets = [5, 10, 20, 30, 50, 25, 15, 50, 35, 50];
+let li = 0;
+setInterval(() => {
+  const v = levTargets[li++ % levTargets.length];
+  if (levEl) levEl.textContent = v;
+  if (levFill) levFill.style.width = (v / 50 * 100) + '%';
+}, 2400);
+
+/* ══ MARKET TAB ══ */
+document.querySelectorAll('.mkttab').forEach(t => {
+  t.addEventListener('click', () => {
+    document.querySelectorAll('.mkttab').forEach(x => x.classList.remove('on'));
+    t.classList.add('on');
+  });
+});
+
+/* ══ LIVE TICKER PRICE FLICKER ══ */
+document.querySelectorAll('#tickerTrack span > span:nth-child(2)').forEach(el => {
+  setInterval(() => {
+    const n = parseFloat(el.textContent.replace(/[$,]/g, ''));
+    if (!isNaN(n)) {
+      const j = (Math.random() - 0.5) * n * 0.0012;
+      el.textContent = '$' + (n + j).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+  }, 2800 + Math.random() * 2000);
+});
+</script>
+
+<!-- Authentication and public push notification bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="./js/convert/config.js"></script>
+<script src="./js/convert/auth.js"></script>
+</body>
+</html>

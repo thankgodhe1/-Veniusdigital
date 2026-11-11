@@ -1,0 +1,30 @@
+//here are all the original template of each page pasted above this pages are for reference in makeing the ui exacly like it is here be it investment cards in the user page, my plans  card ui, plan-details card ui,admin plan page card ui, new-plan form ui etc
+
+
+//digital-grownt\frontend\user\nft-gallery.html
+
+//digital-grownt\frontend\user\nfts-create.html
+
+//digital-grownt\frontend\user\my-nfts.html
+
+//digital-grownt\frontend\user\nfts-details.html
+
+
+
+
+
+//digital-grownt\frontend\user\nft-gallery.html
+on visit it displays all dynamic content default should be displaying loading until the ui is populated with the real data not static data, and let these pages their navlinks in their nav menu should be same as the dashboard.html code
+-fetches all 
+
+//digital-grownt\frontend\user\nfts-create.html
+on visit it displays all dynamic content default should be displaying loading until the ui is populated with the real data not static data, and let these pages their navlinks in their nav menu should be same as the dashboard.html code
+
+//digital-grownt\frontend\user\my-nfts.html
+on visit it displays all dynamic content default should be displaying loading until the ui is populated with the real data not static data, and let these pages their navlinks in their nav menu should be same as the dashboard.html code
+
+//digital-grownt\frontend\user\nfts-details.html
+on visit it displays all dynamic content default should be displaying loading until the ui is populated with the real data not static data, and let these pages their navlinks in their nav menu should be same as the dashboard.html code
+
+// all nft admin pages 
+on visit it displays all dynamic content default should be displaying loading until the ui is populated with the real data not static data, and let these pages their navlinks in their nav menu should be same as the manageruser.html code

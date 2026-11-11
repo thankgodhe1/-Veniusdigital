@@ -1,0 +1,1904 @@
+ <!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Irmaperalta - User Details — Digital-grownt</title>
+    <link rel="icon" href="storage/app/public/photos/BCPc6799aTDnlcAtaRZAXzQZ7MBzrLZL0H6DStQv.png" type="image/png">
+
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    
+        <style>
+        :root {
+            --primary: 0 82 255;
+            --primary-hover: 0 62 204;
+            --primary-light: 240 253 250;
+            --primary-foreground: 255 255 255;
+            --secondary: 51 65 85;
+            --secondary-hover: 30 41 59;
+            --secondary-light: 241 245 249;
+            --secondary-foreground: 255 255 255;
+            --accent: 59 123 255;
+            --surface: 248 250 252;
+            --surface-card: 255 255 255;
+            --surface-alt: 241 245 249;
+            --surface-raised: 255 255 255;
+            --surface-overlay: 15 23 42;
+            --sidebar: 15 23 42;
+            --sidebar-text: 203 213 225;
+            --sidebar-muted: 100 116 139;
+            --sidebar-active: 30 41 59;
+            --sidebar-hover: 30 41 59;
+            --sidebar-border: 30 41 59;
+            --header: 255 255 255;
+            --border: 226 232 240;
+            --border-strong: 203 213 225;
+            --content: 15 23 42;
+            --content-secondary: 71 85 105;
+            --content-muted: 148 163 184;
+            --content-inverse: 255 255 255;
+            --success: 0 200 150;
+            --success-light: 236 253 245;
+            --warning: 245 158 11;
+            --warning-light: 255 251 235;
+            --danger: 255 77 79;
+            --danger-light: 254 242 242;
+            --info: 59 130 246;
+            --info-light: 240 249 255;
+            --chart-1: 0 82 255;
+            --chart-2: 59 130 246;
+            --chart-3: 245 158 11;
+            --chart-4: 0 200 150;
+            --chart-5: 255 77 79;
+        }
+        .dark {
+            --primary: 59 123 255;
+            --primary-hover: 0 82 255;
+            --primary-light: 19 78 74;
+            --primary-foreground: 15 23 42;
+            --surface: 15 23 42;
+            --surface-card: 30 41 59;
+            --surface-alt: 51 65 85;
+            --surface-raised: 51 65 85;
+            --header: 30 41 59;
+            --border: 51 65 85;
+            --border-strong: 71 85 105;
+            --content: 241 245 249;
+            --content-secondary: 203 213 225;
+            --content-muted: 100 116 139;
+            --success-light: 6 78 59;
+            --warning-light: 120 53 15;
+            --danger-light: 127 29 29;
+            --info-light: 12 74 110;
+        }
+    </style>
+
+    
+    <script>
+    tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {
+                colors: {
+                    primary: {
+                        DEFAULT: 'rgb(var(--primary) / <alpha-value>)',
+                        hover: 'rgb(var(--primary-hover) / <alpha-value>)',
+                        light: 'rgb(var(--primary-light) / <alpha-value>)',
+                        foreground: 'rgb(var(--primary-foreground) / <alpha-value>)',
+                    },
+                    secondary: {
+                        DEFAULT: 'rgb(var(--secondary) / <alpha-value>)',
+                        hover: 'rgb(var(--secondary-hover) / <alpha-value>)',
+                        light: 'rgb(var(--secondary-light) / <alpha-value>)',
+                        foreground: 'rgb(var(--secondary-foreground) / <alpha-value>)',
+                    },
+                    accent: 'rgb(var(--accent) / <alpha-value>)',
+                    surface: {
+                        DEFAULT: 'rgb(var(--surface) / <alpha-value>)',
+                        card: 'rgb(var(--surface-card) / <alpha-value>)',
+                        alt: 'rgb(var(--surface-alt) / <alpha-value>)',
+                        raised: 'rgb(var(--surface-raised) / <alpha-value>)',
+                        overlay: 'rgb(var(--surface-overlay) / <alpha-value>)',
+                    },
+                    sidebar: {
+                        DEFAULT: 'rgb(var(--sidebar) / <alpha-value>)',
+                        text: 'rgb(var(--sidebar-text) / <alpha-value>)',
+                        muted: 'rgb(var(--sidebar-muted) / <alpha-value>)',
+                        active: 'rgb(var(--sidebar-active) / <alpha-value>)',
+                        hover: 'rgb(var(--sidebar-hover) / <alpha-value>)',
+                        border: 'rgb(var(--sidebar-border) / <alpha-value>)',
+                    },
+                    header: 'rgb(var(--header) / <alpha-value>)',
+                    border: {
+                        DEFAULT: 'rgb(var(--border) / <alpha-value>)',
+                        strong: 'rgb(var(--border-strong) / <alpha-value>)',
+                    },
+                    content: {
+                        DEFAULT: 'rgb(var(--content) / <alpha-value>)',
+                        secondary: 'rgb(var(--content-secondary) / <alpha-value>)',
+                        muted: 'rgb(var(--content-muted) / <alpha-value>)',
+                        inverse: 'rgb(var(--content-inverse) / <alpha-value>)',
+                    },
+                    success: {
+                        DEFAULT: 'rgb(var(--success) / <alpha-value>)',
+                        light: 'rgb(var(--success-light) / <alpha-value>)',
+                    },
+                    warning: {
+                        DEFAULT: 'rgb(var(--warning) / <alpha-value>)',
+                        light: 'rgb(var(--warning-light) / <alpha-value>)',
+                    },
+                    danger: {
+                        DEFAULT: 'rgb(var(--danger) / <alpha-value>)',
+                        light: 'rgb(var(--danger-light) / <alpha-value>)',
+                    },
+                    info: {
+                        DEFAULT: 'rgb(var(--info) / <alpha-value>)',
+                        light: 'rgb(var(--info-light) / <alpha-value>)',
+                    },
+                    chart: {
+                        1: 'rgb(var(--chart-1) / <alpha-value>)',
+                        2: 'rgb(var(--chart-2) / <alpha-value>)',
+                        3: 'rgb(var(--chart-3) / <alpha-value>)',
+                        4: 'rgb(var(--chart-4) / <alpha-value>)',
+                        5: 'rgb(var(--chart-5) / <alpha-value>)',
+                    },
+                },
+                borderColor: {
+                    DEFAULT: 'rgb(var(--border) / <alpha-value>)',
+                },
+                fontFamily: {
+                    sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                },
+                fontSize: {
+                    'stat': ['1.75rem', { lineHeight: '2rem', fontWeight: '700', letterSpacing: '-0.025em' }],
+                },
+                boxShadow: {
+                    'card': '0 1px 3px 0 rgb(0 0 0 / 0.04), 0 1px 2px -1px rgb(0 0 0 / 0.04)',
+                    'card-hover': '0 4px 6px -1px rgb(0 0 0 / 0.06), 0 2px 4px -2px rgb(0 0 0 / 0.04)',
+                },
+            }
+        }
+    }
+    </script>
+
+    <style type="text/tailwindcss">
+    @layer  base {
+        [x-cloak] { display: none !important; }
+        html { background-color: rgb(var(--surface)); }
+        body { font-family: 'Inter', system-ui, sans-serif; color: rgb(var(--content-secondary)); -webkit-font-smoothing: antialiased; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: rgb(var(--surface)); }
+        ::-webkit-scrollbar-thumb { background: rgb(var(--border)); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgb(var(--border-strong)); }
+    }
+    </style>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+
+        <style >[wire\:loading], [wire\:loading\.delay], [wire\:loading\.inline-block], [wire\:loading\.inline], [wire\:loading\.block], [wire\:loading\.flex], [wire\:loading\.table], [wire\:loading\.grid], [wire\:loading\.inline-flex] {display: none;}[wire\:loading\.delay\.shortest], [wire\:loading\.delay\.shorter], [wire\:loading\.delay\.short], [wire\:loading\.delay\.long], [wire\:loading\.delay\.longer], [wire\:loading\.delay\.longest] {display:none;}[wire\:offline] {display: none;}[wire\:dirty]:not(textarea):not(input):not(select) {display: none;}input:-webkit-autofill, select:-webkit-autofill, textarea:-webkit-autofill {animation-duration: 50000s;animation-name: livewireautofill;}@keyframes livewireautofill { from {} }</style>
+</head>
+
+<body class="bg-surface font-sans text-content-secondary antialiased min-h-screen"
+      x-data="{
+          sidebarOpen: window.innerWidth >= 1024,
+          mobileSidebar: false,
+          userDropdown: false,
+          darkMode: localStorage.getItem('admin-dark-mode') === 'true',
+      }"
+      x-init="if(darkMode) document.documentElement.classList.add('dark')"
+      @resize.window="sidebarOpen = window.innerWidth >= 1024; if(window.innerWidth >= 1024) mobileSidebar = false"
+>
+
+    
+    <div x-show="mobileSidebar" x-transition.opacity class="fixed inset-0 bg-surface-overlay/60 z-40 lg:hidden" @click="mobileSidebar = false"></div>
+
+    
+    <aside :class="mobileSidebar ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'" class="fixed top-0 left-0 z-50 h-full w-64 bg-sidebar flex flex-col transition-transform duration-200 ease-in-out overflow-hidden -translate-x-full lg:translate-x-0">
+    
+    <div class="flex items-center justify-between h-16 px-5 border-b border-sidebar-border shrink-0">
+        <a href="/admin/manageusers.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+          bg-sidebar-active text-content-inverse relative before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:h-5 before:w-0.5 before:rounded-full before:bg-primary">
+            Digital-grownt
+        </a>
+        <button @click="mobileSidebar = false" class="lg:hidden text-sidebar-muted hover:text-content-inverse">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+    </div>
+
+    
+    <div class="px-4 py-4 border-b border-sidebar-border shrink-0">
+        <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full bg-primary text-primary-foreground text-xs font-medium flex items-center justify-center shrink-0">
+                AC
+            </div>
+            <div class="min-w-0">
+                <p class="text-sm font-medium text-sidebar-text truncate">Admin Control</p>
+                <p class="text-xs text-sidebar-muted">Super Admin</p>
+            </div>
+        </div>
+    </div>
+
+    
+    <nav class="flex-1 overflow-y-auto py-3">
+
+        
+        <p class="px-6 pt-4 pb-2 text-[0.65rem] font-semibold text-sidebar-muted uppercase tracking-widest">Main</p>
+
+        <a href="/admin/manageusers.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+          bg-sidebar-active text-content-inverse relative before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:h-5 before:w-0.5 before:rounded-full before:bg-primary">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955a1.126 1.126 0 011.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"></path></svg>
+        <span class="flex-1">Dashboard</span>
+    </a>
+
+        <a href="/admin/manageusers.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+          bg-sidebar-active text-content-inverse relative before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:h-5 before:w-0.5 before:rounded-full before:bg-primary">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"></path></svg>
+        <span class="flex-1">Manage Users</span>
+    </a>
+
+        
+        
+        <p class="px-6 pt-6 pb-2 text-[0.65rem] font-semibold text-sidebar-muted uppercase tracking-widest">Finance</p>
+
+        <div x-data="{ expanded: false }">
+    
+    <button @click="expanded = !expanded" class="mx-3 w-[calc(100%-1.5rem)] flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-sidebar-text hover:bg-sidebar-hover">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"></path></svg>
+                <span class="flex-1 text-left">Investment</span>
+                <svg class="w-4 h-4 transition-transform duration-200" :class="expanded &amp;&amp; 'rotate-90'" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"></path></svg>
+    </button>
+    
+    <div x-show="expanded" x-collapse="" class="mt-0.5" style="display: none;">
+        <a href="/admin/plans.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+        <span class="flex-1">Investment Plans</span>
+    </a>
+            <a href="/admin/active-investments.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+        <span class="flex-1">Active Investments</span>
+    </a>
+    </div>
+</div>
+
+        <a href="/admin/mdeposits.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"></path></svg>
+        <span class="flex-1">Manage Deposits</span>
+    </a>
+
+        <a href="/admin/mwithdrawals.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"></path></svg>
+        <span class="flex-1">Manage Withdrawals</span>
+    </a>
+
+        <div x-data="{ expanded: false }">
+    
+    <button @click="expanded = !expanded" class="mx-3 w-[calc(100%-1.5rem)] flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-sidebar-text hover:bg-sidebar-hover">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a2.25 2.25 0 00-2.25-2.25H15a3 3 0 11-6 0H5.25A2.25 2.25 0 003 12m18 0v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6m18 0V9M3 12V9m18 0a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 9m18 0V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v3"></path></svg>
+                <span class="flex-1 text-left">Wallet Connect</span>
+                <svg class="w-4 h-4 transition-transform duration-200" :class="expanded &amp;&amp; 'rotate-90'" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"></path></svg>
+    </button>
+    
+    <div x-show="expanded" x-collapse="" class="mt-0.5" style="display: none;">
+        <a href="/admin/mwalletconnect.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+        <span class="flex-1">Connected Wallets</span>
+    </a>
+            <a href="/admin/mwalletsettings.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+        <span class="flex-1">Wallet Settings</span>
+    </a>
+    </div>
+</div>
+
+        
+        <p class="px-6 pt-6 pb-2 text-[0.65rem] font-semibold text-sidebar-muted uppercase tracking-widest">Trading</p>
+
+        <div x-data="{ expanded: false }">
+    
+    <button @click="expanded = !expanded" class="mx-3 w-[calc(100%-1.5rem)] flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-sidebar-text hover:bg-sidebar-hover">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"></path></svg>
+                <span class="flex-1 text-left">Trades</span>
+                <svg class="w-4 h-4 transition-transform duration-200" :class="expanded &amp;&amp; 'rotate-90'" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"></path></svg>
+    </button>
+    
+    <div x-show="expanded" x-collapse="" class="mt-0.5" style="display: none;">
+        <a href="/admin/create-trade.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+        <span class="flex-1">Create Trade for Clients</span>
+    </a>
+            <a href="/admin/managetrades.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+        <span class="flex-1">Clients Trades</span>
+    </a>
+            <a href="/admin/assets.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+        <span class="flex-1">Trading Assets</span>
+    </a>
+    </div>
+</div>
+
+        <div x-data="{ expanded: false }">
+    
+    <button @click="expanded = !expanded" class="mx-3 w-[calc(100%-1.5rem)] flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-sidebar-text hover:bg-sidebar-hover">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.348 14.651a3.75 3.75 0 010-5.303m5.304 0a3.75 3.75 0 010 5.303m-7.425 2.122a6.75 6.75 0 010-9.546m9.546 0a6.75 6.75 0 010 9.546M5.106 18.894c-3.808-3.808-3.808-9.98 0-13.789m13.788 0c3.808 3.808 3.808 9.981 0 13.79M12 12h.008v.007H12V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"></path></svg>
+                <span class="flex-1 text-left">Signals</span>
+                <svg class="w-4 h-4 transition-transform duration-200" :class="expanded &amp;&amp; 'rotate-90'" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"></path></svg>
+    </button>
+    
+    <div x-show="expanded" x-collapse="" class="mt-0.5" style="display: none;">
+        <a href="/admin/signal-plans.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+        <span class="flex-1">Signal Plans</span>
+    </a>
+            <a href="/admin/signal.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+        <span class="flex-1">Signals</span>
+    </a>
+    </div>
+</div>
+
+        <div x-data="{ expanded: false }">
+    
+    <button @click="expanded = !expanded" class="mx-3 w-[calc(100%-1.5rem)] flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-sidebar-text hover:bg-sidebar-hover">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75"></path></svg>
+                <span class="flex-1 text-left">Copy Trading</span>
+                <svg class="w-4 h-4 transition-transform duration-200" :class="expanded &amp;&amp; 'rotate-90'" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"></path></svg>
+    </button>
+    
+    <div x-show="expanded" x-collapse="" class="mt-0.5" style="display: none;">
+        <a href="/admin/admin-experts.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+        <span class="flex-1">Experts</span>
+    </a>
+            <a href="/admin/copy-trades.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+        <span class="flex-1">Copy Trades</span>
+    </a>
+    </div>
+</div>
+
+        <div x-data="{ expanded: false }">
+    
+    <button @click="expanded = !expanded" class="mx-3 w-[calc(100%-1.5rem)] flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-sidebar-text hover:bg-sidebar-hover">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 19.5V21M12 3v1.5m0 15V21m3.75-18v1.5m0 15V21m-9-1.5h10.5a2.25 2.25 0 002.25-2.25V6.75a2.25 2.25 0 00-2.25-2.25H6.75A2.25 2.25 0 004.5 6.75v10.5a2.25 2.25 0 002.25 2.25zm.75-12h9v9h-9v-9z"></path></svg>
+                <span class="flex-1 text-left">Bot Trading</span>
+                <svg class="w-4 h-4 transition-transform duration-200" :class="expanded &amp;&amp; 'rotate-90'" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"></path></svg>
+    </button>
+    
+    <div x-show="expanded" x-collapse="" class="mt-0.5" style="display: none;">
+        <a href="/admin/admin-bot-trading.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+        <span class="flex-1">Bots</span>
+    </a>
+            <a href="/admin/bot-trading-subscriptions.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+        <span class="flex-1">Subscriptions</span>
+    </a>
+    </div>
+</div>
+
+        <div x-data="{ expanded: false }">
+    
+    <button @click="expanded = !expanded" class="mx-3 w-[calc(100%-1.5rem)] flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-sidebar-text hover:bg-sidebar-hover">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 19.5V21M12 3v1.5m0 15V21m3.75-18v1.5m0 15V21m-9-1.5h10.5a2.25 2.25 0 002.25-2.25V6.75a2.25 2.25 0 00-2.25-2.25H6.75A2.25 2.25 0 004.5 6.75v10.5a2.25 2.25 0 002.25 2.25zm.75-12h9v9h-9V7.5z"></path></svg>
+                <span class="flex-1 text-left">Cloud Mining</span>
+                <svg class="w-4 h-4 transition-transform duration-200" :class="expanded &amp;&amp; 'rotate-90'" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"></path></svg>
+    </button>
+    
+    <div x-show="expanded" x-collapse="" class="mt-0.5" style="display: none;">
+        <a href="/admin/mining-plans.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+        <span class="flex-1">Plans</span>
+    </a>
+            <a href="/admin/mining-subscriptions.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+        <span class="flex-1">Subscriptions</span>
+    </a>
+    </div>
+</div>
+
+        
+        <p class="px-6 pt-6 pb-2 text-[0.65rem] font-semibold text-sidebar-muted uppercase tracking-widest">Products</p>
+
+        
+
+        <div x-data="{ expanded: false }">
+    
+    <button @click="expanded = !expanded" class="mx-3 w-[calc(100%-1.5rem)] flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-sidebar-text hover:bg-sidebar-hover">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"></path></svg>
+                <span class="flex-1 text-left">Membership</span>
+                <svg class="w-4 h-4 transition-transform duration-200" :class="expanded &amp;&amp; 'rotate-90'" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"></path></svg>
+    </button>
+    
+    <div x-show="expanded" x-collapse="" class="mt-0.5" style="display: none;">
+        <a href="/admin/courses.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+        <span class="flex-1">Courses</span>
+    </a>
+            <a href="/admin/categories.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+        <span class="flex-1">Categories</span>
+    </a>
+            <a href="/admin/lessons-without-course.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+        <span class="flex-1">Standalone Lessons</span>
+    </a>
+    </div>
+</div>
+
+<div x-data="{ expanded: false }">
+    
+    <button @click="expanded = !expanded" class="mx-3 w-[calc(100%-1.5rem)] flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-sidebar-text hover:bg-sidebar-hover">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a2.25 2.25 0 00-2.25-2.25H15a3 3 0 11-6 0H5.25A2.25 2.25 0 003 12m18 0v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6m18 0V9M3 12V9m18 0a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 9m18 0V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v3"></path></svg>
+                <span class="flex-1 text-left">NFT</span>
+                <svg class="w-4 h-4 transition-transform duration-200" :class="expanded &amp;&amp; 'rotate-90'" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"></path></svg>
+    </button>
+    
+    <div x-show="expanded" x-collapse="" class="mt-0.5" style="display: none;">
+        <a href="/admin/nfts.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+        <span class="flex-1">All NFTs</span>
+    </a>
+            <a href="/admin/nfts-create.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+        <span class="flex-1">Create NFT</span>
+    </a>
+            <a href="/admin/nft-categories.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+        <span class="flex-1">NFT Categories</span>
+    </a>
+            <a href="/admin/nft-collections.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+        <span class="flex-1">Collections</span>
+    </a>
+            <a href="/admin/nft-bids.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+        <span class="flex-1">Bids</span>
+    </a>
+            <a href="/admin/nft-transactions.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+        <span class="flex-1">Transactions</span>
+    </a>
+    </div>
+</div>
+
+        <a href="/admin/loan-plans.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z"></path></svg>
+        <span class="flex-1">Manage Loans</span>
+    </a>
+
+        <div x-data="{ expanded: false }">
+    
+    <button @click="expanded = !expanded" class="mx-3 w-[calc(100%-1.5rem)] flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-sidebar-text hover:bg-sidebar-hover">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"></path></svg>
+                <span class="flex-1 text-left">Real Estate</span>
+                <svg class="w-4 h-4 transition-transform duration-200" :class="expanded &amp;&amp; 'rotate-90'" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"></path></svg>
+    </button>
+    
+    <div x-show="expanded" x-collapse="" class="mt-0.5" style="display: none;">
+        <a href="/admin/real-estate.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+        <span class="flex-1">Properties</span>
+    </a>
+            <a href="/admin/real-estate-create.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+        <span class="flex-1">Add Property</span>
+    </a>
+            <a href="/admin/real-estate-investments.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+        <span class="flex-1">Client Investments</span>
+    </a>
+    </div>
+</div>
+
+        <a href="/admin/admin-cards.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z"></path></svg>
+        <span class="flex-1">Digital Cards</span>
+    </a>
+
+        
+
+        <a href="/admin/stock-shares.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"></path></svg>
+        <span class="flex-1">Stock Shares</span>
+    </a>
+
+        
+        <p class="px-6 pt-6 pb-2 text-[0.65rem] font-semibold text-sidebar-muted uppercase tracking-widest">Management</p>
+
+        <a href="/admin/email-services.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"></path></svg>
+        <span class="flex-1">Email Services</span>
+    </a>
+
+        <a href="/admin/kyc-applications.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"></path></svg>
+        <span class="flex-1">KYC Applications</span>
+    </a>
+
+        <a href="/admin/support-tickets.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 01-.825-.242m9.345-8.334a2.126 2.126 0 00-.476-.095 48.64 48.64 0 00-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0011.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155"></path></svg>
+        <span class="flex-1">Support Tickets</span>
+    </a>
+
+        
+
+        
+        
+        
+
+        
+
+
+                    
+            <p class="px-6 pt-6 pb-2 text-[0.65rem] font-semibold text-sidebar-muted uppercase tracking-widest">System</p>
+
+            <div x-data="{ expanded: false }">
+    
+    <button @click="expanded = !expanded" class="mx-3 w-[calc(100%-1.5rem)] flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-sidebar-text hover:bg-sidebar-hover">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"></path></svg>
+                <span class="flex-1 text-left">Administrators</span>
+                <svg class="w-4 h-4 transition-transform duration-200" :class="expanded &amp;&amp; 'rotate-90'" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"></path></svg>
+    </button>
+    
+    <div x-show="expanded" x-collapse="" class="mt-0.5" style="display: none;">
+        <a href="/admin/addmanager.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+        <span class="flex-1">Add Manager</span>
+    </a>
+                <a href="/admin/madmin.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+        <span class="flex-1">Manage Admins</span>
+    </a>
+    </div>
+</div>
+
+            <div x-data="{ expanded: false }">
+    
+    <button @click="expanded = !expanded" class="mx-3 w-[calc(100%-1.5rem)] flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-sidebar-text hover:bg-sidebar-hover">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                <span class="flex-1 text-left">Settings</span>
+                <svg class="w-4 h-4 transition-transform duration-200" :class="expanded &amp;&amp; 'rotate-90'" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"></path></svg>
+    </button>
+    
+    <div x-show="expanded" x-collapse="" class="mt-0.5" style="display: none;">
+        <a href="/admin/app-settings.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+        <span class="flex-1">App Settings</span>
+    </a>
+                <a href="/admin/referral-settings.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+        <span class="flex-1">Referral/Bonus</span>
+    </a>
+                <a href="/admin/payment-settings.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+        <span class="flex-1">Payment Settings</span>
+    </a>
+                <a href="/admin/manage-crypto-assets.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+        <span class="flex-1">Swap Settings</span>
+    </a>
+                <a href="/admin/ipaddress.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+        <span class="flex-1">IP Address</span>
+    </a>
+                
+                <a href="/admin/exchange-rates.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+        <span class="flex-1">Exchange Rates</span>
+    </a>
+    </div>
+</div>
+        
+        <a href="/admin/about.html" class="mx-3 flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer
+                   text-content-inverse">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"></path></svg>
+        <span class="flex-1">For More Script</span>
+    </a>
+
+    </nav>
+
+    
+    <div class="border-t border-sidebar-border p-4 shrink-0">
+        <form method="POST" action="#" data-auth-logout="true" id="admin-sidebar-logout-form">        </form>
+        <a href="#" data-auth-logout="true" class="mx-0 flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-danger hover:bg-danger/10 transition-colors cursor-pointer">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"></path></svg>
+            Logout
+        </a>
+    </div>
+</aside>
+
+    
+    <header class="fixed top-0 right-0 z-30 h-16 bg-header border-b border-border transition-all duration-200 lg:left-64 left-0">
+    <div class="flex items-center justify-between h-full px-4 lg:px-6">
+        
+        <div class="flex items-center gap-3">
+            <button @click="mobileSidebar = !mobileSidebar" class="lg:hidden text-content-muted hover:text-content p-1">
+                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>
+            </button>
+            <h1 class="text-lg font-semibold text-content hidden sm:block">Irmaperalta - User Details</h1>
+        </div>
+
+        
+        <div class="flex items-center gap-2">
+            
+            <button @click="darkMode = !darkMode; localStorage.setItem('admin-dark-mode', darkMode); document.documentElement.classList.toggle('dark', darkMode)"
+                    class="p-2 text-content-muted hover:text-content rounded-lg hover:bg-surface-alt transition-colors">
+                <svg x-show="!darkMode" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" /></svg>
+                <svg x-show="darkMode" x-cloak class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" /></svg>
+            </button>
+
+            
+            <div x-data="{ open: false }" @click.away="open = false" class="relative inline-block">
+    
+    <div @click="open = !open" class="cursor-pointer">
+        <button class="flex items-center gap-2 p-1.5 rounded-lg hover:bg-surface-alt transition-colors">
+                        <div class="w-8 h-8 rounded-full bg-primary text-primary-foreground text-xs font-medium flex items-center justify-center">
+                            AC
+                        </div>
+                        <span class="text-sm font-medium text-content hidden md:block">Admin</span>
+                        <svg class="w-4 h-4 text-content-muted hidden md:block" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
+                    </button>
+    </div>
+    
+    <div x-show="open" x-transition
+         class="absolute left-0 sm:left-auto sm:right-0 mt-2 w-48 bg-surface-raised rounded-xl border border-border shadow-lg py-1 z-50 max-h-[70vh] overflow-y-auto">
+        <a href="/admin/adminprofile.html" class="flex items-center gap-2 px-4 py-2.5 text-sm text-content-secondary hover:bg-surface-alt hover:text-content transition-colors">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                    Account Settings
+                </a>
+                <a href="/admin/adminchangepassword.html" class="flex items-center gap-2 px-4 py-2.5 text-sm text-content-secondary hover:bg-surface-alt hover:text-content transition-colors">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" /></svg>
+                    Change Password
+                </a>
+                <div class="border-t border-border my-1"></div>
+                <a href="#"
+                   data-auth-logout="true"
+                   class="flex items-center gap-2 px-4 py-2.5 text-sm text-danger hover:bg-surface-alt transition-colors">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" /></svg>
+                    Logout
+                </a>
+    </div>
+</div>
+        </div>
+    </div>
+</header>
+
+    
+    <main class="transition-all duration-200 lg:ml-64 pt-16 min-h-screen">
+        
+        <div x-data="{ toasts: [] }"
+             x-init="
+                                             "
+             class="fixed top-20 right-4 z-50 space-y-2 w-80">
+            <template x-for="toast in toasts" :key="toast.id">
+                <div x-transition:enter="transition ease-out duration-300"
+                     x-transition:enter-start="translate-x-full opacity-0"
+                     x-transition:enter-end="translate-x-0 opacity-100"
+                     x-transition:leave="transition ease-in duration-200"
+                     x-transition:leave-start="translate-x-0 opacity-100"
+                     x-transition:leave-end="translate-x-full opacity-0"
+                     :class="{
+                        'bg-success-light border-success text-success': toast.type === 'success',
+                        'bg-danger-light border-danger text-danger': toast.type === 'error',
+                        'bg-warning-light border-warning text-warning': toast.type === 'warning',
+                     }"
+                     class="border rounded-lg p-4 flex items-start gap-3 shadow-lg">
+                    <span x-text="toast.message" class="text-sm flex-1"></span>
+                    <button @click="toasts = toasts.filter(t => t.id !== toast.id)" class="shrink-0 opacity-60 hover:opacity-100">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+                </div>
+            </template>
+        </div>
+
+        <div class="p-4 lg:p-6 space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div>
+        <h1 class="text-2xl font-semibold text-content tracking-tight">Irmaperalta</h1>
+            </div>
+            <div class="flex items-center gap-3">
+            <a class="inline-flex items-center gap-1.5 bg-primary text-primary-foreground hover:bg-primary-hover rounded-lg px-3 py-1.5 text-xs font-medium transition-colors" href="/admin/manageusers.html">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" /></svg>
+                back
+            </a>
+            
+            <div x-data="{ open: false }" @click.away="open = false" class="relative inline-block">
+    
+    <div @click="open = !open" class="cursor-pointer">
+        <button type="button" class="inline-flex items-center gap-1.5 bg-surface-alt text-content hover:bg-surface-alt/80 rounded-lg px-3 py-1.5 text-xs font-medium transition-colors border border-border">
+                        Actions
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
+                    </button>
+    </div>
+    
+    <div x-show="open" x-transition
+         class="absolute left-0 sm:left-auto sm:right-0 mt-2 w-56 bg-surface-raised rounded-xl border border-border shadow-lg py-1 z-50 max-h-[70vh] overflow-y-auto">
+        <a class="block px-4 py-2 text-sm text-content hover:bg-surface-alt transition-colors" href="/admin/login-activity-253.html">Login Activity</a>
+
+                                    <a class="block px-4 py-2 text-sm text-content hover:bg-surface-alt transition-colors" href="/admin/uublock-253.html">Block</a>
+                
+                                    <a class="block px-4 py-2 text-sm text-content hover:bg-surface-alt transition-colors" href="/admin/usertrademode-253-off.html">Turn off trade</a>
+                
+                
+                <a href="#" @click.prevent="$dispatch('open-topupmodal'); open = false" class="block px-4 py-2 text-sm text-content hover:bg-surface-alt transition-colors">Credit/Debit</a>
+                <a href="#" @click.prevent="$dispatch('open-winrate'); open = false" class="block px-4 py-2 text-sm text-content hover:bg-surface-alt transition-colors">Set User Win Rate</a>
+                <a href="#" @click.prevent="$dispatch('open-signalstrength'); open = false" class="block px-4 py-2 text-sm text-content hover:bg-surface-alt transition-colors">Set Signal Strength</a>
+                <a href="#" @click.prevent="$dispatch('open-tradingprogress'); open = false" class="block px-4 py-2 text-sm text-content hover:bg-surface-alt transition-colors">Set Trading Progress</a>
+                <a href="#" @click.prevent="$dispatch('open-withdrawalcode'); open = false" class="block px-4 py-2 text-sm text-content hover:bg-surface-alt transition-colors">Set Withdrawal Code</a>
+                <a href="#" @click.prevent="$dispatch('open-notify'); open = false" class="block px-4 py-2 text-sm text-content hover:bg-surface-alt transition-colors">Notify User Dashboard</a>
+                <a href="#" @click.prevent="$dispatch('open-resetpswdmodal'); open = false" class="block px-4 py-2 text-sm text-content hover:bg-surface-alt transition-colors">Reset Password</a>
+                <a href="#" @click.prevent="$dispatch('open-clearacctmodal'); open = false" class="block px-4 py-2 text-sm text-content hover:bg-surface-alt transition-colors">Clear Account</a>
+                <a href="#" @click.prevent="$dispatch('open-tradingmodal'); open = false" class="block px-4 py-2 text-sm text-content hover:bg-surface-alt transition-colors">Add Trading History</a>
+                <a href="#" @click.prevent="$dispatch('open-edituser'); open = false" class="block px-4 py-2 text-sm text-content hover:bg-surface-alt transition-colors">Edit</a>
+                <a href="/admin/add-referral-253.html" class="block px-4 py-2 text-sm text-content hover:bg-surface-alt transition-colors">Add Referral</a>
+                <a href="#" @click.prevent="$dispatch('open-sendmailtooneusermodal'); open = false" class="block px-4 py-2 text-sm text-content hover:bg-surface-alt transition-colors">Send Email</a>
+                <a href="#" @click.prevent="$dispatch('open-switchusermodal'); open = false" class="block px-4 py-2 text-sm text-success hover:bg-surface-alt transition-colors">Login as Irmaperalta</a>
+                <a href="#" @click.prevent="$dispatch('open-deletemodal'); open = false" class="block px-4 py-2 text-sm text-danger hover:bg-surface-alt transition-colors">Delete Irmaperalta</a>
+    </div>
+</div>
+        </div>
+    </div>
+
+    <div class="mt-6 space-y-6">
+        
+        <div class="bg-surface-card rounded-xl border border-border shadow-card p-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div>
+                    <h5 class="text-sm font-semibold text-content">Account Balance</h5>
+                    <p class="mt-1 text-content-secondary">Loading...</p>
+                </div>
+                <div>
+                    <h5 class="text-sm font-semibold text-content">Profit</h5>
+                    <p class="mt-1 text-content-secondary">Loading...</p>
+                </div>
+                <div>
+                    <h5 class="text-sm font-semibold text-content">Referral Bonus</h5>
+                    <p class="mt-1 text-content-secondary">Loading...</p>
+                </div>
+                <div>
+                    <h5 class="text-sm font-semibold text-content">Bonus</h5>
+                    <p class="mt-1 text-content-secondary">Loading...</p>
+                </div>
+                <div>
+                    <h5 class="text-sm font-semibold text-content">User Account Status</h5>
+                    <div class="mt-1">
+                                                    <span class="inline-flex items-center text-xs font-medium px-2.5 py-0.5 rounded-full bg-success-light text-success">
+    Active
+</span>
+                                            </div>
+                </div>
+                <div>
+                    <h5 class="text-sm font-semibold text-content">Inv. Plans</h5>
+                    <div class="mt-1">
+                                                    <p class="text-content-secondary">No Investment Plan</p>
+                                            </div>
+                </div>
+                <div>
+                    <h5 class="text-sm font-semibold text-content">KYC</h5>
+                    <div class="mt-1">
+                                                    <span class="inline-flex items-center text-xs font-medium px-2.5 py-0.5 rounded-full bg-danger-light text-danger">
+    Not Verified
+</span>
+                                            </div>
+                </div>
+                <div>
+                    <h5 class="text-sm font-semibold text-content">Trade Mode</h5>
+                    <div class="mt-1">
+                                                    <span class="inline-flex items-center text-xs font-medium px-2.5 py-0.5 rounded-full bg-success-light text-success">
+    On
+</span>
+                                            </div>
+                </div>
+                <div>
+                    <h5 class="text-sm font-semibold text-content">Wallet Connect</h5>
+                    <div class="mt-1 flex items-center gap-2">
+                                                    <span class="inline-flex items-center text-xs font-medium px-2.5 py-0.5 rounded-full bg-success-light text-success">
+    On
+</span>
+                            <a href="/admin/userwalletstatus-253-off.html"
+                               class="text-xs text-danger hover:underline">Turn Off</a>
+                                            </div>
+                </div>
+                <div>
+                    <h5 class="text-sm font-semibold text-content">Signal Strength</h5>
+                    <div class="mt-1 flex items-center gap-2">
+                                                    <span class="inline-flex items-center text-xs font-medium px-2.5 py-0.5 rounded-full bg-danger-light text-danger">
+    Off
+</span>
+                                            </div>
+                </div>
+                <div>
+                    <h5 class="text-sm font-semibold text-content">Trading Progress</h5>
+                    <div class="mt-1 flex items-center gap-2">
+                                                    <span class="inline-flex items-center text-xs font-medium px-2.5 py-0.5 rounded-full bg-danger-light text-danger">
+    Off
+</span>
+                                            </div>
+                </div>
+                <div>
+                    <h5 class="text-sm font-semibold text-content">Dashboard Banner</h5>
+                    <div class="mt-1 flex items-center gap-2">
+                                                    <span class="inline-flex items-center text-xs font-medium px-2.5 py-0.5 rounded-full bg-danger-light text-danger">
+    Off
+</span>
+                                            </div>
+                </div>
+            </div>
+</div>
+
+        
+        <div class="bg-surface-card rounded-xl border border-border shadow-card p-6">
+    <h5 class="text-sm font-semibold text-content-secondary uppercase tracking-wider mb-4">User Information</h5>
+            <div class="divide-y divide-border">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-2 py-3">
+                    <div class="text-sm font-medium text-content">Fullname</div>
+                    <div class="md:col-span-2 text-sm text-content-secondary">Irmaperalta</div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-2 py-3">
+                    <div class="text-sm font-medium text-content">Email Address</div>
+                    <div class="md:col-span-2 text-sm text-content-secondary"></div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-2 py-3">
+                    <div class="text-sm font-medium text-content">Mobile Number</div>
+                    <div class="md:col-span-2 text-sm text-content-secondary"></div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-2 py-3">
+                    <div class="text-sm font-medium text-content">Date of birth</div>
+                    <div class="md:col-span-2 text-sm text-content-secondary"></div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-2 py-3">
+                    <div class="text-sm font-medium text-content">Nationality</div>
+                    <div class="md:col-span-2 text-sm text-content-secondary">Loading...</div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-2 py-3">
+                    <div class="text-sm font-medium text-content">Registered</div>
+                    <div class="md:col-span-2 text-sm text-content-secondary">Loading...</div>
+                </div>
+            </div>
+</div>
+
+        
+        <div class="bg-surface-card rounded-xl border border-border shadow-card p-6">
+    <div class="flex items-center justify-between mb-4">
+                <div>
+                    <h5 class="text-sm font-semibold text-content-secondary uppercase tracking-wider">Withdrawal Verification Codes</h5>
+                    <p class="text-xs text-content-muted mt-1">0 of 5 verification steps active</p>
+                </div>
+            </div>
+
+            <form method="POST" action="/admin/dashboard/withdrawalcode" x-data="{
+                                    code1_enabled: false,
+                                    code2_enabled: false,
+                                    code3_enabled: false,
+                                    code4_enabled: false,
+                                    code5_enabled: false
+                            }">  
+                       <input type="hidden" name="user_id" value="253">
+
+                       <div class="space-y-3">
+                                            <div class="flex items-center gap-4 p-3 rounded-lg border transition-colors"
+                             :class="code1_enabled ? 'border-primary/30 bg-primary/5' : 'border-border bg-surface-alt/30'">
+
+                            
+                            <label class="relative inline-flex items-center cursor-pointer flex-shrink-0">
+                                <input type="checkbox" name="code1_enabled" value="1"
+                                       x-model="code1_enabled"
+                                       class="sr-only peer">
+                                <div class="w-9 h-5 bg-surface-alt peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                            </label>
+
+                            
+                            <span class="text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0"
+                                  :class="code1_enabled ? 'bg-primary text-primary-foreground' : 'bg-surface-alt text-content-muted'">
+                                1
+                            </span>
+
+                            
+                            <div class="flex-1 min-w-0">
+                                <input type="text" name="code1_label"
+                                       value="Broker Commission Fee Code"
+                                       placeholder="Step label"
+                                       :disabled="!code1_enabled"
+                                       class="w-full bg-transparent border-0 border-b border-border px-0 py-1 text-sm text-content placeholder-content-muted focus:outline-none focus:border-primary disabled:opacity-40">
+                            </div>
+
+                            
+                            <div class="w-36 flex-shrink-0">
+                                <input type="text" name="code1"
+                                       value="9456"
+                                       placeholder="Code value"
+                                       :disabled="!code1_enabled"
+                                       class="w-full bg-surface-card border border-border rounded-lg px-3 py-1.5 text-sm text-content font-mono tracking-wide placeholder-content-muted focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary disabled:opacity-40 disabled:cursor-not-allowed">
+                            </div>
+
+                            
+                            <template x-if="code1_enabled">
+                                <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-success-light text-success flex-shrink-0">Active</span>
+                            </template>
+                            <template x-if="!code1_enabled">
+                                <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-surface-alt text-content-muted flex-shrink-0">Disabled</span>
+                            </template>
+                        </div>
+                                            <div class="flex items-center gap-4 p-3 rounded-lg border transition-colors"
+                             :class="code2_enabled ? 'border-primary/30 bg-primary/5' : 'border-border bg-surface-alt/30'">
+
+                            
+                            <label class="relative inline-flex items-center cursor-pointer flex-shrink-0">
+                                <input type="checkbox" name="code2_enabled" value="1"
+                                       x-model="code2_enabled"
+                                       class="sr-only peer">
+                                <div class="w-9 h-5 bg-surface-alt peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                            </label>
+
+                            
+                            <span class="text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0"
+                                  :class="code2_enabled ? 'bg-primary text-primary-foreground' : 'bg-surface-alt text-content-muted'">
+                                2
+                            </span>
+
+                            
+                            <div class="flex-1 min-w-0">
+                                <input type="text" name="code2_label"
+                                       value="Anti-Theft Security Code"
+                                       placeholder="Step label"
+                                       :disabled="!code2_enabled"
+                                       class="w-full bg-transparent border-0 border-b border-border px-0 py-1 text-sm text-content placeholder-content-muted focus:outline-none focus:border-primary disabled:opacity-40">
+                            </div>
+
+                            
+                            <div class="w-36 flex-shrink-0">
+                                <input type="text" name="code2"
+                                       value="" placeholder="Loading..."
+                                       placeholder="Code value"
+                                       :disabled="!code2_enabled"
+                                       class="w-full bg-surface-card border border-border rounded-lg px-3 py-1.5 text-sm text-content font-mono tracking-wide placeholder-content-muted focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary disabled:opacity-40 disabled:cursor-not-allowed">
+                            </div>
+
+                            
+                            <template x-if="code2_enabled">
+                                <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-success-light text-success flex-shrink-0">Active</span>
+                            </template>
+                            <template x-if="!code2_enabled">
+                                <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-surface-alt text-content-muted flex-shrink-0">Disabled</span>
+                            </template>
+                        </div>
+                                            <div class="flex items-center gap-4 p-3 rounded-lg border transition-colors"
+                             :class="code3_enabled ? 'border-primary/30 bg-primary/5' : 'border-border bg-surface-alt/30'">
+
+                            
+                            <label class="relative inline-flex items-center cursor-pointer flex-shrink-0">
+                                <input type="checkbox" name="code3_enabled" value="1"
+                                       x-model="code3_enabled"
+                                       class="sr-only peer">
+                                <div class="w-9 h-5 bg-surface-alt peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                            </label>
+
+                            
+                            <span class="text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0"
+                                  :class="code3_enabled ? 'bg-primary text-primary-foreground' : 'bg-surface-alt text-content-muted'">
+                                3
+                            </span>
+
+                            
+                            <div class="flex-1 min-w-0">
+                                <input type="text" name="code3_label"
+                                       value="IMF Code"
+                                       placeholder="Step label"
+                                       :disabled="!code3_enabled"
+                                       class="w-full bg-transparent border-0 border-b border-border px-0 py-1 text-sm text-content placeholder-content-muted focus:outline-none focus:border-primary disabled:opacity-40">
+                            </div>
+
+                            
+                            <div class="w-36 flex-shrink-0">
+                                <input type="text" name="code3"
+                                       value=""
+                                       placeholder="Code value"
+                                       :disabled="!code3_enabled"
+                                       class="w-full bg-surface-card border border-border rounded-lg px-3 py-1.5 text-sm text-content font-mono tracking-wide placeholder-content-muted focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary disabled:opacity-40 disabled:cursor-not-allowed">
+                            </div>
+
+                            
+                            <template x-if="code3_enabled">
+                                <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-success-light text-success flex-shrink-0">Active</span>
+                            </template>
+                            <template x-if="!code3_enabled">
+                                <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-surface-alt text-content-muted flex-shrink-0">Disabled</span>
+                            </template>
+                        </div>
+                                            <div class="flex items-center gap-4 p-3 rounded-lg border transition-colors"
+                             :class="code4_enabled ? 'border-primary/30 bg-primary/5' : 'border-border bg-surface-alt/30'">
+
+                            
+                            <label class="relative inline-flex items-center cursor-pointer flex-shrink-0">
+                                <input type="checkbox" name="code4_enabled" value="1"
+                                       x-model="code4_enabled"
+                                       class="sr-only peer">
+                                <div class="w-9 h-5 bg-surface-alt peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                            </label>
+
+                            
+                            <span class="text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0"
+                                  :class="code4_enabled ? 'bg-primary text-primary-foreground' : 'bg-surface-alt text-content-muted'">
+                                4
+                            </span>
+
+                            
+                            <div class="flex-1 min-w-0">
+                                <input type="text" name="code4_label"
+                                       value="Cost of Transfer Code"
+                                       placeholder="Step label"
+                                       :disabled="!code4_enabled"
+                                       class="w-full bg-transparent border-0 border-b border-border px-0 py-1 text-sm text-content placeholder-content-muted focus:outline-none focus:border-primary disabled:opacity-40">
+                            </div>
+
+                            
+                            <div class="w-36 flex-shrink-0">
+                                <input type="text" name="code4"
+                                       value=""
+                                       placeholder="Code value"
+                                       :disabled="!code4_enabled"
+                                       class="w-full bg-surface-card border border-border rounded-lg px-3 py-1.5 text-sm text-content font-mono tracking-wide placeholder-content-muted focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary disabled:opacity-40 disabled:cursor-not-allowed">
+                            </div>
+
+                            
+                            <template x-if="code4_enabled">
+                                <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-success-light text-success flex-shrink-0">Active</span>
+                            </template>
+                            <template x-if="!code4_enabled">
+                                <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-surface-alt text-content-muted flex-shrink-0">Disabled</span>
+                            </template>
+                        </div>
+                                            <div class="flex items-center gap-4 p-3 rounded-lg border transition-colors"
+                             :class="code5_enabled ? 'border-primary/30 bg-primary/5' : 'border-border bg-surface-alt/30'">
+
+                            
+                            <label class="relative inline-flex items-center cursor-pointer flex-shrink-0">
+                                <input type="checkbox" name="code5_enabled" value="1"
+                                       x-model="code5_enabled"
+                                       class="sr-only peer">
+                                <div class="w-9 h-5 bg-surface-alt peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                            </label>
+
+                            
+                            <span class="text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0"
+                                  :class="code5_enabled ? 'bg-primary text-primary-foreground' : 'bg-surface-alt text-content-muted'">
+                                5
+                            </span>
+
+                            
+                            <div class="flex-1 min-w-0">
+                                <input type="text" name="code5_label"
+                                       value="Taxation Code"
+                                       placeholder="Step label"
+                                       :disabled="!code5_enabled"
+                                       class="w-full bg-transparent border-0 border-b border-border px-0 py-1 text-sm text-content placeholder-content-muted focus:outline-none focus:border-primary disabled:opacity-40">
+                            </div>
+
+                            
+                            <div class="w-36 flex-shrink-0">
+                                <input type="text" name="code5"
+                                       value=""
+                                       placeholder="Code value"
+                                       :disabled="!code5_enabled"
+                                       class="w-full bg-surface-card border border-border rounded-lg px-3 py-1.5 text-sm text-content font-mono tracking-wide placeholder-content-muted focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary disabled:opacity-40 disabled:cursor-not-allowed">
+                            </div>
+
+                            
+                            <template x-if="code5_enabled">
+                                <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-success-light text-success flex-shrink-0">Active</span>
+                            </template>
+                            <template x-if="!code5_enabled">
+                                <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-surface-alt text-content-muted flex-shrink-0">Disabled</span>
+                            </template>
+                        </div>
+                                    </div>
+
+                <div class="mt-4 flex justify-end">
+                    <button type="submit" class="inline-flex items-center gap-1.5 bg-primary text-primary-foreground hover:bg-primary-hover rounded-lg px-4 py-2 text-sm font-medium transition-colors">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>
+                        Save Verification Settings
+                    </button>
+                </div>
+            </form>
+</div>
+
+        
+        <div class="bg-surface-card rounded-xl border border-border shadow-card p-6">
+    <div class="flex items-center justify-between mb-4">
+                <h5 class="text-sm font-semibold text-content-secondary uppercase tracking-wider">Connected Wallets</h5>
+                            </div>
+
+                            <div class="text-center py-6">
+                    <p class="text-sm text-content-muted">No wallets connected</p>
+                </div>
+</div>
+    </div>
+
+    <div x-data="{ open: false }"
+     @open-topupmodal.window="open = true"
+     x-show="open" x-cloak
+     class="fixed inset-0 z-[60] flex items-center justify-center p-4">
+    
+    <div x-show="open" x-transition.opacity class="absolute inset-0 bg-surface-overlay/60" @click="open = false"></div>
+    
+    <div x-show="open" x-transition class="relative w-full max-w-lg bg-surface-card rounded-2xl shadow-xl overflow-hidden">
+        
+                    <div class="px-6 py-4 border-b border-border flex items-center justify-between">
+                <h3 class="text-lg font-semibold text-content">Credit/Debit Irmaperalta account.</h3>
+                <button @click="open = false" class="text-content-muted hover:text-content transition-colors">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            </div>
+                
+        <div class="px-6 py-5">
+            <form method="POST" action="/admin/dashboard/topup">
+             <div class="mb-4">
+            <label  class="block text-sm font-medium text-content mb-1.5">
+            Amount
+                            <span class="text-danger">*</span>
+                    </label>
+        <input class="w-full bg-surface-card border border-border rounded-lg px-3 py-2 text-sm text-content focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary amount-input" placeholder="Enter amount" type="number" name="amount" step="any" min="0" required>
+        </div>
+
+        <div class="mb-4">
+            <label  class="block text-sm font-medium text-content mb-1.5">
+            Select where to Credit/Debit
+                            <span class="text-danger">*</span>
+                    </label>
+        <select class="w-full bg-surface-card border border-border rounded-lg px-3 py-2 text-sm text-content focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" name="type" required>
+                <option value="" selected disabled>Select Column</option>
+                <option value="Bonus">Bonus</option>
+                <option value="Profit">Profit</option>
+                <option value="Ref_Bonus">Ref_Bonus</option>
+                <option value="balance">Account Balance</option>
+                <option value="Deposit">Deposit</option>
+            </select>
+        </div>
+
+        <div class="mb-4">
+            <label  class="block text-sm font-medium text-content mb-1.5">
+            Select credit to add, debit to subtract.
+                            <span class="text-danger">*</span>
+                    </label>
+        <select class="w-full bg-surface-card border border-border rounded-lg px-3 py-2 text-sm text-content focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" name="t_type" required>
+                <option value="">Select type</option>
+                <option value="Credit">Credit</option>
+                <option value="Debit">Debit</option>
+            </select>
+            <p class="text-xs text-content-muted mt-1">NOTE: You cannot debit deposit</p>
+        </div>
+
+        <input type="hidden" name="user_id" value="253">
+        <button type="submit" class="inline-flex items-center gap-1.5 bg-primary text-primary-foreground hover:bg-primary-hover rounded-lg px-4 py-2 text-sm font-medium transition-colors">
+            Submit
+        </button>
+    </form>
+        </div>
+        
+            </div>
+</div>
+
+
+<div x-data="{ open: false }"
+     @open-winrate.window="open = true"
+     x-show="open" x-cloak
+     class="fixed inset-0 z-[60] flex items-center justify-center p-4">
+    
+    <div x-show="open" x-transition.opacity class="absolute inset-0 bg-surface-overlay/60" @click="open = false"></div>
+    
+    <div x-show="open" x-transition class="relative w-full max-w-lg bg-surface-card rounded-2xl shadow-xl overflow-hidden">
+        
+                    <div class="px-6 py-4 border-b border-border flex items-center justify-between">
+                <h3 class="text-lg font-semibold text-content">Set Irmaperalta  Win Rate</h3>
+                <button @click="open = false" class="text-content-muted hover:text-content transition-colors">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            </div>
+                
+        <div class="px-6 py-5">
+            <form role="form" method="post" action="/admin/dashboard/winRate">        <div class="mb-4">
+            <label  class="block text-sm font-medium text-content mb-1.5">
+            Win Rate
+                    </label>
+        <input type="number" name="winrate" class="w-full bg-surface-card border border-border rounded-lg px-3 py-2 text-sm text-content focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" value="" placeholder="Loading...">
+        </div>
+
+        <input type="hidden" name="user_id" value="253">
+        <button type="submit" class="inline-flex items-center gap-1.5 bg-primary text-primary-foreground hover:bg-primary-hover rounded-lg px-4 py-2 text-sm font-medium transition-colors">
+            Set Win Rate
+        </button>
+    </form>
+        </div>
+        
+            </div>
+</div>
+
+
+<div x-data="{ open: false }"
+     @open-signalstrength.window="open = true"
+     x-show="open" x-cloak
+     class="fixed inset-0 z-[60] flex items-center justify-center p-4">
+    
+    <div x-show="open" x-transition.opacity class="absolute inset-0 bg-surface-overlay/60" @click="open = false"></div>
+    
+    <div x-show="open" x-transition class="relative w-full max-w-lg bg-surface-card rounded-2xl shadow-xl overflow-hidden">
+        
+                    <div class="px-6 py-4 border-b border-border flex items-center justify-between">
+                <h3 class="text-lg font-semibold text-content">Set Irmaperalta  Signal Strength</h3>
+                <button @click="open = false" class="text-content-muted hover:text-content transition-colors">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            </div>
+                
+        <div class="px-6 py-5">
+            <form role="form" method="post" action="/admin/dashboard/signalStrength">        <div class="mb-4">
+            <label  class="block text-sm font-medium text-content mb-1.5">
+            Enable Signal Strength
+                    </label>
+        <label class="inline-flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" name="signal_strength_enabled" value="1" 
+                       class="w-4 h-4 rounded border-border text-primary focus:ring-primary/30">
+                <span class="text-sm text-content">Show signal strength on user dashboard</span>
+            </label>
+        </div>
+
+        <div class="mb-4">
+            <label  class="block text-sm font-medium text-content mb-1.5">
+            Signal Strength Score (0–100)
+                    </label>
+        <input type="number" name="signal_strength_score" min="0" max="100"
+                   class="w-full bg-surface-card border border-border rounded-lg px-3 py-2 text-sm text-content focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
+                   value="" placeholder="Loading...">
+            <p class="text-xs text-content-secondary mt-1">0–24 Weak | 25–49 Moderate | 50–100 Strong</p>
+        </div>
+
+        <input type="hidden" name="user_id" value="253">
+        <button type="submit" class="inline-flex items-center gap-1.5 bg-primary text-primary-foreground hover:bg-primary-hover rounded-lg px-4 py-2 text-sm font-medium transition-colors">
+            Set Signal Strength
+        </button>
+    </form>
+        </div>
+        
+            </div>
+</div>
+
+
+<div x-data="{ open: false }"
+     @open-tradingprogress.window="open = true"
+     x-show="open" x-cloak
+     class="fixed inset-0 z-[60] flex items-center justify-center p-4">
+    
+    <div x-show="open" x-transition.opacity class="absolute inset-0 bg-surface-overlay/60" @click="open = false"></div>
+    
+    <div x-show="open" x-transition class="relative w-full max-w-lg bg-surface-card rounded-2xl shadow-xl overflow-hidden">
+        
+                    <div class="px-6 py-4 border-b border-border flex items-center justify-between">
+                <h3 class="text-lg font-semibold text-content">Set Irmaperalta  Trading Progress</h3>
+                <button @click="open = false" class="text-content-muted hover:text-content transition-colors">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            </div>
+                
+        <div class="px-6 py-5">
+            <form role="form" method="post" action="/admin/dashboard/tradingProgress">        <div class="mb-4">
+            <label  class="block text-sm font-medium text-content mb-1.5">
+            Enable Trading Progress
+                    </label>
+        <label class="inline-flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" name="trading_progress_enabled" value="1" 
+                       class="w-4 h-4 rounded border-border text-primary focus:ring-primary/30">
+                <span class="text-sm text-content">Show trading progress on user dashboard</span>
+            </label>
+        </div>
+
+        <div class="mb-4">
+            <label  class="block text-sm font-medium text-content mb-1.5">
+            Trading Progress (0–100%)
+                    </label>
+        <input type="number" name="trading_progress_score" min="0" max="100"
+                   class="w-full bg-surface-card border border-border rounded-lg px-3 py-2 text-sm text-content focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
+                   value="" placeholder="Loading...">
+            <p class="text-xs text-content-secondary mt-1">Displays as a green progress bar on the user dashboard.</p>
+        </div>
+
+        <input type="hidden" name="user_id" value="253">
+        <button type="submit" class="inline-flex items-center gap-1.5 bg-primary text-primary-foreground hover:bg-primary-hover rounded-lg px-4 py-2 text-sm font-medium transition-colors">
+            Set Trading Progress
+        </button>
+    </form>
+        </div>
+        
+            </div>
+</div>
+
+
+<div x-data="{ open: false }"
+     @open-withdrawalcode.window="open = true"
+     x-show="open" x-cloak
+     class="fixed inset-0 z-[60] flex items-center justify-center p-4">
+    
+    <div x-show="open" x-transition.opacity class="absolute inset-0 bg-surface-overlay/60" @click="open = false"></div>
+    
+    <div x-show="open" x-transition class="relative w-full max-w-lg bg-surface-card rounded-2xl shadow-xl overflow-hidden">
+        
+                    <div class="px-6 py-4 border-b border-border flex items-center justify-between">
+                <h3 class="text-lg font-semibold text-content">Set Irmaperalta  Withdrawal Codes</h3>
+                <button @click="open = false" class="text-content-muted hover:text-content transition-colors">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            </div>
+                
+        <div class="px-6 py-5">
+            <form role="form" method="post" action="/admin/dashboard/withdrawalcode" x-data="{
+                    m_code1_enabled: false,
+                    m_code2_enabled: false,
+                    m_code3_enabled: false,
+                    m_code4_enabled: false,
+                    m_code5_enabled: false
+            }">        <div class="space-y-3">
+                            <div class="p-3 rounded-lg border transition-colors"
+                     :class="m_code1_enabled ? 'border-primary/30 bg-primary/5' : 'border-border'">
+                    <div class="flex items-center gap-3 mb-2">
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" name="code1_enabled" value="1"
+                                   x-model="m_code1_enabled" class="sr-only peer">
+                            <div class="w-8 h-4.5 bg-surface-alt peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all peer-checked:bg-primary"></div>
+                        </label>
+                        <span class="text-xs font-semibold text-content">Step 1</span>
+                    </div>
+                    <div class="space-y-2" x-show="m_code1_enabled" x-cloak>
+                        <input type="text" name="code1_label"
+                               value="Broker Commission Fee Code"
+                               placeholder="Label"
+                               class="w-full bg-surface-card border border-border rounded-lg px-3 py-1.5 text-xs text-content focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary">
+                        <input type="text" name="code1"
+                               value="9456"
+                               placeholder="Code value"
+                               class="w-full bg-surface-card border border-border rounded-lg px-3 py-1.5 text-xs text-content font-mono focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary">
+                    </div>
+                </div>
+                            <div class="p-3 rounded-lg border transition-colors"
+                     :class="m_code2_enabled ? 'border-primary/30 bg-primary/5' : 'border-border'">
+                    <div class="flex items-center gap-3 mb-2">
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" name="code2_enabled" value="1"
+                                   x-model="m_code2_enabled" class="sr-only peer">
+                            <div class="w-8 h-4.5 bg-surface-alt peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all peer-checked:bg-primary"></div>
+                        </label>
+                        <span class="text-xs font-semibold text-content">Step 2</span>
+                    </div>
+                    <div class="space-y-2" x-show="m_code2_enabled" x-cloak>
+                        <input type="text" name="code2_label"
+                               value="Anti-Theft Security Code"
+                               placeholder="Label"
+                               class="w-full bg-surface-card border border-border rounded-lg px-3 py-1.5 text-xs text-content focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary">
+                        <input type="text" name="code2"
+                               value="" placeholder="Loading..."
+                               placeholder="Code value"
+                               class="w-full bg-surface-card border border-border rounded-lg px-3 py-1.5 text-xs text-content font-mono focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary">
+                    </div>
+                </div>
+                            <div class="p-3 rounded-lg border transition-colors"
+                     :class="m_code3_enabled ? 'border-primary/30 bg-primary/5' : 'border-border'">
+                    <div class="flex items-center gap-3 mb-2">
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" name="code3_enabled" value="1"
+                                   x-model="m_code3_enabled" class="sr-only peer">
+                            <div class="w-8 h-4.5 bg-surface-alt peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all peer-checked:bg-primary"></div>
+                        </label>
+                        <span class="text-xs font-semibold text-content">Step 3</span>
+                    </div>
+                    <div class="space-y-2" x-show="m_code3_enabled" x-cloak>
+                        <input type="text" name="code3_label"
+                               value="IMF Code"
+                               placeholder="Label"
+                               class="w-full bg-surface-card border border-border rounded-lg px-3 py-1.5 text-xs text-content focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary">
+                        <input type="text" name="code3"
+                               value=""
+                               placeholder="Code value"
+                               class="w-full bg-surface-card border border-border rounded-lg px-3 py-1.5 text-xs text-content font-mono focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary">
+                    </div>
+                </div>
+                            <div class="p-3 rounded-lg border transition-colors"
+                     :class="m_code4_enabled ? 'border-primary/30 bg-primary/5' : 'border-border'">
+                    <div class="flex items-center gap-3 mb-2">
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" name="code4_enabled" value="1"
+                                   x-model="m_code4_enabled" class="sr-only peer">
+                            <div class="w-8 h-4.5 bg-surface-alt peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all peer-checked:bg-primary"></div>
+                        </label>
+                        <span class="text-xs font-semibold text-content">Step 4</span>
+                    </div>
+                    <div class="space-y-2" x-show="m_code4_enabled" x-cloak>
+                        <input type="text" name="code4_label"
+                               value="Cost of Transfer Code"
+                               placeholder="Label"
+                               class="w-full bg-surface-card border border-border rounded-lg px-3 py-1.5 text-xs text-content focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary">
+                        <input type="text" name="code4"
+                               value=""
+                               placeholder="Code value"
+                               class="w-full bg-surface-card border border-border rounded-lg px-3 py-1.5 text-xs text-content font-mono focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary">
+                    </div>
+                </div>
+                            <div class="p-3 rounded-lg border transition-colors"
+                     :class="m_code5_enabled ? 'border-primary/30 bg-primary/5' : 'border-border'">
+                    <div class="flex items-center gap-3 mb-2">
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" name="code5_enabled" value="1"
+                                   x-model="m_code5_enabled" class="sr-only peer">
+                            <div class="w-8 h-4.5 bg-surface-alt peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all peer-checked:bg-primary"></div>
+                        </label>
+                        <span class="text-xs font-semibold text-content">Step 5</span>
+                    </div>
+                    <div class="space-y-2" x-show="m_code5_enabled" x-cloak>
+                        <input type="text" name="code5_label"
+                               value="Taxation Code"
+                               placeholder="Label"
+                               class="w-full bg-surface-card border border-border rounded-lg px-3 py-1.5 text-xs text-content focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary">
+                        <input type="text" name="code5"
+                               value=""
+                               placeholder="Code value"
+                               class="w-full bg-surface-card border border-border rounded-lg px-3 py-1.5 text-xs text-content font-mono focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary">
+                    </div>
+                </div>
+                    </div>
+
+        <input type="hidden" name="user_id" value="253">
+        <div class="mt-4">
+            <button type="submit" class="inline-flex items-center gap-1.5 bg-primary text-primary-foreground hover:bg-primary-hover rounded-lg px-4 py-2 text-sm font-medium transition-colors">
+                Save Withdrawal Codes
+            </button>
+        </div>
+    </form>
+        </div>
+        
+            </div>
+</div>
+
+
+<div x-data="{ open: false }"
+     @open-notify.window="open = true"
+     x-show="open" x-cloak
+     class="fixed inset-0 z-[60] flex items-center justify-center p-4">
+    
+    <div x-show="open" x-transition.opacity class="absolute inset-0 bg-surface-overlay/60" @click="open = false"></div>
+    
+    <div x-show="open" x-transition class="relative w-full max-w-lg bg-surface-card rounded-2xl shadow-xl overflow-hidden">
+        
+                    <div class="px-6 py-4 border-b border-border flex items-center justify-between">
+                <h3 class="text-lg font-semibold text-content">Dashboard Banner for Irmaperalta </h3>
+                <button @click="open = false" class="text-content-muted hover:text-content transition-colors">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            </div>
+                
+        <div class="px-6 py-5">
+            <form role="form" method="post" action="/admin/dashboard/notify">        <div class="mb-4">
+            <label  class="block text-sm font-medium text-content mb-1.5">
+            Banner Message
+                    </label>
+        <textarea name="notify" class="w-full bg-surface-card border border-border rounded-lg px-3 py-2 text-sm text-content focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" rows="5" placeholder="Enter banner message for this user's dashboard..."></textarea>
+            <p class="text-xs text-content-secondary mt-1">This will appear as a banner at the top of the user's dashboard.</p>
+        </div>
+
+        <div class="mb-4">
+            <label  class="block text-sm font-medium text-content mb-1.5">
+            Message Type
+                    </label>
+        <select name="banner_type" class="w-full bg-surface-card border border-border rounded-lg px-3 py-2 text-sm text-content focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary">
+                <option value="warning" selected> Warning</option>
+                <option value="success" > Success</option>
+                <option value="danger" > Danger</option>
+            </select>
+        </div>
+
+        <div class="mb-4 flex items-center gap-3">
+            <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" name="banner_enabled" value="1" class="sr-only peer" >
+                <div class="w-9 h-5 bg-surface-alt peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-border after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+            </label>
+            <span class="text-sm text-content">Enable banner on dashboard</span>
+        </div>
+
+        <input type="hidden" name="user_id" value="253">
+        <button type="submit" class="inline-flex items-center gap-1.5 bg-primary text-primary-foreground hover:bg-primary-hover rounded-lg px-4 py-2 text-sm font-medium transition-colors">
+            Save Banner
+        </button>
+    </form>
+        </div>
+        
+            </div>
+</div>
+
+
+<div x-data="{ open: false }"
+     @open-sendmailtooneusermodal.window="open = true"
+     x-show="open" x-cloak
+     class="fixed inset-0 z-[60] flex items-center justify-center p-4">
+    
+    <div x-show="open" x-transition.opacity class="absolute inset-0 bg-surface-overlay/60" @click="open = false"></div>
+    
+    <div x-show="open" x-transition class="relative w-full max-w-lg bg-surface-card rounded-2xl shadow-xl overflow-hidden">
+        
+                    <div class="px-6 py-4 border-b border-border flex items-center justify-between">
+                <h3 class="text-lg font-semibold text-content">Send Email</h3>
+                <button @click="open = false" class="text-content-muted hover:text-content transition-colors">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            </div>
+                
+        <div class="px-6 py-5">
+            <p class="text-sm text-content-secondary mb-4">This message will be sent to Irmaperalta</p>
+    <form method="post" action="/admin/dashboard/sendmailsingle">        <div class="mb-4">
+            <label  class="block text-sm font-medium text-content mb-1.5">
+            Subject
+                            <span class="text-danger">*</span>
+                    </label>
+        <input type="text" name="subject" class="w-full bg-surface-card border border-border rounded-lg px-3 py-2 text-sm text-content focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" placeholder="Subject" required>
+        </div>
+
+        <div class="mb-4">
+            <label  class="block text-sm font-medium text-content mb-1.5">
+            Message
+                            <span class="text-danger">*</span>
+                    </label>
+        <textarea placeholder="Type your message here" class="w-full bg-surface-card border border-border rounded-lg px-3 py-2 text-sm text-content focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" name="message" rows="8" required></textarea>
+        </div>
+
+        <input type="hidden" name="user_id" value="253">
+        <button type="submit" class="inline-flex items-center gap-1.5 bg-primary text-primary-foreground hover:bg-primary-hover rounded-lg px-4 py-2 text-sm font-medium transition-colors">
+            Send
+        </button>
+    </form>
+        </div>
+        
+            </div>
+</div>
+
+
+<div x-data="{ open: false }"
+     @open-tradingmodal.window="open = true"
+     x-show="open" x-cloak
+     class="fixed inset-0 z-[60] flex items-center justify-center p-4">
+    
+    <div x-show="open" x-transition.opacity class="absolute inset-0 bg-surface-overlay/60" @click="open = false"></div>
+    
+    <div x-show="open" x-transition class="relative w-full max-w-lg bg-surface-card rounded-2xl shadow-xl overflow-hidden">
+        
+                    <div class="px-6 py-4 border-b border-border flex items-center justify-between">
+                <h3 class="text-lg font-semibold text-content">Add Trading History for Irmaperalta </h3>
+                <button @click="open = false" class="text-content-muted hover:text-content transition-colors">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            </div>
+                
+        <div class="px-6 py-5">
+            <form role="form" method="post" action="/admin/dashboard/AddHistory">        <div class="mb-4">
+            <label  class="block text-sm font-medium text-content mb-1.5">
+            Select Investment Plan
+                    </label>
+        <select class="w-full bg-surface-card border border-border rounded-lg px-3 py-2 text-sm text-content focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" name="plan">
+                <option value="" selected disabled>Select Plan</option>
+                                    <option value="Elite Plan">Elite Plan</option>
+                                    <option value="Premium Plan">Premium Plan</option>
+                                    <option value="Basic Plan">Basic Plan</option>
+                                    <option value="Starter Plan">Starter Plan</option>
+                            </select>
+        </div>
+
+        <div class="mb-4">
+            <label  class="block text-sm font-medium text-content mb-1.5">
+            Amount
+                    </label>
+        <input type="number" name="amount" step="any" min="0" class="w-full bg-surface-card border border-border rounded-lg px-3 py-2 text-sm text-content focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary amount-input">
+        </div>
+
+        <div class="mb-4">
+            <label  class="block text-sm font-medium text-content mb-1.5">
+            Type
+                    </label>
+        <select class="w-full bg-surface-card border border-border rounded-lg px-3 py-2 text-sm text-content focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" name="type">
+                <option value="" selected disabled>Select type</option>
+                <option value="Bonus">Bonus</option>
+                <option value="ROI">ROI</option>
+            </select>
+        </div>
+
+        <input type="hidden" name="user_id" value="253">
+        <button type="submit" class="inline-flex items-center gap-1.5 bg-primary text-primary-foreground hover:bg-primary-hover rounded-lg px-4 py-2 text-sm font-medium transition-colors">
+            Add History
+        </button>
+    </form>
+        </div>
+        
+            </div>
+</div>
+
+
+<div x-data="{ open: false }"
+     @open-edituser.window="open = true"
+     x-show="open" x-cloak
+     class="fixed inset-0 z-[60] flex items-center justify-center p-4">
+    
+    <div x-show="open" x-transition.opacity class="absolute inset-0 bg-surface-overlay/60" @click="open = false"></div>
+    
+    <div x-show="open" x-transition class="relative w-full max-w-xl bg-surface-card rounded-2xl shadow-xl overflow-hidden">
+        
+                    <div class="px-6 py-4 border-b border-border flex items-center justify-between">
+                <h3 class="text-lg font-semibold text-content">Edit Irmaperalta details.</h3>
+                <button @click="open = false" class="text-content-muted hover:text-content transition-colors">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            </div>
+                
+        <div class="px-6 py-5">
+            <form role="form" method="post" action="/admin/dashboard/edituser">
+        <div class="mb-4">
+            <label  class="block text-sm font-medium text-content mb-1.5">
+            Username
+                            <span class="text-danger">*</span>
+                    </label>
+        <input class="w-full bg-surface-card border border-border rounded-lg px-3 py-2 text-sm text-content focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" id="editUsernameInput" value="" placeholder="Loading..." type="text" name="username" required>
+            <p class="text-xs text-content-muted mt-1">Note: same username should be use in the referral link.</p>
+        </div>
+
+        <div class="mb-4">
+            <label  class="block text-sm font-medium text-content mb-1.5">
+            Fullname
+                            <span class="text-danger">*</span>
+                    </label>
+        <input class="w-full bg-surface-card border border-border rounded-lg px-3 py-2 text-sm text-content focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" value="" placeholder="Loading..." type="text" name="name" required>
+        </div>
+
+        <div class="mb-4">
+            <label  class="block text-sm font-medium text-content mb-1.5">
+            Email
+                            <span class="text-danger">*</span>
+                    </label>
+        <input class="w-full bg-surface-card border border-border rounded-lg px-3 py-2 text-sm text-content focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" value="zirma75.iz@gmail.com" type="text" name="email" required>
+        </div>
+
+        <div class="mb-4">
+            <label  class="block text-sm font-medium text-content mb-1.5">
+            Phone Number
+                            <span class="text-danger">*</span>
+                    </label>
+        <input class="w-full bg-surface-card border border-border rounded-lg px-3 py-2 text-sm text-content focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" value="" type="text" name="phone" required>
+        </div>
+
+        <div class="mb-4">
+            <label  class="block text-sm font-medium text-content mb-1.5">
+            Country
+                    </label>
+        <input class="w-full bg-surface-card border border-border rounded-lg px-3 py-2 text-sm text-content focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" value="Mexico" type="text" name="country">
+        </div>
+
+        <div class="mb-4">
+            <label  for="win_rate"  class="block text-sm font-medium text-content mb-1.5">
+            Win Rate (%)
+                    </label>
+        <input type="number" name="win_rate" id="win_rate" class="w-full bg-surface-card border border-border rounded-lg px-3 py-2 text-sm text-content focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" value="" placeholder="Loading..." min="0" max="100">
+        </div>
+
+        <div class="mb-4">
+            <label  class="block text-sm font-medium text-content mb-1.5">
+            Referral link
+                            <span class="text-danger">*</span>
+                    </label>
+        <input class="w-full bg-surface-card border border-border rounded-lg px-3 py-2 text-sm text-content focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" value="http://localhost/traderealworld/ref/Peralta2026" type="text" name="ref_link" required>
+        </div>
+        <input type="hidden" name="user_id" value="253">
+        <button type="submit" class="inline-flex items-center gap-1.5 bg-primary text-primary-foreground hover:bg-primary-hover rounded-lg px-4 py-2 text-sm font-medium transition-colors">
+            Update
+        </button>
+    </form>
+        </div>
+        
+            </div>
+</div>
+
+
+<div x-data="{ open: false }"
+     @open-resetpswdmodal.window="open = true"
+     x-show="open" x-cloak
+     class="fixed inset-0 z-[60] flex items-center justify-center p-4">
+    
+    <div x-show="open" x-transition.opacity class="absolute inset-0 bg-surface-overlay/60" @click="open = false"></div>
+    
+    <div x-show="open" x-transition class="relative w-full max-w-lg bg-surface-card rounded-2xl shadow-xl overflow-hidden">
+        
+                    <div class="px-6 py-4 border-b border-border flex items-center justify-between">
+                <h3 class="text-lg font-semibold text-content">Reset Password</h3>
+                <button @click="open = false" class="text-content-muted hover:text-content transition-colors">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            </div>
+                
+        <div class="px-6 py-5">
+            <p class="text-sm text-content-secondary mb-4">Are you sure you want to reset password for Irmaperalta to <span class="text-primary font-semibold">user01236</span></p>
+    <a class="inline-flex items-center gap-1.5 bg-primary text-primary-foreground hover:bg-primary-hover rounded-lg px-4 py-2 text-sm font-medium transition-colors" href="/admin/dashboard/resetpswd/253">Reset Now</a>
+        </div>
+        
+            </div>
+</div>
+
+
+<div x-data="{ open: false }"
+     @open-switchusermodal.window="open = true"
+     x-show="open" x-cloak
+     class="fixed inset-0 z-[60] flex items-center justify-center p-4">
+    
+    <div x-show="open" x-transition.opacity class="absolute inset-0 bg-surface-overlay/60" @click="open = false"></div>
+    
+    <div x-show="open" x-transition class="relative w-full max-w-lg bg-surface-card rounded-2xl shadow-xl overflow-hidden">
+        
+                    <div class="px-6 py-4 border-b border-border flex items-center justify-between">
+                <h3 class="text-lg font-semibold text-content">You are about to login as Irmaperalta.</h3>
+                <button @click="open = false" class="text-content-muted hover:text-content transition-colors">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            </div>
+                
+        <div class="px-6 py-5">
+            <a class="inline-flex items-center gap-1.5 bg-success text-content-inverse hover:bg-success/80 rounded-lg px-4 py-2 text-sm font-medium transition-colors" href="/admin/dashboard/switchuser/253">Proceed</a>
+        </div>
+        
+            </div>
+</div>
+
+
+<div x-data="{ open: false }"
+     @open-clearacctmodal.window="open = true"
+     x-show="open" x-cloak
+     class="fixed inset-0 z-[60] flex items-center justify-center p-4">
+    
+    <div x-show="open" x-transition.opacity class="absolute inset-0 bg-surface-overlay/60" @click="open = false"></div>
+    
+    <div x-show="open" x-transition class="relative w-full max-w-lg bg-surface-card rounded-2xl shadow-xl overflow-hidden">
+        
+                    <div class="px-6 py-4 border-b border-border flex items-center justify-between">
+                <h3 class="text-lg font-semibold text-content">Clear Account</h3>
+                <button @click="open = false" class="text-content-muted hover:text-content transition-colors">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            </div>
+                
+        <div class="px-6 py-5">
+            <p class="text-sm text-content-secondary mb-4">You are clearing account for Irmaperalta to $0.00</p>
+    <a class="inline-flex items-center gap-1.5 bg-primary text-primary-foreground hover:bg-primary-hover rounded-lg px-4 py-2 text-sm font-medium transition-colors" href="/admin/dashboard/clearacct/253">Proceed</a>
+        </div>
+        
+            </div>
+</div>
+
+
+<div x-data="{ open: false }"
+     @open-deletemodal.window="open = true"
+     x-show="open" x-cloak
+     class="fixed inset-0 z-[60] flex items-center justify-center p-4">
+    
+    <div x-show="open" x-transition.opacity class="absolute inset-0 bg-surface-overlay/60" @click="open = false"></div>
+    
+    <div x-show="open" x-transition class="relative w-full max-w-lg bg-surface-card rounded-2xl shadow-xl overflow-hidden">
+        
+                    <div class="px-6 py-4 border-b border-border flex items-center justify-between">
+                <h3 class="text-lg font-semibold text-content">Delete User</h3>
+                <button @click="open = false" class="text-content-muted hover:text-content transition-colors">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            </div>
+                
+        <div class="px-6 py-5">
+            <p class="text-sm text-content-secondary mb-4">Are you sure you want to delete Irmaperalta Account? Everything associated with this account will be loss.</p>
+    <a class="inline-flex items-center gap-1.5 bg-danger text-content-inverse hover:bg-danger/80 rounded-lg px-4 py-2 text-sm font-medium transition-colors" href="/admin/dashboard/delsystemuser/253">Yes i'm sure</a>
+        </div>
+        
+            </div>
+</div>
+
+        </div>
+
+        
+        <footer class="border-t border-border py-6 px-6 mt-8">
+            <p class="text-sm text-content-muted text-center">
+                &copy; 2026 Digital-grownt. All rights reserved.
+            </p>
+        </footer>
+    </main>
+
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.13.8/b-2.4.2/b-html5-2.4.2/r-2.5.0/datatables.min.css"/>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.13.8/b-2.4.2/b-html5-2.4.2/r-2.5.0/datatables.min.js"></script>
+
+    
+    <style>
+        .dataTables_wrapper { @apply  text-sm text-content-secondary; }
+        .dataTables_wrapper .dataTables_length select,
+        .dataTables_wrapper .dataTables_filter input {
+            @apply  bg-surface-card border border-border rounded-lg px-3 py-1.5 text-sm text-content focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            @apply  !bg-transparent !text-content-secondary !border-border hover:!bg-surface-alt hover:!text-content rounded-lg !px-3 !py-1 !ml-1 text-sm;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+            @apply  !bg-primary !text-primary-foreground !border-primary hover:!bg-primary-hover;
+        }
+        .dataTables_wrapper .dataTables_info { @apply  text-content-muted text-xs; }
+        table.dataTable { @apply  w-full; }
+        table.dataTable thead th { @apply  bg-surface-alt px-4 py-3 text-xs font-medium text-content-muted uppercase tracking-wide text-left border-b border-border; }
+        table.dataTable tbody td { @apply  px-4 py-3.5 text-sm text-content-secondary border-b border-border; }
+        table.dataTable tbody tr:hover { @apply  bg-surface-alt/50; }
+        table.dataTable tbody tr:last-child td { @apply  border-0; }
+    </style>
+
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script>
+document.getElementById('editUsernameInput')?.addEventListener('keypress', function(e) {
+    if (e.key === ' ') e.preventDefault();
+});
+
+// Prevent non-numeric input on amount fields (blocks e, E, +, -, etc.)
+document.querySelectorAll('.amount-input').forEach(function(input) {
+    input.addEventListener('keydown', function(e) {
+        if (['e', 'E', '+', '-'].includes(e.key)) {
+            e.preventDefault();
+        }
+    });
+    input.addEventListener('paste', function(e) {
+        var pasted = (e.clipboardData || window.clipboardData).getData('text');
+        if (!/^\d*\.?\d*$/.test(pasted)) {
+            e.preventDefault();
+        }
+    });
+});
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="../js/convert/config.js"></script>
+<script src="../js/convert/auth.js"></script>
+<script src="../js/admin/user-details.js"></script>
+
+</body>
+</html>

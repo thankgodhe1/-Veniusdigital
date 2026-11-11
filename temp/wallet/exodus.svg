@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns:xodm="http://www.corel.com/coreldraw/odm/2003" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 2500 2500" style="enable-background:new 0 0 2500 2500;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill-rule:evenodd;clip-rule:evenodd;fill:url(#SVGID_1_);}
+</style>
+<g id="Layer_x0020_1">
+	
+		<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="2252.8638" y1="279.9229" x2="70.8636" y2="2387.9229" gradientTransform="matrix(1 0 0 -1 0 2499.2756)">
+		<stop offset="0" style="stop-color:#2964F4"></stop>
+		<stop offset="0.3373" style="stop-color:#6493F1"></stop>
+		<stop offset="0.4784" style="stop-color:#9FC3ED"></stop>
+		<stop offset="0.8588" style="stop-color:#8B63FC"></stop>
+		<stop offset="1" style="stop-color:#8C64FC"></stop>
+	</linearGradient>
+	<path class="st0" d="M1084,0L0,698l177,553L0,1804l1086,696v-390l-695-444l82-254h611v-323H470l-80-254l693-444V1L1084,0z M1416,0   v390l695,444l-82,254h-614v323h614l82,254l-695,444v390l1084-696l-177-553l177-553L1416-1V0z"></path>
+</g>
+</svg>

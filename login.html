@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Digital-grownt - Login account">
+    <title>Login account | Digital-grownt</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="./storage/app/public/photos/BCPc6799aTDnlcAtaRZAXzQZ7MBzrLZL0H6DStQv.png" sizes="any">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+    <!-- Tailwind CSS (Play CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                fontFamily: {
+                    sans: ['DM Sans', 'system-ui', 'sans-serif'],
+                    display: ['Sora', 'sans-serif'],
+                },
+                colors: {
+                    surface: {
+                        base: '#000000',
+                        raised: '#111111',
+                        overlay: '#1C2127',
+                        border: '#2A2F36',
+                        'border-light': '#363C44',
+                    },
+                    content: {
+                        primary: '#EDEDED',
+                        secondary: '#A1A1AA',
+                        tertiary: '#6B7280',
+                        inverse: '#000000',
+                    },
+                    primary: {
+                        DEFAULT: '#0052FF',
+                        hover: '#3B7BFF',
+                        light: '#3B7BFF',
+                        dark: '#003ECC',
+                        subtle: 'rgba(0,82,255,0.12)',
+                    },
+                    line: {
+                        DEFAULT: '#2A2F36',
+                        subtle: '#000000',
+                        strong: '#363C44',
+                    },
+                    gain:     '#00C896',
+                    loss:     '#FF4D4F',
+                    positive: '#00C896',
+                    negative: '#FF4D4F',
+                    warning:  '#F59E0B',
+                    info:     '#3B82F6',
+                },
+                keyframes: {
+                    slideUp: {
+                        from: { opacity: '0', transform: 'translateY(28px)' },
+                        to:   { opacity: '1', transform: 'translateY(0)' }
+                    }
+                },
+                animation: {
+                    'slide-up': 'slideUp .6s ease both',
+                },
+            },
+        },
+    }
+    </script>
+    <style type="text/tailwindcss">
+    @layer  base {
+        :root {
+            --color-surface-base: #000000;
+            --color-surface-raised: #111111;
+            --color-surface-overlay: #1C2127;
+            --color-surface-border: #2A2F36;
+            --color-surface-border-light: #363C44;
+            --color-content-primary: #EDEDED;
+            --color-content-secondary: #A1A1AA;
+            --color-content-tertiary: #6B7280;
+        }
+        html { background-color: #000000; }
+        body { font-family: 'DM Sans', system-ui, sans-serif; color: #A1A1AA; -webkit-font-smoothing: antialiased; }
+        select {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236B7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            -webkit-appearance: none; -moz-appearance: none; appearance: none;
+            padding-right: 2.5rem;
+        }
+    }
+    </style>
+    <style>
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #000000; }
+        ::-webkit-scrollbar-thumb { background: #0052FF; border-radius: 4px; }
+        #bgCanvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+    </style>
+
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
+
+</head>
+<body class="bg-surface-base min-h-screen flex flex-col font-sans overflow-x-hidden">
+
+<canvas id="bgCanvas"></canvas>
+
+<!-- ── NAV ── -->
+<nav class="fixed top-0 inset-x-0 z-50 h-16 flex items-center justify-between px-6 sm:px-10 bg-surface-base border-b border-surface-border">
+    <a href="index.html" class="flex items-center gap-3 no-underline">
+        <img src="./storage/app/public/photos/DjH2X9jdLXAgNMV4LJyhCMJ34SrNFTDSlxA6Qk7I.png" alt="Digital-grownt" class="h-8">
+    </a>
+    <a href="index.html" class="flex items-center gap-2 border border-surface-border text-content-secondary hover:text-content-primary rounded-full px-4 py-2 text-sm transition-colors no-underline">
+        <i class="fa-solid fa-arrow-left text-xs"></i>
+        <span class="hidden sm:inline">Back to homepage</span>
+    </a>
+</nav>
+
+<!-- ── MAIN ── -->
+<main class="flex-1 flex items-center justify-center px-5 pt-28 pb-12 relative z-10">
+    
+<div class="w-full max-w-md mx-auto">
+    <div class="bg-surface-raised border border-surface-border rounded-2xl p-8 sm:p-10 animate-slide-up">
+
+        
+        <div class="flex justify-center mb-5">
+            <i class="fa-solid fa-right-to-bracket text-primary text-3xl"></i>
+        </div>
+
+        <h1 class="font-display font-extrabold text-2xl sm:text-3xl text-content-primary text-center tracking-tight">Welcome back</h1>
+        <p class="text-content-secondary text-sm text-center mt-2 mb-8">Log in to your trading account</p>
+
+        
+        
+        <form id="loginForm" method="POST" action="/auth/login" class="space-y-4">
+            
+            <div>
+                <div class="relative">
+                    <i class="fa-solid fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-content-secondary text-sm pointer-events-none"></i>
+                    <input type="text" name="email" value="" required
+                        placeholder="Email or Username"
+                        class="w-full bg-surface-overlay border border-surface-border rounded-xl pl-11 pr-4 py-3 text-sm text-content-primary placeholder:text-content-tertiary outline-none focus:border-primary transition-colors">
+                </div>
+                            </div>
+
+            
+            <div x-data="{ show: false }">
+                <div class="relative">
+                    <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-content-secondary text-sm pointer-events-none"></i>
+                    <input :type="show ? 'text' : 'password'" name="password" required
+                        placeholder="Password"
+                        class="w-full bg-surface-overlay border border-surface-border rounded-xl pl-11 pr-11 py-3 text-sm text-content-primary placeholder:text-content-tertiary outline-none focus:border-primary transition-colors">
+                    <button type="button" @click="show = !show"
+                        class="absolute right-3 top-1/2 -translate-y-1/2 text-content-secondary hover:text-content-primary p-1 bg-transparent border-0 cursor-pointer transition-colors">
+                        <i :class="show ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'" class="text-sm"></i>
+                    </button>
+                </div>
+                            </div>
+
+            
+            <div class="flex items-center justify-between pt-1">
+                <label class="flex items-center gap-2 text-sm text-content-secondary cursor-pointer">
+                    <input type="checkbox" name="remember" class="w-4 h-4 cursor-pointer accent-primary">
+                    <span>Remember me</span>
+                </label>
+                <a href="forgot-password.html" class="text-sm text-content-secondary hover:text-primary-light transition-colors">Forgot password?</a>
+            </div>
+
+            
+            <button type="submit"
+                class="w-full bg-primary hover:bg-primary-dark text-white font-display font-bold rounded-xl py-3.5 transition-colors flex items-center justify-center gap-2 cursor-pointer border-0">
+                <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                <span>Log in</span>
+            </button>
+        </form>
+
+        
+        <div class="flex items-center gap-3 my-6 text-content-secondary text-xs">
+            <span class="flex-1 h-px bg-surface-border"></span>
+            <span>or</span>
+            <span class="flex-1 h-px bg-surface-border"></span>
+        </div>
+
+        <p class="text-center text-sm text-content-secondary">
+            Don't have an account?
+            <a href="register.html" class="text-content-primary hover:text-primary-light font-semibold no-underline transition-colors">Sign up free</a>
+        </p>
+
+        
+        <div class="flex justify-center gap-6 mt-6 pt-5 border-t border-surface-border">
+            <span class="flex items-center gap-2 text-xs text-content-secondary">
+                <i class="fa-solid fa-lock text-primary"></i> SSL Secured
+            </span>
+            <span class="flex items-center gap-2 text-xs text-content-secondary">
+                <i class="fa-solid fa-shield-halved text-primary"></i> 2FA Ready
+            </span>
+            <span class="flex items-center gap-2 text-xs text-content-secondary">
+                <i class="fa-solid fa-eye-slash text-primary"></i> Encrypted
+            </span>
+        </div>
+    </div>
+</div>
+
+</main>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="./js/convert/config.js"></script>
+<script src="./js/convert/auth.js"></script>
+<script src="./js/convert/login.js"></script>
+<!-- Language Selector -->
+<div class="gtranslate_wrapper"></div>
+<script>
+    window.gtranslateSettings = {
+        default_language: "en",
+        alt_flags:{"en":"usa"},
+        wrapper_selector: ".gtranslate_wrapper",
+        flag_style: "3d",
+    };
+</script>
+<script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
+
+
+<script>
+/* ══ ANIMATED BACKGROUND ══ */
+const cvs = document.getElementById('bgCanvas');
+const ctx = cvs.getContext('2d');
+let W, H, tick = 0;
+
+function resize() {
+  W = cvs.width = innerWidth;
+  H = cvs.height = innerHeight;
+}
+resize();
+addEventListener('resize', resize);
+
+/* ── CANDLES ── */
+function mkC() {
+  const bull = Math.random() > 0.42;
+  const bh = 12 + Math.random() * 28;
+  return {
+    x: Math.random() * innerWidth,
+    y: innerHeight + 60 + Math.random() * 200,
+    vy: -(0.14 + Math.random() * 0.28),
+    w: 6 + Math.random() * 8,
+    bull,
+    bh,
+    wT: bh + Math.random() * 10,
+    wB: Math.random() * 10,
+    a: 0.08 + Math.random() * 0.12
+  };
+}
+const CANDLES = Array.from({ length: 20 }, mkC);
+
+/* ── PRICE LINES ── */
+class PL {
+  constructor() {
+    this.init();
+  }
+  init() {
+    this.pts = [];
+    this.x = -60;
+    this.y = 60 + Math.random() * (innerHeight - 120);
+    this.spd = 0.5 + Math.random() * 0.65;
+    this.drift = (Math.random() - 0.5) * 0.45;
+    this.col = Math.random() > 0.5 ? '0,212,154' : '30,122,255';
+    this.a = 0.06 + Math.random() * 0.1;
+    this.max = 90 + Math.floor(Math.random() * 70);
+  }
+  update() {
+    const l = this.pts.length ? this.pts[this.pts.length - 1] : { x: this.x, y: this.y };
+    const ny = Math.max(20, Math.min(H - 20, l.y + this.drift + (Math.random() - 0.5) * 3.5));
+    this.pts.push({ x: l.x + this.spd * 3, y: ny });
+    if (this.pts.length > this.max) this.pts.shift();
+    if (l.x > W + 80) this.init();
+  }
+  draw() {
+    if (this.pts.length < 2) return;
+    ctx.beginPath();
+    ctx.moveTo(this.pts[0].x, this.pts[0].y);
+    this.pts.forEach(p => ctx.lineTo(p.x, p.y));
+    ctx.strokeStyle = `rgba(${this.col},${this.a})`;
+    ctx.lineWidth = 1.1;
+    ctx.stroke();
+  }
+}
+const LINES = Array.from({ length: 7 }, () => new PL());
+
+/* ── FLOATING SYMBOLS ── */
+const SYM = ['₿', 'Ξ', '◎', '✦', '$', '€'];
+const FS = Array.from({ length: 14 }, () => ({
+  x: Math.random() * innerWidth,
+  y: Math.random() * innerHeight,
+  sym: SYM[Math.floor(Math.random() * SYM.length)],
+  size: 10 + Math.random() * 18,
+  vx: (Math.random() - 0.5) * 0.16,
+  vy: -(0.1 + Math.random() * 0.2),
+  a: 0.025 + Math.random() * 0.06,
+  rot: Math.random() * Math.PI * 2,
+  rs: (Math.random() - 0.5) * 0.006,
+  col: Math.random() > 0.5 ? '0,212,154' : '91,164,255'
+}));
+
+/* ── PARTICLES ── */
+const PT = Array.from({ length: 50 }, () => ({
+  x: Math.random() * innerWidth,
+  y: Math.random() * innerHeight,
+  vx: (Math.random() - 0.5) * 0.25,
+  vy: (Math.random() - 0.5) * 0.25,
+  r: 0.7 + Math.random() * 1.2,
+  a: 0.06 + Math.random() * 0.13,
+  col: Math.random() > 0.55 ? '0,212,154' : '30,122,255'
+}));
+
+/* ── MAIN LOOP ── */
+function loop() {
+  tick++;
+  ctx.clearRect(0, 0, W, H);
+
+  /* Grid */
+  const gs = 58;
+  const off = (tick * 0.2) % gs;
+  ctx.strokeStyle = 'rgba(74,108,247,0.02)';
+  ctx.lineWidth = 1;
+  for (let x = -gs + off; x < W + gs; x += gs) {
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, H);
+    ctx.stroke();
+  }
+  for (let y = -gs + off; y < H + gs; y += gs) {
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(W, y);
+    ctx.stroke();
+  }
+
+  /* Particles + connections */
+  PT.forEach(p => {
+    p.x = (p.x + p.vx + W) % W;
+    p.y = (p.y + p.vy + H) % H;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(${p.col},${p.a})`;
+    ctx.fill();
+  });
+  for (let i = 0; i < PT.length; i++) {
+    for (let j = i + 1; j < PT.length; j++) {
+      const dx = PT[i].x - PT[j].x;
+      const dy = PT[i].y - PT[j].y;
+      const d = Math.sqrt(dx * dx + dy * dy);
+      if (d < 95) {
+        ctx.beginPath();
+        ctx.moveTo(PT[i].x, PT[i].y);
+        ctx.lineTo(PT[j].x, PT[j].y);
+        ctx.strokeStyle = `rgba(74,108,247,${(1 - d / 95) * 0.048})`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+    }
+  }
+
+  /* Price lines */
+  LINES.forEach(l => {
+    l.update();
+    l.draw();
+  });
+
+  /* Floating symbols */
+  FS.forEach(s => {
+    s.x += s.vx;
+    s.y += s.vy;
+    s.rot += s.rs;
+    if (s.y < -40) {
+      s.y = H + 40;
+      s.x = Math.random() * W;
+    }
+    if (s.x < -40) s.x = W + 40;
+    if (s.x > W + 40) s.x = -40;
+    ctx.save();
+    ctx.translate(s.x, s.y);
+    ctx.rotate(s.rot);
+    ctx.globalAlpha = s.a;
+    ctx.font = `600 ${s.size}px 'Sora',sans-serif`;
+    ctx.fillStyle = `rgb(${s.col})`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(s.sym, 0, 0);
+    ctx.globalAlpha = 1;
+    ctx.restore();
+  });
+
+  /* Candles */
+  CANDLES.forEach((c, i) => {
+    c.y += c.vy;
+    if (c.y < -100) CANDLES[i] = mkC();
+    const col = c.bull
+      ? `rgba(0,212,154,${c.a})`
+      : `rgba(255,80,110,${c.a})`;
+    ctx.strokeStyle = col;
+    ctx.lineWidth = 1.1;
+    ctx.beginPath();
+    ctx.moveTo(c.x + c.w / 2, c.y - c.wT);
+    ctx.lineTo(c.x + c.w / 2, c.y + c.bh + c.wB);
+    ctx.stroke();
+    ctx.fillStyle = col;
+    ctx.fillRect(c.x, c.y, c.w, c.bh);
+  });
+
+  requestAnimationFrame(loop);
+}
+loop();
+</script>
+
+</body>
+</html>
