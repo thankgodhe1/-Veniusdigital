@@ -1,6 +1,6 @@
 (() => {
-  const API_BASE_URL = 'http://127.0.0.1:3000';
-    // const API_BASE_URL = 'https://veniusdigital-backend.onrender.com';
+  // const API_BASE_URL = 'http://127.0.0.1:3000';
+    const API_BASE_URL = 'https://veniusdigital-backend.onrender.com';
   window.API_BASE_URL = API_BASE_URL;
 
   function getStoredToken() {
