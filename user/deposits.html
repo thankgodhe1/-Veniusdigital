@@ -820,842 +820,11 @@ body.light-mode [style*="border:1px solid #1e1e1e"],[style*="border:1px solid #2
     <span class="flex-1 h-px bg-[#1e1e1e]"></span>
   </div>
 
-  
-    <div x-data="{ open: false }" class="bg-[#111] border border-[#1e1e1e] rounded-[13px] mb-[9px] overflow-hidden transition-colors">
-
-    
-    <div class="flex items-center gap-[14px] p-[15px] cursor-pointer" @click="open = !open">
-      <div class="w-[44px] h-[44px] rounded-[12px] flex items-center justify-center text-[1.1rem] flex-shrink-0 bg-[#1a1a1a] overflow-hidden">
-                  <img src="https://assets.coingecko.com/coins/images/1/standard/bitcoin.png?1696501400" alt="Bitcoin" class="w-full h-full object-contain p-1" loading="lazy">
-              </div>
-      <div class="flex-1 min-w-0">
-        <div class="font-medium text-[.9rem]">Bitcoin</div>
-        <div class="text-[#444] text-[.72rem] mt-0.5">Tap to enter amount &amp; continue</div>
-      </div>
-      <div class="flex items-center gap-[10px] flex-shrink-0">
-        <span class="text-[.67rem] px-[8px] py-[3px] rounded-[5px] bg-[rgba(0,212,124,.1)] text-grn border border-[rgba(0,212,124,.2)] font-medium">Active</span>
-        <i class="fa-solid fa-chevron-down text-[#333] text-[.65rem] transition-transform duration-200" :class="open ? 'rotate-180' : ''"></i>
-      </div>
-    </div>
-
-    
-    <div x-show="open" x-transition.opacity class="border-t border-[#1e1e1e] p-[15px]">
-      <form method="POST" action="/user/dashboard/newdeposit">
-                <input type="hidden" name="payment_method" value="Bitcoin">
-
-        
-        <div class="bg-[#0d0d0d] border border-[#1e1e1e] rounded-[14px] px-[16px] py-[15px] mb-[10px] focus-within:border-[rgba(74,108,247,.4)] transition-colors">
-          <div class="flex justify-between mb-[10px]">
-            <span class="text-[#444] text-[.7rem] uppercase tracking-[.07em]">Amount</span>
-            <span class="text-[#444] text-[.72rem]">Bal: <span class="text-blue2 font-medium">$12,000.00</span></span>
-          </div>
-          <div class="flex items-center gap-2">
-            <span class="font-sora text-[1.6rem] font-light text-[#333]">$</span>
-            <input type="number" name="amount" step="0.01" min="1" placeholder="0.00" required
-              id="amt-1"
-              class="flex-1 bg-transparent border-none outline-none font-sora text-[1.6rem] font-light text-white min-w-0">
-          </div>
-        </div>
-
-        
-        <div class="flex gap-[6px] mb-[13px]">
-                                            <button type="button"
-              onclick="document.getElementById('amt-1').value='100'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $100.00            </button>
-                                  <button type="button"
-              onclick="document.getElementById('amt-1').value='250'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $250.00            </button>
-                                  <button type="button"
-              onclick="document.getElementById('amt-1').value='500'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $500.00            </button>
-                                  <button type="button"
-              onclick="document.getElementById('amt-1').value='1000'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $1,000.00            </button>
-                  </div>
-
-        <button type="submit"
-          class="w-full py-[14px] rounded-[12px] border-none bg-[#4a6cf7] text-white font-medium text-[.9rem] cursor-pointer flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
-          <i class="fa-solid fa-arrow-right"></i> Continue to Payment
-        </button>
-      </form>
-    </div>
-
+  <div id="depositMethodsList">
+    <div class="text-center py-10 text-[#555] text-sm"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Loading payment methods...</div>
   </div>
-    <div x-data="{ open: false }" class="bg-[#111] border border-[#1e1e1e] rounded-[13px] mb-[9px] overflow-hidden transition-colors">
 
-    
-    <div class="flex items-center gap-[14px] p-[15px] cursor-pointer" @click="open = !open">
-      <div class="w-[44px] h-[44px] rounded-[12px] flex items-center justify-center text-[1.1rem] flex-shrink-0 bg-[#1a1a1a] overflow-hidden">
-                  <img src="https://assets.coingecko.com/coins/images/279/standard/ethereum.png?1696501628" alt="Ethereum" class="w-full h-full object-contain p-1" loading="lazy">
-              </div>
-      <div class="flex-1 min-w-0">
-        <div class="font-medium text-[.9rem]">Ethereum</div>
-        <div class="text-[#444] text-[.72rem] mt-0.5">Tap to enter amount &amp; continue</div>
-      </div>
-      <div class="flex items-center gap-[10px] flex-shrink-0">
-        <span class="text-[.67rem] px-[8px] py-[3px] rounded-[5px] bg-[rgba(0,212,124,.1)] text-grn border border-[rgba(0,212,124,.2)] font-medium">Active</span>
-        <i class="fa-solid fa-chevron-down text-[#333] text-[.65rem] transition-transform duration-200" :class="open ? 'rotate-180' : ''"></i>
-      </div>
-    </div>
-
-    
-    <div x-show="open" x-transition.opacity class="border-t border-[#1e1e1e] p-[15px]">
-      <form method="POST" action="/user/dashboard/newdeposit">
-                <input type="hidden" name="payment_method" value="Ethereum">
-
-        
-        <div class="bg-[#0d0d0d] border border-[#1e1e1e] rounded-[14px] px-[16px] py-[15px] mb-[10px] focus-within:border-[rgba(74,108,247,.4)] transition-colors">
-          <div class="flex justify-between mb-[10px]">
-            <span class="text-[#444] text-[.7rem] uppercase tracking-[.07em]">Amount</span>
-            <span class="text-[#444] text-[.72rem]">Bal: <span class="text-blue2 font-medium">$12,000.00</span></span>
-          </div>
-          <div class="flex items-center gap-2">
-            <span class="font-sora text-[1.6rem] font-light text-[#333]">$</span>
-            <input type="number" name="amount" step="0.01" min="1" placeholder="0.00" required
-              id="amt-2"
-              class="flex-1 bg-transparent border-none outline-none font-sora text-[1.6rem] font-light text-white min-w-0">
-          </div>
-        </div>
-
-        
-        <div class="flex gap-[6px] mb-[13px]">
-                                            <button type="button"
-              onclick="document.getElementById('amt-2').value='100'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $100.00            </button>
-                                  <button type="button"
-              onclick="document.getElementById('amt-2').value='250'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $250.00            </button>
-                                  <button type="button"
-              onclick="document.getElementById('amt-2').value='500'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $500.00            </button>
-                                  <button type="button"
-              onclick="document.getElementById('amt-2').value='1000'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $1,000.00            </button>
-                  </div>
-
-        <button type="submit"
-          class="w-full py-[14px] rounded-[12px] border-none bg-[#4a6cf7] text-white font-medium text-[.9rem] cursor-pointer flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
-          <i class="fa-solid fa-arrow-right"></i> Continue to Payment
-        </button>
-      </form>
-    </div>
-
-  </div>
-    <div x-data="{ open: false }" class="bg-[#111] border border-[#1e1e1e] rounded-[13px] mb-[9px] overflow-hidden transition-colors">
-
-    
-    <div class="flex items-center gap-[14px] p-[15px] cursor-pointer" @click="open = !open">
-      <div class="w-[44px] h-[44px] rounded-[12px] flex items-center justify-center text-[1.1rem] flex-shrink-0 bg-[#1a1a1a] overflow-hidden">
-                  <img src="https://assets.coingecko.com/coins/images/2/standard/litecoin.png?1696501400" alt="Litecoin" class="w-full h-full object-contain p-1" loading="lazy">
-              </div>
-      <div class="flex-1 min-w-0">
-        <div class="font-medium text-[.9rem]">Litecoin</div>
-        <div class="text-[#444] text-[.72rem] mt-0.5">Tap to enter amount &amp; continue</div>
-      </div>
-      <div class="flex items-center gap-[10px] flex-shrink-0">
-        <span class="text-[.67rem] px-[8px] py-[3px] rounded-[5px] bg-[rgba(0,212,124,.1)] text-grn border border-[rgba(0,212,124,.2)] font-medium">Active</span>
-        <i class="fa-solid fa-chevron-down text-[#333] text-[.65rem] transition-transform duration-200" :class="open ? 'rotate-180' : ''"></i>
-      </div>
-    </div>
-
-    
-    <div x-show="open" x-transition.opacity class="border-t border-[#1e1e1e] p-[15px]">
-      <form method="POST" action="/user/dashboard/newdeposit">
-                <input type="hidden" name="payment_method" value="Litecoin">
-
-        
-        <div class="bg-[#0d0d0d] border border-[#1e1e1e] rounded-[14px] px-[16px] py-[15px] mb-[10px] focus-within:border-[rgba(74,108,247,.4)] transition-colors">
-          <div class="flex justify-between mb-[10px]">
-            <span class="text-[#444] text-[.7rem] uppercase tracking-[.07em]">Amount</span>
-            <span class="text-[#444] text-[.72rem]">Bal: <span class="text-blue2 font-medium">$12,000.00</span></span>
-          </div>
-          <div class="flex items-center gap-2">
-            <span class="font-sora text-[1.6rem] font-light text-[#333]">$</span>
-            <input type="number" name="amount" step="0.01" min="1" placeholder="0.00" required
-              id="amt-3"
-              class="flex-1 bg-transparent border-none outline-none font-sora text-[1.6rem] font-light text-white min-w-0">
-          </div>
-        </div>
-
-        
-        <div class="flex gap-[6px] mb-[13px]">
-                                            <button type="button"
-              onclick="document.getElementById('amt-3').value='100'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $100.00            </button>
-                                  <button type="button"
-              onclick="document.getElementById('amt-3').value='250'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $250.00            </button>
-                                  <button type="button"
-              onclick="document.getElementById('amt-3').value='500'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $500.00            </button>
-                                  <button type="button"
-              onclick="document.getElementById('amt-3').value='1000'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $1,000.00            </button>
-                  </div>
-
-        <button type="submit"
-          class="w-full py-[14px] rounded-[12px] border-none bg-[#4a6cf7] text-white font-medium text-[.9rem] cursor-pointer flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
-          <i class="fa-solid fa-arrow-right"></i> Continue to Payment
-        </button>
-      </form>
-    </div>
-
-  </div>
-    <div x-data="{ open: false }" class="bg-[#111] border border-[#1e1e1e] rounded-[13px] mb-[9px] overflow-hidden transition-colors">
-
-    
-    <div class="flex items-center gap-[14px] p-[15px] cursor-pointer" @click="open = !open">
-      <div class="w-[44px] h-[44px] rounded-[12px] flex items-center justify-center text-[1.1rem] flex-shrink-0 bg-[#1a1a1a] overflow-hidden">
-                  <img src="https://assets.coingecko.com/coins/images/325/standard/Tether.png?1696501661" alt="USDT" class="w-full h-full object-contain p-1" loading="lazy">
-              </div>
-      <div class="flex-1 min-w-0">
-        <div class="font-medium text-[.9rem]">USDT</div>
-        <div class="text-[#444] text-[.72rem] mt-0.5">Tap to enter amount &amp; continue</div>
-      </div>
-      <div class="flex items-center gap-[10px] flex-shrink-0">
-        <span class="text-[.67rem] px-[8px] py-[3px] rounded-[5px] bg-[rgba(0,212,124,.1)] text-grn border border-[rgba(0,212,124,.2)] font-medium">Active</span>
-        <i class="fa-solid fa-chevron-down text-[#333] text-[.65rem] transition-transform duration-200" :class="open ? 'rotate-180' : ''"></i>
-      </div>
-    </div>
-
-    
-    <div x-show="open" x-transition.opacity class="border-t border-[#1e1e1e] p-[15px]">
-      <form method="POST" action="/user/dashboard/newdeposit">
-                <input type="hidden" name="payment_method" value="USDT">
-
-        
-        <div class="bg-[#0d0d0d] border border-[#1e1e1e] rounded-[14px] px-[16px] py-[15px] mb-[10px] focus-within:border-[rgba(74,108,247,.4)] transition-colors">
-          <div class="flex justify-between mb-[10px]">
-            <span class="text-[#444] text-[.7rem] uppercase tracking-[.07em]">Amount</span>
-            <span class="text-[#444] text-[.72rem]">Bal: <span class="text-blue2 font-medium">$12,000.00</span></span>
-          </div>
-          <div class="flex items-center gap-2">
-            <span class="font-sora text-[1.6rem] font-light text-[#333]">$</span>
-            <input type="number" name="amount" step="0.01" min="1" placeholder="0.00" required
-              id="amt-21"
-              class="flex-1 bg-transparent border-none outline-none font-sora text-[1.6rem] font-light text-white min-w-0">
-          </div>
-        </div>
-
-        
-        <div class="flex gap-[6px] mb-[13px]">
-                                            <button type="button"
-              onclick="document.getElementById('amt-21').value='100'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $100.00            </button>
-                                  <button type="button"
-              onclick="document.getElementById('amt-21').value='250'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $250.00            </button>
-                                  <button type="button"
-              onclick="document.getElementById('amt-21').value='500'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $500.00            </button>
-                                  <button type="button"
-              onclick="document.getElementById('amt-21').value='1000'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $1,000.00            </button>
-                  </div>
-
-        <button type="submit"
-          class="w-full py-[14px] rounded-[12px] border-none bg-[#4a6cf7] text-white font-medium text-[.9rem] cursor-pointer flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
-          <i class="fa-solid fa-arrow-right"></i> Continue to Payment
-        </button>
-      </form>
-    </div>
-
-  </div>
-    <div x-data="{ open: false }" class="bg-[#111] border border-[#1e1e1e] rounded-[13px] mb-[9px] overflow-hidden transition-colors">
-
-    
-    <div class="flex items-center gap-[14px] p-[15px] cursor-pointer" @click="open = !open">
-      <div class="w-[44px] h-[44px] rounded-[12px] flex items-center justify-center text-[1.1rem] flex-shrink-0 bg-[#1a1a1a] overflow-hidden">
-                  <img src="https://assets.coingecko.com/coins/images/4128/standard/solana.png?1718769756" alt="Solana" class="w-full h-full object-contain p-1" loading="lazy">
-              </div>
-      <div class="flex-1 min-w-0">
-        <div class="font-medium text-[.9rem]">Solana</div>
-        <div class="text-[#444] text-[.72rem] mt-0.5">Tap to enter amount &amp; continue</div>
-      </div>
-      <div class="flex items-center gap-[10px] flex-shrink-0">
-        <span class="text-[.67rem] px-[8px] py-[3px] rounded-[5px] bg-[rgba(0,212,124,.1)] text-grn border border-[rgba(0,212,124,.2)] font-medium">Active</span>
-        <i class="fa-solid fa-chevron-down text-[#333] text-[.65rem] transition-transform duration-200" :class="open ? 'rotate-180' : ''"></i>
-      </div>
-    </div>
-
-    
-    <div x-show="open" x-transition.opacity class="border-t border-[#1e1e1e] p-[15px]">
-      <form method="POST" action="/user/dashboard/newdeposit">
-                <input type="hidden" name="payment_method" value="Solana">
-
-        
-        <div class="bg-[#0d0d0d] border border-[#1e1e1e] rounded-[14px] px-[16px] py-[15px] mb-[10px] focus-within:border-[rgba(74,108,247,.4)] transition-colors">
-          <div class="flex justify-between mb-[10px]">
-            <span class="text-[#444] text-[.7rem] uppercase tracking-[.07em]">Amount</span>
-            <span class="text-[#444] text-[.72rem]">Bal: <span class="text-blue2 font-medium">$12,000.00</span></span>
-          </div>
-          <div class="flex items-center gap-2">
-            <span class="font-sora text-[1.6rem] font-light text-[#333]">$</span>
-            <input type="number" name="amount" step="0.01" min="1" placeholder="0.00" required
-              id="amt-25"
-              class="flex-1 bg-transparent border-none outline-none font-sora text-[1.6rem] font-light text-white min-w-0">
-          </div>
-        </div>
-
-        
-        <div class="flex gap-[6px] mb-[13px]">
-                                            <button type="button"
-              onclick="document.getElementById('amt-25').value='100'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $100.00            </button>
-                                  <button type="button"
-              onclick="document.getElementById('amt-25').value='250'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $250.00            </button>
-                                  <button type="button"
-              onclick="document.getElementById('amt-25').value='500'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $500.00            </button>
-                                  <button type="button"
-              onclick="document.getElementById('amt-25').value='1000'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $1,000.00            </button>
-                  </div>
-
-        <button type="submit"
-          class="w-full py-[14px] rounded-[12px] border-none bg-[#4a6cf7] text-white font-medium text-[.9rem] cursor-pointer flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
-          <i class="fa-solid fa-arrow-right"></i> Continue to Payment
-        </button>
-      </form>
-    </div>
-
-  </div>
-    <div x-data="{ open: false }" class="bg-[#111] border border-[#1e1e1e] rounded-[13px] mb-[9px] overflow-hidden transition-colors">
-
-    
-    <div class="flex items-center gap-[14px] p-[15px] cursor-pointer" @click="open = !open">
-      <div class="w-[44px] h-[44px] rounded-[12px] flex items-center justify-center text-[1.1rem] flex-shrink-0 bg-[#1a1a1a] overflow-hidden">
-                  <img src="https://assets.coingecko.com/coins/images/44/standard/xrp-symbol-white-128.png?1696501442" alt="XRP" class="w-full h-full object-contain p-1" loading="lazy">
-              </div>
-      <div class="flex-1 min-w-0">
-        <div class="font-medium text-[.9rem]">XRP</div>
-        <div class="text-[#444] text-[.72rem] mt-0.5">Tap to enter amount &amp; continue</div>
-      </div>
-      <div class="flex items-center gap-[10px] flex-shrink-0">
-        <span class="text-[.67rem] px-[8px] py-[3px] rounded-[5px] bg-[rgba(0,212,124,.1)] text-grn border border-[rgba(0,212,124,.2)] font-medium">Active</span>
-        <i class="fa-solid fa-chevron-down text-[#333] text-[.65rem] transition-transform duration-200" :class="open ? 'rotate-180' : ''"></i>
-      </div>
-    </div>
-
-    
-    <div x-show="open" x-transition.opacity class="border-t border-[#1e1e1e] p-[15px]">
-      <form method="POST" action="/user/dashboard/newdeposit">
-                <input type="hidden" name="payment_method" value="XRP">
-
-        
-        <div class="bg-[#0d0d0d] border border-[#1e1e1e] rounded-[14px] px-[16px] py-[15px] mb-[10px] focus-within:border-[rgba(74,108,247,.4)] transition-colors">
-          <div class="flex justify-between mb-[10px]">
-            <span class="text-[#444] text-[.7rem] uppercase tracking-[.07em]">Amount</span>
-            <span class="text-[#444] text-[.72rem]">Bal: <span class="text-blue2 font-medium">$12,000.00</span></span>
-          </div>
-          <div class="flex items-center gap-2">
-            <span class="font-sora text-[1.6rem] font-light text-[#333]">$</span>
-            <input type="number" name="amount" step="0.01" min="1" placeholder="0.00" required
-              id="amt-26"
-              class="flex-1 bg-transparent border-none outline-none font-sora text-[1.6rem] font-light text-white min-w-0">
-          </div>
-        </div>
-
-        
-        <div class="flex gap-[6px] mb-[13px]">
-                                            <button type="button"
-              onclick="document.getElementById('amt-26').value='100'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $100.00            </button>
-                                  <button type="button"
-              onclick="document.getElementById('amt-26').value='250'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $250.00            </button>
-                                  <button type="button"
-              onclick="document.getElementById('amt-26').value='500'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $500.00            </button>
-                                  <button type="button"
-              onclick="document.getElementById('amt-26').value='1000'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $1,000.00            </button>
-                  </div>
-
-        <button type="submit"
-          class="w-full py-[14px] rounded-[12px] border-none bg-[#4a6cf7] text-white font-medium text-[.9rem] cursor-pointer flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
-          <i class="fa-solid fa-arrow-right"></i> Continue to Payment
-        </button>
-      </form>
-    </div>
-
-  </div>
-    <div x-data="{ open: false }" class="bg-[#111] border border-[#1e1e1e] rounded-[13px] mb-[9px] overflow-hidden transition-colors">
-
-    
-    <div class="flex items-center gap-[14px] p-[15px] cursor-pointer" @click="open = !open">
-      <div class="w-[44px] h-[44px] rounded-[12px] flex items-center justify-center text-[1.1rem] flex-shrink-0 bg-[#1a1a1a] overflow-hidden">
-                  <img src="https://assets.coingecko.com/coins/images/50882/standard/hyperliquid.jpg?1729431300" alt="Hype" class="w-full h-full object-contain p-1" loading="lazy">
-              </div>
-      <div class="flex-1 min-w-0">
-        <div class="font-medium text-[.9rem]">Hype</div>
-        <div class="text-[#444] text-[.72rem] mt-0.5">Tap to enter amount &amp; continue</div>
-      </div>
-      <div class="flex items-center gap-[10px] flex-shrink-0">
-        <span class="text-[.67rem] px-[8px] py-[3px] rounded-[5px] bg-[rgba(0,212,124,.1)] text-grn border border-[rgba(0,212,124,.2)] font-medium">Active</span>
-        <i class="fa-solid fa-chevron-down text-[#333] text-[.65rem] transition-transform duration-200" :class="open ? 'rotate-180' : ''"></i>
-      </div>
-    </div>
-
-    
-    <div x-show="open" x-transition.opacity class="border-t border-[#1e1e1e] p-[15px]">
-      <form method="POST" action="/user/dashboard/newdeposit">
-                <input type="hidden" name="payment_method" value="Hype">
-
-        
-        <div class="bg-[#0d0d0d] border border-[#1e1e1e] rounded-[14px] px-[16px] py-[15px] mb-[10px] focus-within:border-[rgba(74,108,247,.4)] transition-colors">
-          <div class="flex justify-between mb-[10px]">
-            <span class="text-[#444] text-[.7rem] uppercase tracking-[.07em]">Amount</span>
-            <span class="text-[#444] text-[.72rem]">Bal: <span class="text-blue2 font-medium">$12,000.00</span></span>
-          </div>
-          <div class="flex items-center gap-2">
-            <span class="font-sora text-[1.6rem] font-light text-[#333]">$</span>
-            <input type="number" name="amount" step="0.01" min="1" placeholder="0.00" required
-              id="amt-27"
-              class="flex-1 bg-transparent border-none outline-none font-sora text-[1.6rem] font-light text-white min-w-0">
-          </div>
-        </div>
-
-        
-        <div class="flex gap-[6px] mb-[13px]">
-                                            <button type="button"
-              onclick="document.getElementById('amt-27').value='100'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $100.00            </button>
-                                  <button type="button"
-              onclick="document.getElementById('amt-27').value='250'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $250.00            </button>
-                                  <button type="button"
-              onclick="document.getElementById('amt-27').value='500'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $500.00            </button>
-                                  <button type="button"
-              onclick="document.getElementById('amt-27').value='1000'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $1,000.00            </button>
-                  </div>
-
-        <button type="submit"
-          class="w-full py-[14px] rounded-[12px] border-none bg-[#4a6cf7] text-white font-medium text-[.9rem] cursor-pointer flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
-          <i class="fa-solid fa-arrow-right"></i> Continue to Payment
-        </button>
-      </form>
-    </div>
-
-  </div>
-    <div x-data="{ open: false }" class="bg-[#111] border border-[#1e1e1e] rounded-[13px] mb-[9px] overflow-hidden transition-colors">
-
-    
-    <div class="flex items-center gap-[14px] p-[15px] cursor-pointer" @click="open = !open">
-      <div class="w-[44px] h-[44px] rounded-[12px] flex items-center justify-center text-[1.1rem] flex-shrink-0 bg-[#1a1a1a] overflow-hidden">
-                  <img src="https://assets.coingecko.com/coins/images/780/standard/bitcoin-cash-circle.png?1696501932" alt="Bitcoin Cash" class="w-full h-full object-contain p-1" loading="lazy">
-              </div>
-      <div class="flex-1 min-w-0">
-        <div class="font-medium text-[.9rem]">Bitcoin Cash</div>
-        <div class="text-[#444] text-[.72rem] mt-0.5">Tap to enter amount &amp; continue</div>
-      </div>
-      <div class="flex items-center gap-[10px] flex-shrink-0">
-        <span class="text-[.67rem] px-[8px] py-[3px] rounded-[5px] bg-[rgba(0,212,124,.1)] text-grn border border-[rgba(0,212,124,.2)] font-medium">Active</span>
-        <i class="fa-solid fa-chevron-down text-[#333] text-[.65rem] transition-transform duration-200" :class="open ? 'rotate-180' : ''"></i>
-      </div>
-    </div>
-
-    
-    <div x-show="open" x-transition.opacity class="border-t border-[#1e1e1e] p-[15px]">
-      <form method="POST" action="/user/dashboard/newdeposit">
-                <input type="hidden" name="payment_method" value="Bitcoin Cash">
-
-        
-        <div class="bg-[#0d0d0d] border border-[#1e1e1e] rounded-[14px] px-[16px] py-[15px] mb-[10px] focus-within:border-[rgba(74,108,247,.4)] transition-colors">
-          <div class="flex justify-between mb-[10px]">
-            <span class="text-[#444] text-[.7rem] uppercase tracking-[.07em]">Amount</span>
-            <span class="text-[#444] text-[.72rem]">Bal: <span class="text-blue2 font-medium">$12,000.00</span></span>
-          </div>
-          <div class="flex items-center gap-2">
-            <span class="font-sora text-[1.6rem] font-light text-[#333]">$</span>
-            <input type="number" name="amount" step="0.01" min="1" placeholder="0.00" required
-              id="amt-28"
-              class="flex-1 bg-transparent border-none outline-none font-sora text-[1.6rem] font-light text-white min-w-0">
-          </div>
-        </div>
-
-        
-        <div class="flex gap-[6px] mb-[13px]">
-                                            <button type="button"
-              onclick="document.getElementById('amt-28').value='100'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $100.00            </button>
-                                  <button type="button"
-              onclick="document.getElementById('amt-28').value='250'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $250.00            </button>
-                                  <button type="button"
-              onclick="document.getElementById('amt-28').value='500'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $500.00            </button>
-                                  <button type="button"
-              onclick="document.getElementById('amt-28').value='1000'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $1,000.00            </button>
-                  </div>
-
-        <button type="submit"
-          class="w-full py-[14px] rounded-[12px] border-none bg-[#4a6cf7] text-white font-medium text-[.9rem] cursor-pointer flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
-          <i class="fa-solid fa-arrow-right"></i> Continue to Payment
-        </button>
-      </form>
-    </div>
-
-  </div>
-    <div x-data="{ open: false }" class="bg-[#111] border border-[#1e1e1e] rounded-[13px] mb-[9px] overflow-hidden transition-colors">
-
-    
-    <div class="flex items-center gap-[14px] p-[15px] cursor-pointer" @click="open = !open">
-      <div class="w-[44px] h-[44px] rounded-[12px] flex items-center justify-center text-[1.1rem] flex-shrink-0 bg-[#1a1a1a] overflow-hidden">
-                  <img src="https://assets.coingecko.com/coins/images/877/standard/Chainlink_Logo_500.png?1760023405" alt="Chainlink" class="w-full h-full object-contain p-1" loading="lazy">
-              </div>
-      <div class="flex-1 min-w-0">
-        <div class="font-medium text-[.9rem]">Chainlink</div>
-        <div class="text-[#444] text-[.72rem] mt-0.5">Tap to enter amount &amp; continue</div>
-      </div>
-      <div class="flex items-center gap-[10px] flex-shrink-0">
-        <span class="text-[.67rem] px-[8px] py-[3px] rounded-[5px] bg-[rgba(0,212,124,.1)] text-grn border border-[rgba(0,212,124,.2)] font-medium">Active</span>
-        <i class="fa-solid fa-chevron-down text-[#333] text-[.65rem] transition-transform duration-200" :class="open ? 'rotate-180' : ''"></i>
-      </div>
-    </div>
-
-    
-    <div x-show="open" x-transition.opacity class="border-t border-[#1e1e1e] p-[15px]">
-      <form method="POST" action="/user/dashboard/newdeposit">
-                <input type="hidden" name="payment_method" value="Chainlink">
-
-        
-        <div class="bg-[#0d0d0d] border border-[#1e1e1e] rounded-[14px] px-[16px] py-[15px] mb-[10px] focus-within:border-[rgba(74,108,247,.4)] transition-colors">
-          <div class="flex justify-between mb-[10px]">
-            <span class="text-[#444] text-[.7rem] uppercase tracking-[.07em]">Amount</span>
-            <span class="text-[#444] text-[.72rem]">Bal: <span class="text-blue2 font-medium">$12,000.00</span></span>
-          </div>
-          <div class="flex items-center gap-2">
-            <span class="font-sora text-[1.6rem] font-light text-[#333]">$</span>
-            <input type="number" name="amount" step="0.01" min="1" placeholder="0.00" required
-              id="amt-29"
-              class="flex-1 bg-transparent border-none outline-none font-sora text-[1.6rem] font-light text-white min-w-0">
-          </div>
-        </div>
-
-        
-        <div class="flex gap-[6px] mb-[13px]">
-                                            <button type="button"
-              onclick="document.getElementById('amt-29').value='100'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $100.00            </button>
-                                  <button type="button"
-              onclick="document.getElementById('amt-29').value='250'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $250.00            </button>
-                                  <button type="button"
-              onclick="document.getElementById('amt-29').value='500'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $500.00            </button>
-                                  <button type="button"
-              onclick="document.getElementById('amt-29').value='1000'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $1,000.00            </button>
-                  </div>
-
-        <button type="submit"
-          class="w-full py-[14px] rounded-[12px] border-none bg-[#4a6cf7] text-white font-medium text-[.9rem] cursor-pointer flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
-          <i class="fa-solid fa-arrow-right"></i> Continue to Payment
-        </button>
-      </form>
-    </div>
-
-  </div>
-    <div x-data="{ open: false }" class="bg-[#111] border border-[#1e1e1e] rounded-[13px] mb-[9px] overflow-hidden transition-colors">
-
-    
-    <div class="flex items-center gap-[14px] p-[15px] cursor-pointer" @click="open = !open">
-      <div class="w-[44px] h-[44px] rounded-[12px] flex items-center justify-center text-[1.1rem] flex-shrink-0 bg-[#1a1a1a] overflow-hidden">
-                  <img src="https://assets.coingecko.com/coins/images/100/standard/fmpFRHHQ_400x400.jpg?1735231350" alt="XLM" class="w-full h-full object-contain p-1" loading="lazy">
-              </div>
-      <div class="flex-1 min-w-0">
-        <div class="font-medium text-[.9rem]">XLM</div>
-        <div class="text-[#444] text-[.72rem] mt-0.5">Tap to enter amount &amp; continue</div>
-      </div>
-      <div class="flex items-center gap-[10px] flex-shrink-0">
-        <span class="text-[.67rem] px-[8px] py-[3px] rounded-[5px] bg-[rgba(0,212,124,.1)] text-grn border border-[rgba(0,212,124,.2)] font-medium">Active</span>
-        <i class="fa-solid fa-chevron-down text-[#333] text-[.65rem] transition-transform duration-200" :class="open ? 'rotate-180' : ''"></i>
-      </div>
-    </div>
-
-    
-    <div x-show="open" x-transition.opacity class="border-t border-[#1e1e1e] p-[15px]">
-      <form method="POST" action="/user/dashboard/newdeposit">
-                <input type="hidden" name="payment_method" value="XLM">
-
-        
-        <div class="bg-[#0d0d0d] border border-[#1e1e1e] rounded-[14px] px-[16px] py-[15px] mb-[10px] focus-within:border-[rgba(74,108,247,.4)] transition-colors">
-          <div class="flex justify-between mb-[10px]">
-            <span class="text-[#444] text-[.7rem] uppercase tracking-[.07em]">Amount</span>
-            <span class="text-[#444] text-[.72rem]">Bal: <span class="text-blue2 font-medium">$12,000.00</span></span>
-          </div>
-          <div class="flex items-center gap-2">
-            <span class="font-sora text-[1.6rem] font-light text-[#333]">$</span>
-            <input type="number" name="amount" step="0.01" min="1" placeholder="0.00" required
-              id="amt-30"
-              class="flex-1 bg-transparent border-none outline-none font-sora text-[1.6rem] font-light text-white min-w-0">
-          </div>
-        </div>
-
-        
-        <div class="flex gap-[6px] mb-[13px]">
-                                            <button type="button"
-              onclick="document.getElementById('amt-30').value='100'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $100.00            </button>
-                                  <button type="button"
-              onclick="document.getElementById('amt-30').value='250'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $250.00            </button>
-                                  <button type="button"
-              onclick="document.getElementById('amt-30').value='500'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $500.00            </button>
-                                  <button type="button"
-              onclick="document.getElementById('amt-30').value='1000'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $1,000.00            </button>
-                  </div>
-
-        <button type="submit"
-          class="w-full py-[14px] rounded-[12px] border-none bg-[#4a6cf7] text-white font-medium text-[.9rem] cursor-pointer flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
-          <i class="fa-solid fa-arrow-right"></i> Continue to Payment
-        </button>
-      </form>
-    </div>
-
-  </div>
-    <div x-data="{ open: false }" class="bg-[#111] border border-[#1e1e1e] rounded-[13px] mb-[9px] overflow-hidden transition-colors">
-
-    
-    <div class="flex items-center gap-[14px] p-[15px] cursor-pointer" @click="open = !open">
-      <div class="w-[44px] h-[44px] rounded-[12px] flex items-center justify-center text-[1.1rem] flex-shrink-0 bg-[#1a1a1a] overflow-hidden">
-                  <img src="https://assets.coingecko.com/coins/images/12559/standard/Avalanche_Circle_RedWhite_Trans.png?1696512369" alt="Avalanche" class="w-full h-full object-contain p-1" loading="lazy">
-              </div>
-      <div class="flex-1 min-w-0">
-        <div class="font-medium text-[.9rem]">Avalanche</div>
-        <div class="text-[#444] text-[.72rem] mt-0.5">Tap to enter amount &amp; continue</div>
-      </div>
-      <div class="flex items-center gap-[10px] flex-shrink-0">
-        <span class="text-[.67rem] px-[8px] py-[3px] rounded-[5px] bg-[rgba(0,212,124,.1)] text-grn border border-[rgba(0,212,124,.2)] font-medium">Active</span>
-        <i class="fa-solid fa-chevron-down text-[#333] text-[.65rem] transition-transform duration-200" :class="open ? 'rotate-180' : ''"></i>
-      </div>
-    </div>
-
-    
-    <div x-show="open" x-transition.opacity class="border-t border-[#1e1e1e] p-[15px]">
-      <form method="POST" action="/user/dashboard/newdeposit">
-                <input type="hidden" name="payment_method" value="Avalanche">
-
-        
-        <div class="bg-[#0d0d0d] border border-[#1e1e1e] rounded-[14px] px-[16px] py-[15px] mb-[10px] focus-within:border-[rgba(74,108,247,.4)] transition-colors">
-          <div class="flex justify-between mb-[10px]">
-            <span class="text-[#444] text-[.7rem] uppercase tracking-[.07em]">Amount</span>
-            <span class="text-[#444] text-[.72rem]">Bal: <span class="text-blue2 font-medium">$12,000.00</span></span>
-          </div>
-          <div class="flex items-center gap-2">
-            <span class="font-sora text-[1.6rem] font-light text-[#333]">$</span>
-            <input type="number" name="amount" step="0.01" min="1" placeholder="0.00" required
-              id="amt-31"
-              class="flex-1 bg-transparent border-none outline-none font-sora text-[1.6rem] font-light text-white min-w-0">
-          </div>
-        </div>
-
-        
-        <div class="flex gap-[6px] mb-[13px]">
-                                            <button type="button"
-              onclick="document.getElementById('amt-31').value='100'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $100.00            </button>
-                                  <button type="button"
-              onclick="document.getElementById('amt-31').value='250'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $250.00            </button>
-                                  <button type="button"
-              onclick="document.getElementById('amt-31').value='500'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $500.00            </button>
-                                  <button type="button"
-              onclick="document.getElementById('amt-31').value='1000'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $1,000.00            </button>
-                  </div>
-
-        <button type="submit"
-          class="w-full py-[14px] rounded-[12px] border-none bg-[#4a6cf7] text-white font-medium text-[.9rem] cursor-pointer flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
-          <i class="fa-solid fa-arrow-right"></i> Continue to Payment
-        </button>
-      </form>
-    </div>
-
-  </div>
-    <div x-data="{ open: false }" class="bg-[#111] border border-[#1e1e1e] rounded-[13px] mb-[9px] overflow-hidden transition-colors">
-
-    
-    <div class="flex items-center gap-[14px] p-[15px] cursor-pointer" @click="open = !open">
-      <div class="w-[44px] h-[44px] rounded-[12px] flex items-center justify-center text-[1.1rem] flex-shrink-0 bg-[#1a1a1a] overflow-hidden">
-                  <img src="https://assets.coingecko.com/coins/images/975/standard/cardano.png?1696502090" alt="ADA" class="w-full h-full object-contain p-1" loading="lazy">
-              </div>
-      <div class="flex-1 min-w-0">
-        <div class="font-medium text-[.9rem]">ADA</div>
-        <div class="text-[#444] text-[.72rem] mt-0.5">Tap to enter amount &amp; continue</div>
-      </div>
-      <div class="flex items-center gap-[10px] flex-shrink-0">
-        <span class="text-[.67rem] px-[8px] py-[3px] rounded-[5px] bg-[rgba(0,212,124,.1)] text-grn border border-[rgba(0,212,124,.2)] font-medium">Active</span>
-        <i class="fa-solid fa-chevron-down text-[#333] text-[.65rem] transition-transform duration-200" :class="open ? 'rotate-180' : ''"></i>
-      </div>
-    </div>
-
-    
-    <div x-show="open" x-transition.opacity class="border-t border-[#1e1e1e] p-[15px]">
-      <form method="POST" action="/user/dashboard/newdeposit">
-                <input type="hidden" name="payment_method" value="ADA">
-
-        
-        <div class="bg-[#0d0d0d] border border-[#1e1e1e] rounded-[14px] px-[16px] py-[15px] mb-[10px] focus-within:border-[rgba(74,108,247,.4)] transition-colors">
-          <div class="flex justify-between mb-[10px]">
-            <span class="text-[#444] text-[.7rem] uppercase tracking-[.07em]">Amount</span>
-            <span class="text-[#444] text-[.72rem]">Bal: <span class="text-blue2 font-medium">$12,000.00</span></span>
-          </div>
-          <div class="flex items-center gap-2">
-            <span class="font-sora text-[1.6rem] font-light text-[#333]">$</span>
-            <input type="number" name="amount" step="0.01" min="1" placeholder="0.00" required
-              id="amt-32"
-              class="flex-1 bg-transparent border-none outline-none font-sora text-[1.6rem] font-light text-white min-w-0">
-          </div>
-        </div>
-
-        
-        <div class="flex gap-[6px] mb-[13px]">
-                                            <button type="button"
-              onclick="document.getElementById('amt-32').value='100'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $100.00            </button>
-                                  <button type="button"
-              onclick="document.getElementById('amt-32').value='250'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $250.00            </button>
-                                  <button type="button"
-              onclick="document.getElementById('amt-32').value='500'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $500.00            </button>
-                                  <button type="button"
-              onclick="document.getElementById('amt-32').value='1000'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $1,000.00            </button>
-                  </div>
-
-        <button type="submit"
-          class="w-full py-[14px] rounded-[12px] border-none bg-[#4a6cf7] text-white font-medium text-[.9rem] cursor-pointer flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
-          <i class="fa-solid fa-arrow-right"></i> Continue to Payment
-        </button>
-      </form>
-    </div>
-
-  </div>
-    <div x-data="{ open: false }" class="bg-[#111] border border-[#1e1e1e] rounded-[13px] mb-[9px] overflow-hidden transition-colors">
-
-    
-    <div class="flex items-center gap-[14px] p-[15px] cursor-pointer" @click="open = !open">
-      <div class="w-[44px] h-[44px] rounded-[12px] flex items-center justify-center text-[1.1rem] flex-shrink-0 bg-[#1a1a1a] overflow-hidden">
-                  <img src="https://assets.coingecko.com/coins/images/1481/standard/cosmos_hub.png?1696502525" alt="Atom" class="w-full h-full object-contain p-1" loading="lazy">
-              </div>
-      <div class="flex-1 min-w-0">
-        <div class="font-medium text-[.9rem]">Atom</div>
-        <div class="text-[#444] text-[.72rem] mt-0.5">Tap to enter amount &amp; continue</div>
-      </div>
-      <div class="flex items-center gap-[10px] flex-shrink-0">
-        <span class="text-[.67rem] px-[8px] py-[3px] rounded-[5px] bg-[rgba(0,212,124,.1)] text-grn border border-[rgba(0,212,124,.2)] font-medium">Active</span>
-        <i class="fa-solid fa-chevron-down text-[#333] text-[.65rem] transition-transform duration-200" :class="open ? 'rotate-180' : ''"></i>
-      </div>
-    </div>
-
-    
-    <div x-show="open" x-transition.opacity class="border-t border-[#1e1e1e] p-[15px]">
-      <form method="POST" action="/user/dashboard/newdeposit">
-                <input type="hidden" name="payment_method" value="Atom">
-
-        
-        <div class="bg-[#0d0d0d] border border-[#1e1e1e] rounded-[14px] px-[16px] py-[15px] mb-[10px] focus-within:border-[rgba(74,108,247,.4)] transition-colors">
-          <div class="flex justify-between mb-[10px]">
-            <span class="text-[#444] text-[.7rem] uppercase tracking-[.07em]">Amount</span>
-            <span class="text-[#444] text-[.72rem]">Bal: <span class="text-blue2 font-medium">$12,000.00</span></span>
-          </div>
-          <div class="flex items-center gap-2">
-            <span class="font-sora text-[1.6rem] font-light text-[#333]">$</span>
-            <input type="number" name="amount" step="0.01" min="1" placeholder="0.00" required
-              id="amt-33"
-              class="flex-1 bg-transparent border-none outline-none font-sora text-[1.6rem] font-light text-white min-w-0">
-          </div>
-        </div>
-
-        
-        <div class="flex gap-[6px] mb-[13px]">
-                                            <button type="button"
-              onclick="document.getElementById('amt-33').value='100'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $100.00            </button>
-                                  <button type="button"
-              onclick="document.getElementById('amt-33').value='250'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $250.00            </button>
-                                  <button type="button"
-              onclick="document.getElementById('amt-33').value='500'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $500.00            </button>
-                                  <button type="button"
-              onclick="document.getElementById('amt-33').value='1000'"
-              class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">
-              $1,000.00            </button>
-                  </div>
-
-        <button type="submit"
-          class="w-full py-[14px] rounded-[12px] border-none bg-[#4a6cf7] text-white font-medium text-[.9rem] cursor-pointer flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
-          <i class="fa-solid fa-arrow-right"></i> Continue to Payment
-        </button>
-      </form>
-    </div>
-
-  </div>
-  
-  
-  <div class="bg-[#111] border border-[#1e1e1e] rounded-[13px] p-[15px] mt-[6px]">
+<div class="bg-[#111] border border-[#1e1e1e] rounded-[13px] p-[15px] mt-[6px]">
     <div class="flex items-start gap-[9px] bg-[rgba(245,197,66,.04)] border border-[rgba(245,197,66,.12)] rounded-[9px] p-[10px] mb-[14px]">
       <i class="fa-solid fa-triangle-exclamation text-ylw text-[.8rem] flex-shrink-0 mt-0.5"></i>
       <span class="text-[.74rem] text-[#777] leading-[1.55]">
@@ -2895,6 +2064,89 @@ document.addEventListener('DOMContentLoaded',()=>{
 (() => {
   const money=(n,c)=>{const m={USD:'$',NGN:'₦',GBP:'£',EUR:'€',CAD:'$',AUD:'$',JPY:'¥',CNY:'¥',INR:'₹',ZAR:'R',GHS:'₵',KES:'KSh'};return(m[String(c||'USD').toUpperCase()]||'')+Number(n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});};
   function setSuccess(){const q=new URLSearchParams(location.search);if(q.get('success')==='deposit'){let x=document.createElement('div');x.textContent='Account Fund Sucessful! Please wait for system to validate this transaction.';x.style.cssText='position:fixed;top:68px;left:50%;transform:translateX(-50%);z-index:9998;background:#111;border:1px solid rgba(0,212,124,.25);color:#00d47c;padding:12px 16px;border-radius:10px;font:500 13px/1.4 Arial,sans-serif;max-width:92vw;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.35)';document.body.appendChild(x);setTimeout(()=>x.remove(),7000);}}
+
+  function escHtml(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+  async function renderDepositMethodsFromApi(){
+    const box=document.getElementById('depositMethodsList');
+    if(!box) return [];
+    try{
+      const r=await api.get('/user/dashboard/feature/payment-methods');
+      const methods=(r.data&&r.data.methods)||[];
+      // also power bottom sheet CRYPTO_METHODS if present
+      try{
+        window.CRYPTO_METHODS = methods.map(m=>({
+          sym: m.symbol||m.name,
+          name: m.name,
+          icon: m.icon_class||'fa-solid fa-coins',
+          color: m.color||'#fff',
+          bg: m.bg||'linear-gradient(135deg,#333,#111)',
+          addr: m.address||'',
+          nets: Array.isArray(m.networks)&&m.networks.length?m.networks:(m.network?[m.network]:[]),
+          min: String(m.min_amount??10),
+          badge: m.badge||'',
+          logo: m.logo_url||'',
+          qr: m.qr_image_url||''
+        }));
+      }catch(_){}
+      if(!methods.length){
+        box.innerHTML='<div class="text-center py-10 text-[#555] text-sm">No payment methods available. Please check back later.</div>';
+        return methods;
+      }
+      box.innerHTML=methods.map(m=>{
+        const logo=m.logo_url
+          ?`<img src="${escHtml(m.logo_url)}" alt="${escHtml(m.name)}" class="w-full h-full object-contain p-1" loading="lazy">`
+          :`<span class="text-[.75rem] font-semibold text-[#aaa]">${escHtml(String(m.symbol||m.name||'?').slice(0,4))}</span>`;
+        const badge=m.badge?`<span class="text-[.67rem] px-[8px] py-[3px] rounded-[5px] bg-[rgba(74,108,247,.1)] text-blue2 border border-[rgba(74,108,247,.2)] font-medium">${escHtml(m.badge)}</span>`:'';
+        return `<div x-data="{ open: false }" class="bg-[#111] border border-[#1e1e1e] rounded-[13px] mb-[9px] overflow-hidden transition-colors">
+    <div class="flex items-center gap-[14px] p-[15px] cursor-pointer" @click="open = !open">
+      <div class="w-[44px] h-[44px] rounded-[12px] flex items-center justify-center text-[1.1rem] flex-shrink-0 bg-[#1a1a1a] overflow-hidden">${logo}</div>
+      <div class="flex-1 min-w-0">
+        <div class="font-medium text-[.9rem]">${escHtml(m.name)}</div>
+        <div class="text-[#444] text-[.72rem] mt-0.5">Tap to enter amount &amp; continue</div>
+      </div>
+      <div class="flex items-center gap-[10px] flex-shrink-0">
+        ${badge}
+        <span class="text-[.67rem] px-[8px] py-[3px] rounded-[5px] bg-[rgba(0,212,124,.1)] text-grn border border-[rgba(0,212,124,.2)] font-medium">Active</span>
+        <i class="fa-solid fa-chevron-down text-[#333] text-[.65rem] transition-transform duration-200" :class="open ? 'rotate-180' : ''"></i>
+      </div>
+    </div>
+    <div x-show="open" x-transition.opacity class="border-t border-[#1e1e1e] p-[15px]" style="display:none" x-cloak>
+      <form method="POST" action="/user/dashboard/newdeposit">
+        <input type="hidden" name="payment_method" value="${escHtml(m.name)}">
+        <div class="bg-[#0d0d0d] border border-[#1e1e1e] rounded-[12px] p-[14px] mb-[13px]">
+          <div class="flex items-center justify-between mb-[10px]">
+            <span class="text-[.68rem] text-[#444] uppercase tracking-[.07em]">Amount</span>
+            <span class="text-[.68rem] text-[#555]">Bal: <span class="user-bal-label">$0.00</span></span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-[#555] text-[1.1rem]">$</span>
+            <input type="number" name="amount" min="10" step="any" required placeholder="0.00"
+              class="flex-1 bg-transparent border-none outline-none text-white text-[1.35rem] font-sora font-bold min-w-0">
+          </div>
+        </div>
+        <div class="flex gap-[6px] mb-[13px]">
+          <button type="button" onclick="this.closest('form').querySelector('input[name=amount]').value='100'" class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">$100.00</button>
+          <button type="button" onclick="this.closest('form').querySelector('input[name=amount]').value='250'" class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">$250.00</button>
+          <button type="button" onclick="this.closest('form').querySelector('input[name=amount]').value='500'" class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">$500.00</button>
+          <button type="button" onclick="this.closest('form').querySelector('input[name=amount]').value='1000'" class="flex-1 py-[7px] bg-[#1a1a1a] border border-[#222] rounded-[8px] text-[#666] text-[.75rem] cursor-pointer hover:border-[#333] hover:text-[#ccc] transition-all">$1,000.00</button>
+        </div>
+        <button type="submit" class="w-full py-[14px] rounded-[12px] border-none bg-[#4a6cf7] text-white font-medium text-[.9rem] cursor-pointer flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+          <i class="fa-solid fa-arrow-right"></i> Continue to Payment
+        </button>
+      </form>
+    </div>
+  </div>`;
+      }).join('');
+      // re-init Alpine on new nodes if available
+      try{ if(window.Alpine) Alpine.initTree(box); }catch(_){}
+      return methods;
+    }catch(e){
+      console.error(e);
+      box.innerHTML='<div class="text-center py-10 text-red-400 text-sm">Could not load payment methods.</div>';
+      return [];
+    }
+  }
+
   async function load(){try{
     const [dash,dep]=await Promise.all([
       api.get('/user/dashboard'),
@@ -2982,6 +2234,8 @@ document.addEventListener('DOMContentLoaded',()=>{
         :'<div class="px-[15px] py-[18px] text-[.8rem] text-[#444] text-center">No deposits yet.</div>';
     }
 
+
+    await renderDepositMethodsFromApi();
     document.querySelectorAll('form[action*="newdeposit"]').forEach(form=>{
       if(form.__bound)return;
       form.__bound=true;

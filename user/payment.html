@@ -2158,5 +2158,90 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.addEventListener('DOMContentLoaded', loadPayment);
 })();
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/axios@1.7.9/dist/axios.min.js"></script>
+<script src="../js/convert/config.js"></script>
+<script src="../js/convert/auth.js"></script>
+<script>
+(async function(){
+  function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+  function money(v){return '$'+Number(v||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});}
+  try{
+    const client = window.api;
+    if(!client) return;
+    const r = await client.get('/user/dashboard/deposit-draft');
+    const draft = (r.data&&r.data.draft)||null;
+    const method = (r.data&&r.data.method)||null;
+    if(!draft){
+      // no draft — leave page; user may navigate back
+      return;
+    }
+    const amount = Number(draft.amount||0);
+    const methodName = (method&&method.name)||draft.method||'Payment';
+    const address = (method&&method.address)||'';
+    const nets = (method&&(method.networks||[]))||[];
+    const network = nets[0]||(method&&method.network)||'';
+    const logo = (method&&method.logo_url)||'';
+    const qr = (method&&method.qr_image_url)||'';
+    const symbol = (method&&method.symbol)||'';
+
+    // Update amount displays
+    document.querySelectorAll('strong.text-blue2, .font-sora.font-bold.text-blue2, .text-blue2').forEach(el=>{
+      if(/\$[\d,]+\.?\d*/.test(el.textContent) && el.textContent.includes('$')){
+        // only replace amount-looking nodes near payment
+      }
+    });
+    const amountEls = document.querySelectorAll('.font-sora.font-bold.text-\\[1\\.5rem\\].text-blue2, .font-sora.font-bold.text-blue2');
+    amountEls.forEach(el=>{ el.textContent = money(amount); });
+    // Update method name titles
+    document.querySelectorAll('.font-medium.text-\\[\\.95rem\\]').forEach(el=>{
+      if(el.textContent.trim().length < 40) el.textContent = methodName;
+    });
+    // Hidden form method
+    document.querySelectorAll('input[name="paymethd_method"], input[name="payment_method"]').forEach(inp=>{
+      inp.value = methodName;
+    });
+    // Address fields
+    document.querySelectorAll('input[x-ref="walletAddr"], .addr-field input[readonly]').forEach(inp=>{
+      if(address) inp.value = address;
+    });
+    // Network badges
+    document.querySelectorAll('.net-badge').forEach(el=>{
+      if(network) el.innerHTML = '<i class="fa-solid fa-circle-nodes text-[.6rem]"></i> '+esc(network);
+    });
+    // Address label
+    document.querySelectorAll('.text-\\[\\.72rem\\].text-\\[\\#444\\].uppercase').forEach(el=>{
+      if(/address/i.test(el.textContent)) el.textContent = methodName + ' Address';
+    });
+    // Logo
+    if(logo){
+      document.querySelectorAll('img[alt="USDT"], img[alt="Bitcoin"], .w-\\[48px\\] img, .w-\\[32px\\]').forEach(img=>{
+        img.src = logo; img.alt = methodName;
+      });
+    }
+    // QR if present - inject near address
+    if(qr){
+      let host = document.querySelector('.addr-field');
+      if(host && !document.getElementById('dynPayQr')){
+        const wrap = document.createElement('div');
+        wrap.id='dynPayQr';
+        wrap.className='flex flex-col items-center gap-2 my-4';
+        wrap.innerHTML = '<img src="'+esc(qr)+'" alt="QR" class="w-[150px] h-[150px] object-contain bg-white rounded-xl p-2"/>';
+        host.parentNode.insertBefore(wrap, host.nextSibling);
+      }
+    }
+    // Ensure amount hidden field
+    document.querySelectorAll('form[action*="savedeposit"]').forEach(form=>{
+      let amt = form.querySelector('input[name="amount"]');
+      if(!amt){ amt=document.createElement('input'); amt.type='hidden'; amt.name='amount'; form.appendChild(amt); }
+      amt.value = String(amount);
+      let meth = form.querySelector('input[name="paymethd_method"]');
+      if(!meth){ meth=document.createElement('input'); meth.type='hidden'; meth.name='paymethd_method'; form.appendChild(meth); }
+      meth.value = methodName;
+    });
+  }catch(e){ console.error('payment draft load', e); }
+})();
+</script>
+
 </body>
 </html>

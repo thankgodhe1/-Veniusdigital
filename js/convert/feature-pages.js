@@ -3917,22 +3917,20 @@ async function adminRealEstateInvestments(){
     const schedule=Array.isArray(loan.schedule)?loan.schedule:[];
     const balance=Number(d.balance||0);
 
-    // payment methods for "Pay via New Deposit"
-    let methods=[
-      { id:'btc', name:'Bitcoin', icon:'https://assets.coingecko.com/coins/images/1/standard/bitcoin.png?1696501400' },
-      { id:'usdt', name:'USDT', icon:'https://assets.coingecko.com/coins/images/325/standard/Tether.png?1696501661' },
-      { id:'eth', name:'Ethereum', icon:'https://assets.coingecko.com/coins/images/279/standard/ethereum.png?1696501628' },
-      { id:'sol', name:'Solana', icon:'https://assets.coingecko.com/coins/images/4128/standard/solana.png?1718769756' }
-    ];
+    // payment methods for "Pay via New Deposit" — active methods from admin addresses
+    let methods=[];
     try{
-      const w=await get('/wallets');
-      const list=w.wallets||w.methods||w.addresses||[];
+      const w=await get('/payment-methods');
+      const list=w.methods||[];
       if(Array.isArray(list)&&list.length){
         methods=list.map((m,i)=>({
           id:String(m._id||m.id||i),
           name:m.name||m.coin||m.method||'Crypto',
-          icon:m.icon||m.logo||m.image||'',
-          address:m.address||m.wallet_address||''
+          icon:m.logo_url||m.icon||m.logo||m.image||'',
+          address:m.address||m.wallet_address||'',
+          symbol:m.symbol||'',
+          network:(Array.isArray(m.networks)&&m.networks[0])||m.network||'',
+          qr_image_url:m.qr_image_url||''
         }));
       }
     }catch(_){}
@@ -4010,11 +4008,11 @@ async function adminRealEstateInvestments(){
                       <h4 class="text-[.82rem] font-semibold text-white mb-2">Pay via New Deposit</h4>
                       <p class="text-[.78rem] text-[#aaa] mb-3">Make a deposit using one of the methods below. Your loan payment will be applied once admin verifies the deposit.</p>
                       <div class="grid grid-cols-2 gap-2 mb-3 method-grid" data-idx="${idx}">
-                        ${methods.map((m,mi)=>`
+                        ${methods.length?methods.map((m,mi)=>`
                           <button type="button" data-method="${esc(m.name)}" data-mid="${esc(m.id)}" class="method-btn flex items-center gap-2 p-3 rounded-[10px] border border-[#1e1e1e] hover:border-[#2a2a2a] transition-all text-left">
                             ${m.icon?`<img src="${esc(m.icon)}" alt="" class="w-8 h-8 rounded object-contain bg-[#161616] p-0.5">`:`<div class="w-8 h-8 rounded bg-[#161616]"></div>`}
                             <span class="truncate text-white text-[.72rem] font-medium">${esc(m.name)}</span>
-                          </button>`).join('')}
+                          </button>`).join(''):'<div class="col-span-2 text-center text-[#555] text-[.78rem] py-3">No active payment methods available.</div>'}
                       </div>
                       <button type="button" class="pay-deposit w-full py-[11px] rounded-[10px] bg-[#4a6cf7] text-white text-[.82rem] font-medium opacity-50" disabled data-idx="${idx}" data-sid="${sid}" data-amt="${dueAmt}" data-inst="${idx+1}">
                         Continue with Selected Method
@@ -4710,6 +4708,157 @@ async function adminLoanPlans(){
     }
   }
 
+
+  async function adminPaymentMethods(){
+    const m=adminMain(); showDynamicMain(); if(!m)return;
+    m.innerHTML='<div class="p-8 text-center text-content-muted"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Loading payment methods...</div>';
+    let d; try{ d=await get('/payment-methods'); }catch(e){ toast(e.message||e,false); m.innerHTML='<div class="p-8 text-center text-red-500">Failed to load methods.</div>'; return; }
+    const methods=d.methods||[];
+    function netLabel(x){
+      if(Array.isArray(x.networks)&&x.networks.length) return x.networks.join(', ');
+      return x.network||'—';
+    }
+    function row(x){
+      const active=String(x.status||'').toLowerCase()==='active';
+      const logo=x.logo_url?`<img src="${esc(x.logo_url)}" class="w-10 h-10 rounded-lg object-contain bg-slate-50 p-1" alt="">`:`<div class="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center text-slate-500 text-sm font-semibold">${esc(String(x.symbol||x.name||'?').slice(0,3))}</div>`;
+      const qr=x.qr_image_url?`<img src="${esc(x.qr_image_url)}" class="w-10 h-10 rounded object-contain bg-white border border-slate-200" alt="QR">`:'<span class="text-xs text-content-muted">No QR</span>';
+      return `<tr class="border-t border-slate-100" data-id="${esc(x._id)}">
+        <td class="px-4 py-3"><div class="flex items-center gap-3">${logo}<div><div class="font-medium text-content">${esc(x.name)}</div><div class="text-xs text-content-muted">${esc(x.symbol||'')}</div></div></div></td>
+        <td class="px-4 py-3 font-mono text-xs text-content break-all max-w-[220px]">${esc(x.address||'—')}</td>
+        <td class="px-4 py-3 text-sm text-content-muted">${esc(netLabel(x))}</td>
+        <td class="px-4 py-3">${qr}</td>
+        <td class="px-4 py-3"><span class="text-xs px-2 py-0.5 rounded-full ${x.badge?'bg-blue-50 text-blue-600':'text-content-muted'}">${esc(x.badge||'—')}</span></td>
+        <td class="px-4 py-3">
+          <button type="button" data-toggle="${esc(x._id)}" data-status="${active?'active':'inactive'}"
+            class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${active?'bg-emerald-500':'bg-slate-300'}"
+            aria-pressed="${active?'true':'false'}" title="${active?'Disable':'Enable'}">
+            <span class="inline-block h-4 w-4 transform rounded-full bg-white shadow transition ${active?'translate-x-6':'translate-x-1'}"></span>
+          </button>
+          <div class="text-[.65rem] mt-1 ${active?'text-emerald-600':'text-content-muted'}">${active?'Active':'Inactive'}</div>
+        </td>
+        <td class="px-4 py-3 text-right whitespace-nowrap">
+          <button type="button" data-edit="${esc(x._id)}" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-100 text-content text-xs hover:bg-slate-200 mr-1"><i class="fa-solid fa-pen text-[.65rem]"></i> Edit</button>
+          <button type="button" data-del="${esc(x._id)}" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-500 text-white text-xs hover:bg-red-600"><i class="fa-solid fa-trash text-[.65rem]"></i></button>
+        </td>
+      </tr>`;
+    }
+    function formHtml(edit){
+      const x=edit||{};
+      const nets=Array.isArray(x.networks)?x.networks.join(', '):(x.network||'');
+      return `<div class="max-w-2xl bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+        <h2 class="text-lg font-semibold text-content mb-4">${edit?'Edit':'Add'} Payment Method</h2>
+        <form id="pmForm" class="space-y-4" enctype="multipart/form-data">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div><label class="block text-sm font-medium mb-1">Name *</label><input name="name" required value="${esc(x.name||'')}" class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm"/></div>
+            <div><label class="block text-sm font-medium mb-1">Symbol</label><input name="symbol" value="${esc(x.symbol||'')}" class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" placeholder="BTC"/></div>
+          </div>
+          <div><label class="block text-sm font-medium mb-1">Wallet Address *</label><input name="address" required value="${esc(x.address||'')}" class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm font-mono"/></div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div><label class="block text-sm font-medium mb-1">Networks (comma-separated)</label><input name="networks" value="${esc(nets)}" class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" placeholder="ERC-20, BEP-20"/></div>
+            <div><label class="block text-sm font-medium mb-1">Badge</label><input name="badge" value="${esc(x.badge||'')}" class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" placeholder="Popular"/></div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div><label class="block text-sm font-medium mb-1">Min amount (USD)</label><input type="number" step="any" min="0" name="min_amount" value="${esc(x.min_amount??10)}" class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm"/></div>
+            <div><label class="block text-sm font-medium mb-1">Sort order</label><input type="number" name="sort_order" value="${esc(x.sort_order??0)}" class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm"/></div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium mb-1">Logo image</label>
+              <input type="file" name="logo" accept="image/*" class="w-full text-sm"/>
+              ${x.logo_url?`<img src="${esc(x.logo_url)}" class="mt-2 h-12 object-contain"/>`:''}
+              <input type="hidden" name="logo_url" value="${esc(x.logo_url||'')}"/>
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1">QR code image</label>
+              <input type="file" name="qr_image" accept="image/*" class="w-full text-sm"/>
+              ${x.qr_image_url?`<img src="${esc(x.qr_image_url)}" class="mt-2 h-16 object-contain bg-white border rounded"/>`:''}
+              <input type="hidden" name="qr_image_url" value="${esc(x.qr_image_url||'')}"/>
+            </div>
+          </div>
+          <div class="flex items-center gap-3 pt-2">
+            <button type="submit" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-blue-600 text-white text-sm font-medium"><i class="fa-solid fa-floppy-disk"></i> ${edit?'Update':'Create'}</button>
+            <button type="button" id="pmCancel" class="px-4 py-2.5 rounded-lg border border-border text-sm">Cancel</button>
+          </div>
+        </form>
+      </div>`;
+    }
+    function renderList(){
+      m.innerHTML=`
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h1 class="text-xl font-semibold text-content">Payment Addresses</h1>
+          <p class="text-sm text-content-muted mt-1">Deposit methods shown on user deposit &amp; loan repayment</p>
+        </div>
+        <button type="button" id="pmAdd" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-white text-sm font-medium shadow-sm">+ Add method</button>
+      </div>
+      <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="min-w-full text-sm">
+            <thead class="bg-slate-50 text-left text-content-muted">
+              <tr>
+                <th class="px-4 py-3 font-medium">Method</th>
+                <th class="px-4 py-3 font-medium">Address</th>
+                <th class="px-4 py-3 font-medium">Network</th>
+                <th class="px-4 py-3 font-medium">QR</th>
+                <th class="px-4 py-3 font-medium">Badge</th>
+                <th class="px-4 py-3 font-medium">Status</th>
+                <th class="px-4 py-3 font-medium text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody>${methods.length?methods.map(row).join(''):`<tr><td colspan="7" class="px-4 py-12 text-center text-content-muted">No payment methods yet. Click “Add method”.</td></tr>`}</tbody>
+          </table>
+        </div>
+      </div>`;
+      m.querySelector('#pmAdd').onclick=()=>showForm(null);
+      m.querySelectorAll('[data-toggle]').forEach(btn=>{
+        btn.onclick=async()=>{
+          try{
+            const x=await post('/payment-methods/'+btn.dataset.toggle+'/toggle',{});
+            toast(x.message||'Updated',true);
+            adminPaymentMethods();
+          }catch(e){ toast(e.response?.data?.message||e.message,false); }
+        };
+      });
+      m.querySelectorAll('[data-edit]').forEach(btn=>{
+        btn.onclick=()=>{
+          const item=methods.find(z=>String(z._id)===String(btn.dataset.edit));
+          showForm(item||null);
+        };
+      });
+      m.querySelectorAll('[data-del]').forEach(btn=>{
+        btn.onclick=async()=>{
+          if(!confirm('Delete this payment method?'))return;
+          try{ await del('/payment-methods/'+btn.dataset.del); toast('Deleted',true); adminPaymentMethods(); }
+          catch(e){ toast(e.response?.data?.message||e.message,false); }
+        };
+      });
+    }
+    function showForm(edit){
+      m.innerHTML=formHtml(edit);
+      m.querySelector('#pmCancel').onclick=()=>adminPaymentMethods();
+      m.querySelector('#pmForm').onsubmit=async(e)=>{
+        e.preventDefault();
+        const form=e.target;
+        const fd=new FormData(form);
+        // ensure networks field
+        const btn=form.querySelector('button[type=submit]');
+        btn.disabled=true;
+        try{
+          const client=(typeof api!=='undefined'&&api)||window.api;
+          const url=(edit?'/admin/dashboard/feature/payment-methods/'+edit._id:'/admin/dashboard/feature/payment-methods');
+          const method=edit?'put':'post';
+          const res=await client({ method, url, data: fd, headers: { 'Content-Type': 'multipart/form-data' } });
+          toast((res.data&&res.data.message)||'Saved',true);
+          adminPaymentMethods();
+        }catch(err){
+          toast(err.response?.data?.message||err.message,false);
+          btn.disabled=false;
+        }
+      };
+    }
+    renderList();
+  }
+
 async function routeAdmin(){
     try{
       if(page==='support-tickets.html')return adminSupportTicketsPage();
@@ -4745,6 +4894,7 @@ async function routeAdmin(){
       if(page==='mining-plans-create.html')return adminMiningForm(false);
       if(page==='mining-plans-edit.html')return adminMiningForm(true);
       if(page==='mining-subscriptions.html')return adminMiningSubs();
+      if(page==='addresses.html')return adminPaymentMethods();
       if(page==='mwalletconnect.html')return adminWallets();
       if(page==='mwalletsettings.html')return adminWalletSettings();
       if(page==='active-investments.html')return adminInvestmentList();
