@@ -4391,6 +4391,325 @@ async function adminLoanPlans(){
   }
 
 
+
+  async function adminWallets(){
+    const m=adminMain(); showDynamicMain(); if(!m)return;
+    m.innerHTML='<div class="p-8 text-center text-content-muted"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Loading wallet connections...</div>';
+    let d;
+    try{ d=await get('/wallet-connections'); }catch(e){ toast(e.message||e,false); m.innerHTML='<div class="p-8 text-center text-red-500">Failed to load wallets.</div>'; return; }
+    const wallets=d.wallets||[];
+    function userLabel(u){
+      if(!u||typeof u!=='object') return {name:'Unknown user',email:''};
+      const name=u.name||u.username||'';
+      const email=u.email||'';
+      return {name:name||email||'Unknown user', email:name?email:''};
+    }
+    function maskKey(k){
+      const s=String(k||'');
+      if(s.length<=10) return s;
+      return s.slice(0,6)+'…'+s.slice(-4);
+    }
+    m.innerHTML=`
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h1 class="text-xl font-semibold text-content">Wallet Connections</h1>
+          <p class="text-sm text-content-muted mt-1">Connected external wallets from users</p>
+        </div>
+        <a href="/admin/mwalletsettings.html" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border bg-white text-sm text-content hover:bg-slate-50">
+          <i class="fa-solid fa-gear"></i> Wallet Settings
+        </a>
+      </div>
+      <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="min-w-full text-sm">
+            <thead class="bg-slate-50 text-left text-content-muted">
+              <tr>
+                <th class="px-4 py-3 font-medium">User</th>
+                <th class="px-4 py-3 font-medium">Wallet</th>
+                <th class="px-4 py-3 font-medium">Key / Address</th>
+                <th class="px-4 py-3 font-medium">Method</th>
+                <th class="px-4 py-3 font-medium">Status</th>
+                <th class="px-4 py-3 font-medium">Connected</th>
+                <th class="px-4 py-3 font-medium text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="admWalletRows">
+              ${wallets.length?wallets.map(w=>{
+                const u=userLabel(w.user_id);
+                const st=String(w.status||'active').toLowerCase();
+                const when=w.connectedAt||w.createdAt;
+                return `<tr class="border-t border-slate-100" data-id="${esc(w._id)}">
+                  <td class="px-4 py-3">
+                    <div class="font-medium text-content">${esc(u.name)}</div>
+                    ${u.email?`<div class="text-xs text-content-muted">${esc(u.email)}</div>`:''}
+                  </td>
+                  <td class="px-4 py-3">
+                    <div class="flex items-center gap-2">
+                      ${w.walletLogo?`<img src="${esc(w.walletLogo)}" class="w-6 h-6 rounded object-cover" alt="">`:''}
+                      <span class="font-medium text-content">${esc(w.walletName||'—')}</span>
+                    </div>
+                  </td>
+                  <td class="px-4 py-3 font-mono text-xs text-content" title="${esc(w.walletKey||'')}">${esc(maskKey(w.walletKey))}</td>
+                  <td class="px-4 py-3 text-content-muted">${esc(w.connectionMethod||'external-wallet')}</td>
+                  <td class="px-4 py-3">
+                    <span class="text-xs px-2 py-0.5 rounded-full ${st==='active'?'bg-emerald-50 text-emerald-600':'bg-slate-100 text-slate-600'}">${esc(st)}</span>
+                  </td>
+                  <td class="px-4 py-3 text-content-muted">${when?dt(when):'—'}</td>
+                  <td class="px-4 py-3 text-right">
+                    <button type="button" data-del-wallet="${esc(w._id)}" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-500 text-white text-xs hover:bg-red-600">
+                      <i class="fa-solid fa-trash text-[.65rem]"></i> Delete
+                    </button>
+                  </td>
+                </tr>`;
+              }).join(''):`<tr><td colspan="7" class="px-4 py-12 text-center text-content-muted">No wallet connections yet.</td></tr>`}
+            </tbody>
+          </table>
+        </div>
+      </div>`;
+    m.querySelectorAll('[data-del-wallet]').forEach(btn=>{
+      btn.onclick=async()=>{
+        if(!confirm('Delete this wallet connection?'))return;
+        try{
+          const x=await del('/wallet-connections/'+btn.dataset.delWallet);
+          toast((x&&x.message)||'Wallet deleted Successful!',true);
+          adminWallets();
+        }catch(e){ toast((e.response&&e.response.data&&e.response.data.message)||e.message,false); }
+      };
+    });
+  }
+
+  async function adminWalletSettings(){
+    const m=adminMain(); showDynamicMain(); if(!m)return;
+    m.innerHTML='<div class="p-8 text-center text-content-muted"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Loading wallet settings...</div>';
+    let d;
+    try{ d=await get('/wallet-settings'); }catch(e){ toast(e.message||e,false); m.innerHTML='<div class="p-8 text-center text-red-500">Failed to load settings.</div>'; return; }
+    const s=d.settings||{};
+    const minBal=Number(s.min_balance||0);
+    const daily=Number(s.daily_reward||0);
+    const status=String(s.wallet_status||'on').toLowerCase()==='off'?'off':'on';
+    m.innerHTML=`
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h1 class="text-xl font-semibold text-content">Wallet Settings</h1>
+          <p class="text-sm text-content-muted mt-1">Control wallet connect availability and rewards</p>
+        </div>
+        <a href="/admin/mwalletconnect.html" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border bg-white text-sm text-content hover:bg-slate-50">
+          <i class="fa-solid fa-wallet"></i> Connected Wallets
+        </a>
+      </div>
+      <div class="max-w-xl bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+        <form id="admWalletSettingsForm" class="space-y-5">
+          <div>
+            <label class="block text-sm font-medium text-content mb-1.5">Minimum Balance</label>
+            <input type="number" step="any" min="0" name="min_balance" id="adm_ws_min_balance" value="${esc(minBal)}"
+              class="w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm text-content focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500"/>
+            <p class="text-xs text-content-muted mt-1">Users need at least this balance to use wallet connect features.</p>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-content mb-1.5">Daily Reward</label>
+            <input type="number" step="any" min="0" name="min_return" id="adm_ws_daily_reward" value="${esc(daily)}"
+              class="w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm text-content focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500"/>
+            <p class="text-xs text-content-muted mt-1">Daily reward amount associated with wallet activity.</p>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-content mb-1.5">Wallet Connect Status</label>
+            <select name="wallet_status" id="adm_ws_status"
+              class="w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm text-content focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500">
+              <option value="on" ${status==='on'?'selected':''}>On (enabled)</option>
+              <option value="off" ${status==='off'?'selected':''}>Off (disabled)</option>
+            </select>
+          </div>
+          <div class="pt-2">
+            <button type="submit" id="adm_ws_save"
+              class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700">
+              <i class="fa-solid fa-floppy-disk"></i> Save Settings
+            </button>
+          </div>
+        </form>
+      </div>`;
+    const form=m.querySelector('#admWalletSettingsForm');
+    form.onsubmit=async(e)=>{
+      e.preventDefault();
+      const btn=m.querySelector('#adm_ws_save');
+      btn.disabled=true; btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Saving...';
+      try{
+        const payload={
+          min_balance: Number(m.querySelector('#adm_ws_min_balance').value||0),
+          min_return: Number(m.querySelector('#adm_ws_daily_reward').value||0),
+          daily_reward: Number(m.querySelector('#adm_ws_daily_reward').value||0),
+          wallet_status: m.querySelector('#adm_ws_status').value
+        };
+        const x=await put('/wallet-settings', payload);
+        toast((x&&x.message)||'Wallet settings updated successfully.',true);
+      }catch(err){
+        toast((err.response&&err.response.data&&err.response.data.message)||err.message,false);
+      }
+      btn.disabled=false; btn.innerHTML='<i class="fa-solid fa-floppy-disk"></i> Save Settings';
+    };
+  }
+
+  async function adminInvestmentList(){
+    const m=adminMain(); showDynamicMain(); if(!m)return;
+    m.innerHTML='<div class="p-8 text-center text-content-muted"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Loading active investments...</div>';
+    let d;
+    try{ d=await get('/active-investments'); }catch(e){ toast(e.message||e,false); m.innerHTML='<div class="p-8 text-center text-red-500">Failed to load investments.</div>'; return; }
+    const rows=d.investments||[];
+    function userLabel(u){
+      if(!u||typeof u!=='object') return {name:'Unknown user',email:''};
+      const name=u.name||u.username||'';
+      const email=u.email||'';
+      return {name:name||email||'Unknown user', email:name?email:''};
+    }
+    function planLabel(p){
+      if(!p||typeof p!=='object') return '—';
+      return p.name||'—';
+    }
+    m.innerHTML=`
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h1 class="text-xl font-semibold text-content">Active Investments</h1>
+          <p class="text-sm text-content-muted mt-1">User plan subscriptions currently running</p>
+        </div>
+        <a href="/admin/plans.html" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border bg-white text-sm text-content hover:bg-slate-50">
+          <i class="fa-solid fa-layer-group"></i> Manage Plans
+        </a>
+      </div>
+      <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="min-w-full text-sm">
+            <thead class="bg-slate-50 text-left text-content-muted">
+              <tr>
+                <th class="px-4 py-3 font-medium">User</th>
+                <th class="px-4 py-3 font-medium">Plan</th>
+                <th class="px-4 py-3 font-medium">Amount</th>
+                <th class="px-4 py-3 font-medium">Profit Earned</th>
+                <th class="px-4 py-3 font-medium">Activated</th>
+                <th class="px-4 py-3 font-medium">Expires</th>
+                <th class="px-4 py-3 font-medium">Status</th>
+                <th class="px-4 py-3 font-medium text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rows.length?rows.map(r=>{
+                const u=userLabel(r.user);
+                const planName=planLabel(r.plan);
+                const amount=Number(r.amount||0);
+                const profit=Number(r.profit_earned||0);
+                const st=String(r.active||'yes').toLowerCase();
+                const stLabel=st==='yes'?'active':st;
+                return `<tr class="border-t border-slate-100">
+                  <td class="px-4 py-3">
+                    <div class="font-medium text-content">${esc(u.name)}</div>
+                    ${u.email?`<div class="text-xs text-content-muted">${esc(u.email)}</div>`:''}
+                  </td>
+                  <td class="px-4 py-3 font-medium text-content">${esc(planName)}</td>
+                  <td class="px-4 py-3">${money(amount)}</td>
+                  <td class="px-4 py-3 text-emerald-600">${money(profit)}</td>
+                  <td class="px-4 py-3 text-content-muted">${r.activated_at?dt(r.activated_at):(r.createdAt?dt(r.createdAt):'—')}</td>
+                  <td class="px-4 py-3 text-content-muted">${r.expire_date?dt(r.expire_date):'—'}</td>
+                  <td class="px-4 py-3">
+                    <span class="text-xs px-2 py-0.5 rounded-full ${st==='yes'?'bg-emerald-50 text-emerald-600':'bg-slate-100 text-slate-600'}">${esc(stLabel)}</span>
+                  </td>
+                  <td class="px-4 py-3 text-right whitespace-nowrap">
+                    <a href="/admin/active-investments-view.html?id=${esc(r._id)}" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 text-content text-xs hover:bg-slate-200 mr-1">
+                      <i class="fa-solid fa-eye text-[.65rem]"></i> View
+                    </a>
+                    <button type="button" data-settle-inv="${esc(r._id)}" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 text-white text-xs hover:bg-emerald-700">
+                      <i class="fa-solid fa-check text-[.65rem]"></i> Settle
+                    </button>
+                  </td>
+                </tr>`;
+              }).join(''):`<tr><td colspan="8" class="px-4 py-12 text-center text-content-muted">No active investments.</td></tr>`}
+            </tbody>
+          </table>
+        </div>
+      </div>`;
+    m.querySelectorAll('[data-settle-inv]').forEach(btn=>{
+      btn.onclick=async()=>{
+        if(!confirm('Settle this investment? Principal + profit will be credited to the user.'))return;
+        try{
+          const x=await post('/investments/'+btn.dataset.settleInv+'/settle',{});
+          toast((x&&x.message)||'Investment settled successfully.',true);
+          adminInvestmentList();
+        }catch(e){ toast((e.response&&e.response.data&&e.response.data.message)||e.message,false); }
+      };
+    });
+  }
+
+  async function adminInvestmentView(){
+    const m=adminMain(); showDynamicMain(); if(!m)return;
+    const id=new URLSearchParams(location.search).get('id');
+    if(!id){
+      m.innerHTML='<div class="p-8 text-center text-content-muted">Missing investment id. <a class="text-blue-600 underline" href="/admin/active-investments.html">Back to list</a></div>';
+      return;
+    }
+    m.innerHTML='<div class="p-8 text-center text-content-muted"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Loading investment...</div>';
+    let d;
+    try{ d=await get('/investments/'+encodeURIComponent(id)); }catch(e){ toast(e.message||e,false); m.innerHTML='<div class="p-8 text-center text-red-500">Failed to load investment. <a class="text-blue-600 underline" href="/admin/active-investments.html">Back</a></div>'; return; }
+    const r=d.investment||d;
+    const u=(r.user&&typeof r.user==='object')?r.user:{};
+    const p=(r.plan&&typeof r.plan==='object')?r.plan:{};
+    const amount=Number(r.amount||0);
+    const profit=Number(r.profit_earned||0);
+    const payout=amount+profit;
+    const st=String(r.active||'').toLowerCase();
+    const canSettle=st==='yes';
+    m.innerHTML=`
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h1 class="text-xl font-semibold text-content">Investment Details</h1>
+          <p class="text-sm text-content-muted mt-1">${esc(p.name||'Plan')} · ${esc(u.name||u.email||'User')}</p>
+        </div>
+        <a href="/admin/active-investments.html" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border bg-white text-sm text-content hover:bg-slate-50">
+          ← Back to list
+        </a>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 space-y-3">
+          <h2 class="text-sm font-semibold text-content-muted uppercase tracking-wide">User</h2>
+          <div class="text-content font-medium text-lg">${esc(u.name||u.username||'—')}</div>
+          <div class="text-sm text-content-muted">${esc(u.email||'')}</div>
+        </div>
+        <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 space-y-3">
+          <h2 class="text-sm font-semibold text-content-muted uppercase tracking-wide">Plan</h2>
+          <div class="text-content font-medium text-lg">${esc(p.name||'—')}</div>
+          <div class="text-sm text-content-muted">${esc(p.expiration||(p.duration?p.duration+' Days':''))}</div>
+        </div>
+      </div>
+      <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 mb-6">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div><div class="text-xs text-content-muted uppercase mb-1">Invested</div><div class="text-lg font-semibold text-content">${money(amount)}</div></div>
+          <div><div class="text-xs text-content-muted uppercase mb-1">Profit Earned</div><div class="text-lg font-semibold text-emerald-600">${money(profit)}</div></div>
+          <div><div class="text-xs text-content-muted uppercase mb-1">Payout</div><div class="text-lg font-semibold text-content">${money(payout)}</div></div>
+          <div><div class="text-xs text-content-muted uppercase mb-1">Status</div><div class="text-lg font-semibold text-content">${esc(st==='yes'?'active':st||'—')}</div></div>
+          <div><div class="text-xs text-content-muted uppercase mb-1">Activated</div><div class="text-sm text-content">${r.activated_at?dt(r.activated_at):(r.createdAt?dt(r.createdAt):'—')}</div></div>
+          <div><div class="text-xs text-content-muted uppercase mb-1">Expires</div><div class="text-sm text-content">${r.expire_date?dt(r.expire_date):'—'}</div></div>
+          <div><div class="text-xs text-content-muted uppercase mb-1">Payments</div><div class="text-sm text-content">${esc(r.payments_received??0)}</div></div>
+          <div><div class="text-xs text-content-muted uppercase mb-1">Settlement</div><div class="text-sm text-content">${esc(r.settlement_type||'—')}</div></div>
+        </div>
+      </div>
+      ${canSettle?`<div class="flex gap-3">
+        <button type="button" id="admInvSettle" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-700">
+          <i class="fa-solid fa-check"></i> Settle & Credit User
+        </button>
+      </div>`:`<div class="text-sm text-content-muted">This investment is no longer active.</div>`}`;
+    const settleBtn=m.querySelector('#admInvSettle');
+    if(settleBtn){
+      settleBtn.onclick=async()=>{
+        if(!confirm('Settle this investment? Principal + profit will be credited to the user.'))return;
+        settleBtn.disabled=true; settleBtn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Settling...';
+        try{
+          const x=await post('/investments/'+encodeURIComponent(id)+'/settle',{});
+          toast((x&&x.message)||'Investment settled successfully.',true);
+          setTimeout(()=>{ location.href='/admin/active-investments.html'; },700);
+        }catch(e){
+          toast((e.response&&e.response.data&&e.response.data.message)||e.message,false);
+          settleBtn.disabled=false; settleBtn.innerHTML='<i class="fa-solid fa-check"></i> Settle & Credit User';
+        }
+      };
+    }
+  }
+
 async function routeAdmin(){
     try{
       if(page==='support-tickets.html')return adminSupportTicketsPage();
