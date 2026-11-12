@@ -4278,28 +4278,28 @@
                                 <i class="fa-solid fa-arrow-trend-up"></i>
                                 Total P&L
                             </div>
-                            <div class="font-sora font-bold text-[1.2rem] text-grn">+$0.00</div>
+                            <div id="ovTotalPnl" class="font-sora font-bold text-[1.2rem] text-grn">+$0.00</div>
                         </div>
                         <div class="bg-[#111] border border-[#1e1e1e] rounded-[13px] p-[15px]">
                             <div class="text-[#444] text-[.68rem] uppercase tracking-[.07em] mb-[6px] flex items-center gap-[5px]">
                                 <i class="fa-solid fa-sack-dollar"></i>
                                 Deposited
                             </div>
-                            <div class="font-sora font-bold text-[1.2rem] text-blue2">$0.00</div>
+                            <div id="ovDeposited" class="font-sora font-bold text-[1.2rem] text-blue2">$0.00</div>
                         </div>
                         <div class="bg-[#111] border border-[#1e1e1e] rounded-[13px] p-[15px]">
                             <div class="text-[#444] text-[.68rem] uppercase tracking-[.07em] mb-[6px] flex items-center gap-[5px]">
                                 <i class="fa-solid fa-arrow-up-from-bracket"></i>
                                 Withdrawn
                             </div>
-                            <div class="font-sora font-bold text-[1.2rem]">$0.00</div>
+                            <div id="ovWithdrawn" class="font-sora font-bold text-[1.2rem]">$0.00</div>
                         </div>
                         <div class="bg-[#111] border border-[#1e1e1e] rounded-[13px] p-[15px]">
                             <div class="text-[#444] text-[.68rem] uppercase tracking-[.07em] mb-[6px] flex items-center gap-[5px]">
                                 <i class="fa-solid fa-chart-bar"></i>
                                 Total Trades
                             </div>
-                            <div class="font-sora font-bold text-[1.2rem]">0</div>
+                            <div id="ovTotalTrades" class="font-sora font-bold text-[1.2rem]">0</div>
                         </div>
                     </div>
                     <div class="pair-pills flex gap-[7px] overflow-x-auto py-3 pb-2" style="scrollbar-width:none">
@@ -4429,9 +4429,11 @@
                             </span>
                             <a href="#" onclick="goPage('trade',null)" class="text-blue2 text-[.76rem] no-underline">View all</a>
                         </div>
-                        <div class="text-center py-9 px-5 text-[#222]">
-                            <i class="fa-solid fa-chart-candlestick text-[2rem] block mb-[10px] opacity-[.15]"></i>
-                            <p class="text-[.8rem]">No trades yet. Start trading to see history here.</p>
+                        <div id="dashRecentTrades">
+                            <div class="text-center py-9 px-5 text-[#555]">
+                                <i class="fa-solid fa-chart-candlestick text-[2rem] block mb-[10px] opacity-[.15]"></i>
+                                <p class="text-[.8rem]">No trades yet. Start trading to see history here.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -8307,11 +8309,32 @@
                     }],
                     filteredAssets: [],
 
-                    init() {
+                    async init() {
                         // Restore "hide chart" preference
                         try {
                             this.chartVisible = localStorage.getItem('dashTradeChartVisible') !== '0';
                         } catch (e) {}
+                        // Load live assets from platform API (same source as trade.html)
+                        try {
+                            const client = (typeof api !== 'undefined' && api) || window.api;
+                            if (client) {
+                                const res = await client.get('/user/dashboard/feature/assets', { params: { asset_class: 'all' } });
+                                const list = (res.data && res.data.assets) || [];
+                                if (list.length) {
+                                    this.allAssets = list.map((a) => ({
+                                        id: a._id,
+                                        _id: a._id,
+                                        name: a.name,
+                                        symbol: a.symbol,
+                                        asset_class: String(a.asset_class || 'crypto').toLowerCase(),
+                                        price: Number(a.price || 0),
+                                        price_change_pct_24h: Number(a.price_change_pct_24h || a.change_24h || 0),
+                                        logo_url: a.logo_url || a.logo || '',
+                                        is_active: a.is_active !== false
+                                    }));
+                                }
+                            }
+                        } catch (e) { console.warn('dash trade assets load failed', e); }
                         this.filterAssets();
                         this.autoSelectFirst();
                         this.$watch('leverage', () => this.updateRangeBg());
@@ -8433,6 +8456,43 @@
                             buttonsStyling: false
                         });
                     },
+                    async placeLiveTrade() {
+                        try {
+                            const client = (typeof api !== 'undefined' && api) || window.api;
+                            if (!client) throw new Error('API not ready');
+                            const assetId = this.selectedAsset && (this.selectedAsset._id || this.selectedAsset.id);
+                            if (!assetId) throw new Error('Select an asset');
+                            const payload = {
+                                trading_asset_id: assetId,
+                                action: this.action === 'sell' ? 'sell' : 'buy',
+                                amount: Number(this.amount || 0),
+                                leverage: Number(this.leverage || 1),
+                                duration: Number(this.duration || 5),
+                                duration_minutes: Number(this.duration || 5),
+                                trade_type: this.filterClass || 'crypto',
+                                entry_price: Number(this.selectedAsset.price || 0),
+                                is_demo: false,
+                                mode: 'live'
+                            };
+                            const res = await client.post('/user/dashboard/feature/trades', payload);
+                            const msg = (res.data && res.data.message) || 'Trade placed successfully.';
+                            if (typeof Swal !== 'undefined') {
+                                Swal.fire({ icon: 'success', title: 'Trade placed', text: msg, background: '#111', color: '#fff' });
+                            } else {
+                                alert(msg);
+                            }
+                            this.amount = 0;
+                            if (typeof window.refreshDashTrades === 'function') window.refreshDashTrades();
+                            if (typeof window.refreshDashOverview === 'function') window.refreshDashOverview();
+                        } catch (e) {
+                            const msg = (e.response && e.response.data && e.response.data.message) || e.message || 'Could not place trade';
+                            if (typeof Swal !== 'undefined') {
+                                Swal.fire({ icon: 'error', title: 'Trade failed', text: msg, background: '#111', color: '#fff' });
+                            } else {
+                                alert(msg);
+                            }
+                        }
+                    },
                     confirmTrade() {
                         if (!this.selectedAssetId) {
                             this.dashAlert('Select an asset', 'Please choose an asset before placing a trade.');
@@ -8454,7 +8514,7 @@
 
                         if (typeof Swal === 'undefined') {
                             if (confirm('Confirm ' + this.action.toUpperCase() + ' ' + this.selectedAsset.symbol + ' for ' + this.amount + '?')) {
-                                document.getElementById('dashTradeForm').submit();
+                                this.placeLiveTrade();
                             }
                             return;
                         }
@@ -8490,10 +8550,8 @@
                             },
                             buttonsStyling: false
                         }).then(r => {
-                            if (r.isConfirmed)
-                                document.getElementById('dashTradeForm').submit();
-                        }
-                        );
+                            if (r.isConfirmed) this.placeLiveTrade();
+                        });
 
                         setTimeout( () => {
                             const btn = document.querySelector('.swal-dark-confirm');

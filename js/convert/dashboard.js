@@ -217,6 +217,74 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     }
   }
+  function applyOverview(overview, currencyCode) {
+    const o = overview || {};
+    const pnl = Number(o.total_pnl || 0);
+    const deposited = Number(o.deposited || 0);
+    const withdrawn = Number(o.withdrawn || 0);
+    const trades = Number(o.total_trades || 0);
+    const pnlEl = document.getElementById('ovTotalPnl');
+    const depEl = document.getElementById('ovDeposited');
+    const wdEl = document.getElementById('ovWithdrawn');
+    const trEl = document.getElementById('ovTotalTrades');
+    if (pnlEl) {
+      pnlEl.textContent = (pnl >= 0 ? '+' : '') + money(pnl, currencyCode);
+      pnlEl.classList.remove('text-grn', 'text-red2');
+      pnlEl.classList.add(pnl >= 0 ? 'text-grn' : 'text-red2');
+    }
+    if (depEl) depEl.textContent = money(deposited, currencyCode);
+    if (wdEl) wdEl.textContent = money(withdrawn, currencyCode);
+    if (trEl) trEl.textContent = String(trades);
+  }
+
+  async function loadRecentTrades() {
+    const box = document.getElementById('dashRecentTrades');
+    if (!box) return;
+    try {
+      const response = await api.get('/user/dashboard/feature/trades');
+      const trades = (response.data && response.data.trades) || [];
+      if (!trades.length) {
+        box.innerHTML = '<div class="text-center py-9 px-5 text-[#555]"><i class="fa-solid fa-chart-candlestick text-[2rem] block mb-[10px] opacity-[.15]"></i><p class="text-[.8rem]">No trades yet. Start trading to see history here.</p></div>';
+        return;
+      }
+      box.innerHTML = trades.slice(0, 12).map((t) => {
+        const asset = t.trading_asset_id && typeof t.trading_asset_id === 'object' ? t.trading_asset_id : {};
+        const sym = t.asset_name || asset.symbol || asset.name || '—';
+        const act = String(t.action || 'buy').toUpperCase();
+        const isBuy = act === 'BUY' || act === 'LONG';
+        const pnl = Number(t.profit_loss || 0);
+        const st = String(t.status || 'open');
+        const when = t.opened || t.createdAt || t.created_at;
+        const whenStr = when ? new Date(when).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : '';
+        return `<div class="flex items-center justify-between px-[15px] py-[12px] border-b border-[#0d0d0d]">
+          <div class="flex items-center gap-[10px] min-w-0">
+            <div class="w-[32px] h-[32px] rounded-[8px] flex items-center justify-center text-[.65rem] font-bold flex-shrink-0 ${isBuy ? 'bg-[rgba(0,212,124,.1)] text-grn' : 'bg-[rgba(255,69,96,.1)] text-red2'}">${isBuy ? 'B' : 'S'}</div>
+            <div class="min-w-0">
+              <div class="font-medium text-[.84rem] truncate">${sym} · ${act}</div>
+              <div class="text-[#555] text-[.68rem] mt-0.5">${whenStr} · ${st}</div>
+            </div>
+          </div>
+          <div class="text-right flex-shrink-0">
+            <div class="font-medium text-[.84rem]">$${Number(t.amount || 0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</div>
+            <div class="text-[.68rem] font-medium mt-0.5 ${pnl>=0?'text-grn':'text-red2'}">${pnl>=0?'+':''}$${Math.abs(pnl).toFixed(2)}</div>
+          </div>
+        </div>`;
+      }).join('');
+    } catch (e) {
+      console.error('recent trades', e);
+    }
+  }
+
+  window.refreshDashTrades = loadRecentTrades;
+  window.refreshDashOverview = async function () {
+    try {
+      const response = await api.get('/user/dashboard');
+      const data = response.data || {};
+      const user = data.user || data;
+      applyOverview(data.overview, user.currency_code || 'USD');
+    } catch (_) {}
+  };
+
   async function loadDashboard() {
     const response = await api.get('/user/dashboard');
     const data = response.data || {};
@@ -227,6 +295,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderBanners(user);
     renderProgress(user);
     updateBadge(data.unreadCount);
+    applyOverview(data.overview, user.currency_code || 'USD');
+    await loadRecentTrades();
     return user;
   }
   function updateBadge(count) {
