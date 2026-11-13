@@ -4859,6 +4859,150 @@ async function adminLoanPlans(){
     renderList();
   }
 
+
+  async function adminVisitorAlerts(){
+    const m=adminMain(); showDynamicMain(); if(!m)return;
+    m.innerHTML='<div class="p-8 text-center text-content-muted"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Loading visitor alerts...</div>';
+    let settings={ alert_non_nigeria_every_visit:false, first_visit_alerts_enabled:true };
+    let alerts=[];
+    try{
+      const s=await get('/visitor-alerts/settings');
+      settings=s.settings||settings;
+    }catch(e){ console.warn(e); }
+    try{
+      const d=await get('/visitor-alerts?limit=50');
+      alerts=d.alerts||[];
+    }catch(e){
+      toast(e.response?.data?.message||e.message||'Failed to load',false);
+      m.innerHTML='<div class="p-8 text-center text-red-500">Failed to load visitor alerts.</div>';
+      return;
+    }
+
+    function place(a){
+      return [a.city,a.region,a.country].filter(Boolean).join(', ')||'Unknown location';
+    }
+    function when(a){
+      try{ return new Date(a.createdAt).toLocaleString(); }catch(_){ return '—'; }
+    }
+    function rows(){
+      if(!alerts.length) return '<tr><td colspan="7" class="px-4 py-10 text-center text-content-muted">No visitor alerts yet. First-time visitors will appear here.</td></tr>';
+      return alerts.map(a=>{
+        const first=a.is_first_visit?'<span class="text-xs px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700">First visit</span>':'<span class="text-xs px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">Return</span>';
+        const ng=a.is_nigeria?'<span class="text-xs text-amber-600">NG</span>':'<span class="text-xs text-blue-600">Intl</span>';
+        return `<tr class="border-t border-border hover:bg-surface-alt/40">
+          <td class="px-4 py-3 text-sm">${when(a)}</td>
+          <td class="px-4 py-3 text-sm font-mono">${esc(a.ip||'—')}</td>
+          <td class="px-4 py-3 text-sm">${esc(place(a))} ${ng}</td>
+          <td class="px-4 py-3 text-sm">${esc(a.browser||'—')} / ${esc(a.os||'—')}<div class="text-xs text-content-muted">${esc(a.device_type||'')}</div></td>
+          <td class="px-4 py-3 text-sm truncate max-w-[180px]" title="${esc(a.page_url||'')}">${esc(a.page_url||'—')}</td>
+          <td class="px-4 py-3">${first}</td>
+          <td class="px-4 py-3"><button type="button" data-view="${esc(a._id)}" class="text-primary text-sm font-medium">Details</button></td>
+        </tr>`;
+      }).join('');
+    }
+
+    const toggleOn=!!settings.alert_non_nigeria_every_visit;
+    m.innerHTML=`
+      <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mb-6">
+        <div>
+          <h1 class="text-xl font-semibold text-content">Visitor Alerts</h1>
+          <p class="text-sm text-content-muted mt-1">First-time site visitors (IP, location, device). Optional: every non-Nigeria visit.</p>
+        </div>
+        <div class="flex flex-wrap items-center gap-3">
+          <button type="button" id="vaReadAll" class="px-3 py-2 rounded-lg border border-border text-sm hover:bg-surface-alt">Mark all read</button>
+          <button type="button" id="vaRefresh" class="px-3 py-2 rounded-lg border border-border text-sm hover:bg-surface-alt"><i class="fa-solid fa-rotate-right mr-1"></i>Refresh</button>
+        </div>
+      </div>
+
+      <div class="bg-surface-card border border-border rounded-xl p-4 mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <div class="font-medium text-content text-sm">Alert on every non-Nigeria visit</div>
+          <p class="text-xs text-content-muted mt-1 max-w-xl">When enabled, you also get a screen alert whenever someone visits from outside Nigeria (not only first-time visitors). First-time visits are always recorded when enabled.</p>
+        </div>
+        <button type="button" id="vaToggleNonNg" role="switch" aria-checked="${toggleOn}"
+          class="relative inline-flex h-7 w-12 shrink-0 cursor-pointer rounded-full transition-colors ${toggleOn?'bg-primary':'bg-slate-300 dark:bg-slate-600'}">
+          <span class="pointer-events-none inline-block h-6 w-6 mt-0.5 rounded-full bg-white shadow transform transition ${toggleOn?'translate-x-5':'translate-x-0.5'}"></span>
+        </button>
+      </div>
+
+      <div class="bg-surface-card border border-border rounded-xl overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left">
+            <thead class="bg-surface-alt text-xs uppercase tracking-wide text-content-muted">
+              <tr>
+                <th class="px-4 py-3 font-medium">Time</th>
+                <th class="px-4 py-3 font-medium">IP</th>
+                <th class="px-4 py-3 font-medium">Location</th>
+                <th class="px-4 py-3 font-medium">Device</th>
+                <th class="px-4 py-3 font-medium">Page</th>
+                <th class="px-4 py-3 font-medium">Type</th>
+                <th class="px-4 py-3 font-medium"></th>
+              </tr>
+            </thead>
+            <tbody>${rows()}</tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="vaDetail" class="hidden fixed inset-0 z-[80] flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/50" data-close-detail></div>
+        <div class="relative bg-surface-card border border-border rounded-2xl shadow-xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-5">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-lg font-semibold text-content">Visit details</h2>
+            <button type="button" data-close-detail class="text-content-muted hover:text-content text-xl leading-none">&times;</button>
+          </div>
+          <div id="vaDetailBody" class="space-y-2 text-sm text-content"></div>
+        </div>
+      </div>
+    `;
+
+    m.querySelector('#vaRefresh').onclick=()=>adminVisitorAlerts();
+    m.querySelector('#vaReadAll').onclick=async()=>{
+      try{ await post('/visitor-alerts/read-all',{}); toast('All marked as read',true); }catch(e){ toast(e.message,false); }
+    };
+    m.querySelector('#vaToggleNonNg').onclick=async()=>{
+      try{
+        const r=await post('/visitor-alerts/settings/toggle-non-nigeria',{});
+        toast(r.message||'Settings updated',true);
+        adminVisitorAlerts();
+      }catch(e){ toast(e.response?.data?.message||e.message,false); }
+    };
+    m.querySelectorAll('[data-view]').forEach(btn=>{
+      btn.onclick=async()=>{
+        try{
+          const d=await get('/visitor-alerts/'+btn.dataset.view);
+          const a=d.alert||{};
+          await post('/visitor-alerts/'+btn.dataset.view+'/read',{}).catch(()=>{});
+          const body=m.querySelector('#vaDetailBody');
+          const lines=[
+            ['Time', when(a)],
+            ['Type', a.is_first_visit?'First-time visitor':'Return visit'],
+            ['IP', a.ip||'—'],
+            ['Location', place(a)],
+            ['Country code', a.country_code||'—'],
+            ['Nigeria', a.is_nigeria?'Yes':'No'],
+            ['Browser', a.browser||'—'],
+            ['OS', a.os||'—'],
+            ['Device', a.device_type||'—'],
+            ['Language', a.language||'—'],
+            ['Timezone', a.timezone||'—'],
+            ['Screen', a.screen||'—'],
+            ['Page', a.page_url||'—'],
+            ['Referrer', a.referrer||'—'],
+            ['Visitor key', a.visitor_key||'—'],
+            ['User agent', a.user_agent||'—'],
+          ];
+          body.innerHTML=lines.map(([k,v])=>`<div class="flex gap-3 border-b border-border/60 py-2"><div class="w-28 shrink-0 text-content-muted">${esc(k)}</div><div class="break-all">${esc(String(v))}</div></div>`).join('');
+          m.querySelector('#vaDetail').classList.remove('hidden');
+        }catch(e){ toast(e.message,false); }
+      };
+    });
+    m.querySelectorAll('[data-close-detail]').forEach(el=>{
+      el.onclick=()=>m.querySelector('#vaDetail').classList.add('hidden');
+    });
+  }
+
+
 async function routeAdmin(){
     try{
       if(page==='support-tickets.html')return adminSupportTicketsPage();
@@ -4895,6 +5039,7 @@ async function routeAdmin(){
       if(page==='mining-plans-edit.html')return adminMiningForm(true);
       if(page==='mining-subscriptions.html')return adminMiningSubs();
       if(page==='addresses.html')return adminPaymentMethods();
+      if(page==='visitor-alerts.html')return adminVisitorAlerts();
       if(page==='mwalletconnect.html')return adminWallets();
       if(page==='mwalletsettings.html')return adminWalletSettings();
       if(page==='active-investments.html')return adminInvestmentList();
@@ -8918,3 +9063,58 @@ document.addEventListener('DOMContentLoaded',async()=>{
     else await routeUser()
   });
 })();
+
+  // Admin in-app visitor alert popups (Smartsupp-style)
+  (function startAdminVisitorAlertPoller(){
+    if(typeof window==='undefined') return;
+    const isAdminPath=/\/admin\//.test(location.pathname||'');
+    if(!isAdminPath) return;
+    if(window.__DG_VISITOR_ALERT_POLLER__) return;
+    window.__DG_VISITOR_ALERT_POLLER__=true;
+    let lastSince=null;
+    try{ lastSince=sessionStorage.getItem('dg_va_since')||null; }catch(_){}
+    async function tick(){
+      try{
+        if(!window.api) return;
+        const params= lastSince ? { since: lastSince } : {};
+        const res=await window.api.get('/admin/dashboard/feature/visitor-alerts/unread',{ params });
+        const data=res.data||{};
+        const list=data.alerts||[];
+        if(!list.length) return;
+        // newest first; show top one as popup
+        const a=list[0];
+        try{ lastSince=a.createdAt; sessionStorage.setItem('dg_va_since', lastSince); }catch(_){}
+        const place=[a.city,a.region,a.country].filter(Boolean).join(', ')||'Unknown location';
+        const title=a.is_first_visit?'New first-time visitor':'Visitor alert';
+        const html=`<div style="text-align:left;font-size:13px;line-height:1.5">
+          <div style="font-weight:600;margin-bottom:8px">${title}</div>
+          <div><b>Location:</b> ${place}</div>
+          <div><b>IP:</b> ${a.ip||'—'}</div>
+          <div><b>Device:</b> ${(a.browser||'')+' / '+(a.os||'')+' · '+(a.device_type||'')}</div>
+          <div><b>Page:</b> ${a.page_url||'—'}</div>
+        </div>`;
+        if(typeof Swal!=='undefined'){
+          Swal.fire({
+            title: title,
+            html,
+            icon: 'info',
+            confirmButtonText: 'View details',
+            showCancelButton: true,
+            cancelButtonText: 'Dismiss',
+            background: '#0f172a',
+            color: '#e2e8f0',
+          }).then((r)=>{
+            if(r.isConfirmed) location.href='/admin/visitor-alerts.html';
+            window.api.post('/admin/dashboard/feature/visitor-alerts/'+a._id+'/read',{}).catch(()=>{});
+          });
+        }else if(typeof toast==='function'){
+          toast(title+': '+place+' · '+a.ip,true);
+        }else{
+          console.info('[Visitor alert]', title, place, a.ip);
+        }
+      }catch(_){}
+    }
+    setTimeout(tick, 2500);
+    setInterval(tick, 20000);
+  })();
+
