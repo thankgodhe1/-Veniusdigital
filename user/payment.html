@@ -2119,8 +2119,45 @@ document.addEventListener('DOMContentLoaded',()=>{
         if(t === 'USDT' || t === 'Bitcoin' || t === 'Ethereum') el.textContent = d.method || t;
         if(t === '$100.00' || /^\$[0-9]+(\.[0-9]+)?$/.test(t)) el.textContent = amtStr;
       });
-      const addr = card.querySelector('input[readonly]');
-      if(addr) addr.value = d.address || 'Payment address will be provided by support';
+      // Wallet address from admin-uploaded payment method
+      const addr = card.querySelector('input[readonly], input[x-ref="walletAddr"]');
+      if(addr) {
+        addr.value = (d.address && String(d.address).trim())
+          ? String(d.address).trim()
+          : 'Payment address will be provided by support';
+      }
+      // Address label
+      card.querySelectorAll('.text-\[.72rem\].text-\[#444\].uppercase, .text-[.72rem].text-[#444].uppercase').forEach(el => {
+        if (/address/i.test(el.textContent || '')) el.textContent = (d.method || 'Payment') + ' Address';
+      });
+      // Network badge
+      if (d.network) {
+        card.querySelectorAll('.net-badge').forEach(el => {
+          el.innerHTML = '<i class="fa-solid fa-circle-nodes text-[.6rem]"></i> ' + String(d.network);
+        });
+      }
+      // Logo
+      if (d.logo_url) {
+        card.querySelectorAll('img[alt="USDT"], img[alt="Bitcoin"], .w-[48px] img, .w-[32px]').forEach(img => {
+          img.src = d.logo_url;
+          img.alt = d.method || img.alt || 'Method';
+        });
+      }
+      // QR code from admin upload
+      if (d.qr_image_url) {
+        let host = card.querySelector('.addr-field');
+        let existing = document.getElementById('dynPayQr');
+        if (!existing && host) {
+          const wrap = document.createElement('div');
+          wrap.id = 'dynPayQr';
+          wrap.className = 'flex flex-col items-center gap-2 my-4';
+          wrap.innerHTML = '<img src="'+String(d.qr_image_url).replace(/"/g,'&quot;')+'" alt="QR Code" class="w-[150px] h-[150px] object-contain bg-white rounded-xl p-2"/>';
+          host.parentNode.insertBefore(wrap, host.nextSibling);
+        } else if (existing) {
+          const img = existing.querySelector('img');
+          if (img) img.src = d.qr_image_url;
+        }
+      }
       const info = Array.from(card.querySelectorAll('strong')).find(el => /\$[0-9]/.test(el.textContent));
       if(info) info.textContent = amtStr;
 
@@ -2201,9 +2238,9 @@ document.addEventListener('DOMContentLoaded',()=>{
     document.querySelectorAll('input[name="paymethd_method"], input[name="payment_method"]').forEach(inp=>{
       inp.value = methodName;
     });
-    // Address fields
-    document.querySelectorAll('input[x-ref="walletAddr"], .addr-field input[readonly]').forEach(inp=>{
-      if(address) inp.value = address;
+    // Address fields — always apply admin-uploaded wallet address
+    document.querySelectorAll('input[x-ref="walletAddr"], .addr-field input[readonly], input[readonly]').forEach(inp=>{
+      inp.value = address || 'Payment address will be provided by support';
     });
     // Network badges
     document.querySelectorAll('.net-badge').forEach(el=>{
@@ -2219,16 +2256,23 @@ document.addEventListener('DOMContentLoaded',()=>{
         img.src = logo; img.alt = methodName;
       });
     }
-    // QR if present - inject near address
+    // QR if present - inject or update near address
     if(qr){
       let host = document.querySelector('.addr-field');
-      if(host && !document.getElementById('dynPayQr')){
+      let existing = document.getElementById('dynPayQr');
+      if(host && !existing){
         const wrap = document.createElement('div');
         wrap.id='dynPayQr';
         wrap.className='flex flex-col items-center gap-2 my-4';
-        wrap.innerHTML = '<img src="'+esc(qr)+'" alt="QR" class="w-[150px] h-[150px] object-contain bg-white rounded-xl p-2"/>';
+        wrap.innerHTML = '<img src="'+esc(qr)+'" alt="QR Code" class="w-[150px] h-[150px] object-contain bg-white rounded-xl p-2"/>';
         host.parentNode.insertBefore(wrap, host.nextSibling);
+      } else if (existing) {
+        const img = existing.querySelector('img');
+        if (img) img.src = qr;
       }
+    } else {
+      const existing = document.getElementById('dynPayQr');
+      if (existing) existing.remove();
     }
     // Ensure amount hidden field
     document.querySelectorAll('form[action*="savedeposit"]').forEach(form=>{
