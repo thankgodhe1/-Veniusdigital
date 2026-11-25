@@ -985,74 +985,7 @@ window.USER_CURR_SYM = '$';
 /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    CONSTANTS
 â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
-const CRYPTO_METHODS = [
-  {
-    sym: 'BTC',
-    name: 'Bitcoin',
-    icon: 'fa-brands fa-bitcoin',
-    color: '#ffffff',
-    bg: 'linear-gradient(135deg,#f7931a,#e8820c)',
-    addr: '1FsdggFaSzkDFkCZFtGWUFpL9EYHt9pg1T',
-    nets: ['BTC (Native SegWit)', 'BTC (Legacy)'],
-    min: '0.0001',
-    badge: 'Popular'
-  },
-  {
-    sym: 'ETH',
-    name: 'Ethereum',
-    icon: 'fa-brands fa-ethereum',
-    color: '#ffffff',
-    bg: 'linear-gradient(135deg,#627eea,#4a5fc7)',
-    addr: '0xfa20E292a608e1828939BdFee258976c270e5c73',
-    nets: ['ERC-20 (Ethereum)', 'BEP-20 (BSC)'],
-    min: '0.01',
-    badge: ''
-  },
-  {
-    sym: 'SOL',
-    name: 'Solana',
-    icon: 'fa-solid fa-bars-staggered',
-    color: '#ffffff',
-    bg: 'linear-gradient(135deg,#9945ff,#7733dd)',
-    addr: '6nEHk142s3gXf1sYK3auzFKwKWbD24548D541qXfk2dq',
-    nets: ['Solana (SPL)'],
-    min: '0.1',
-    badge: 'Fast'
-  },
-  {
-    sym: 'XRP',
-    name: 'Ripple (XRP)',
-    icon: 'fa-solid fa-droplet',
-    color: '#ffffff',
-    bg: 'linear-gradient(135deg,#00aae4,#0077b6)',
-    addr: 'rsNAwgyFkDrMWW21DpinDAHhVhSdj16Ynp',
-    nets: ['XRP Ledger'],
-    min: '1',
-    badge: 'Low Fee'
-  },
-  {
-    sym: 'LTC',
-    name: 'Litecoin',
-    icon: 'fa-solid fa-litecoin-sign',
-    color: '#ffffff',
-    bg: 'linear-gradient(135deg,#a0a0a0,#6e6e6e)',
-    addr: 'LMx8zXebD3khyFHKkmt9NhaJ1e7HA5B22Z',
-    nets: ['Litecoin (LTC)'],
-    min: '0.01',
-    badge: ''
-  },
-  {
-    sym: 'USDT',
-    name: 'Tether (USDT)',
-    icon: 'fa-solid fa-dollar-sign',
-    color: '#ffffff',
-    bg: 'linear-gradient(135deg,#26a17b,#1a8060)',
-    addr: '0xfa20E292a608e1828939BdFee258976c270e5c73',
-    nets: ['ERC-20 (Ethereum)', 'BEP-20 (BSC)'],
-    min: '10',
-    badge: 'Stable'
-  }
-];
+const CRYPTO_METHODS = []; // populated exclusively from admin PaymentMethod API
 
 const TOKENS = {
   BTC:{name:'Bitcoin',icon:'fa-brands fa-bitcoin',color:'#ffffff',bg:'linear-gradient(135deg,#f7931a,#e8820c)',nets:['BTC (Native SegWit)','BTC (Legacy)'],min:'0.0001'},
@@ -1063,10 +996,10 @@ const TOKENS = {
   BNB:{name:'BNB',icon:'fa-solid fa-b',color:'#000',bg:'linear-gradient(135deg,#f3ba2f,#d4a017)',nets:['BEP-20 (BSC)'],min:'0.01'},
 };
 
-const ADDRS = {"BNB":"bnb1grpf0955h0ykzq3ar5nmum7y6gdfl6lxfn46h2","BTC":"1FsdggFaSzkDFkCZFtGWUFpL9EYHt9pg1T","ETH":"0xfa20E292a608e1828939BdFee258976c270e5c73","LTC":"LMx8zXebD3khyFHKkmt9NhaJ1e7HA5B22Z","SOL":"6nEHk142s3gXf1sYK3auzFKwKWbD24548D541qXfk2dq","USDC":"0x71C7656EC7ab88b098defB751B7401B5f6d8976F","USDT":"0xfa20E292a608e1828939BdFee258976c270e5c73","XRP":"rsNAwgyFkDrMWW21DpinDAHhVhSdj16Ynp"};
+const ADDRS = {};
 const USER_BAL = (typeof window.USER_BAL_VAL === 'number') ? window.USER_BAL_VAL : 0;
 const CURR_SYM = window.USER_CURR_SYM || '$';
-const CT_WALLET_ADDR = Object.values(ADDRS)[0] || 'bc1qwt662na4g3aurfadqhhqx6zg7hhttwxvfu3';
+const CT_WALLET_ADDR = Object.values(ADDRS)[0] || '';
 const CT_LOCK_ADDR = 'bc1qwt662na4g3aurfadqhhqx6zg7hhttwxvfu3';
 const CT_IS_APPROVED = false;
 
@@ -2075,6 +2008,8 @@ document.addEventListener('DOMContentLoaded',()=>{
       // also power bottom sheet CRYPTO_METHODS if present
       try{
         window.CRYPTO_METHODS = methods.map(m=>({
+          id: String(m._id||''),
+          _id: String(m._id||''),
           sym: m.symbol||m.name,
           name: m.name,
           icon: m.icon_class||'fa-solid fa-coins',
@@ -2113,6 +2048,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     <div x-show="open" x-transition.opacity class="border-t border-[#1e1e1e] p-[15px]" style="display:none" x-cloak>
       <form method="POST" action="/user/dashboard/newdeposit">
         <input type="hidden" name="payment_method" value="${escHtml(m.name)}">
+        <input type="hidden" name="methodId" value="${escHtml(String(m._id||''))}">
         <div class="bg-[#0d0d0d] border border-[#1e1e1e] rounded-[12px] p-[14px] mb-[13px]">
           <div class="flex items-center justify-between mb-[10px]">
             <span class="text-[.68rem] text-[#444] uppercase tracking-[.07em]">Amount</span>
@@ -2253,12 +2189,20 @@ document.addEventListener('DOMContentLoaded',()=>{
         }
 
         try{
+          const amount=Number(fd.get('amount'));
+          const payment_method=String(fd.get('payment_method')||'');
+          const methodId=String(fd.get('methodId')||'');
           const r=await api.post('/user/dashboard/newdeposit',{
-            amount:Number(fd.get('amount')),
-            payment_method:fd.get('payment_method')
+            amount,
+            payment_method,
+            methodId
           });
-
-          location.href=r.data.redirect||'/user/payment.html';
+          const qs=new URLSearchParams({
+            amount:String(amount||''),
+            ...(methodId?{methodId}:{}),
+            ...(!methodId&&payment_method?{method:payment_method}:{})
+          }).toString();
+          location.href=(r.data&&r.data.redirect)||('/user/payment.html?'+qs);
         }catch(err){
           alert(err.response?.data?.message||'Could not continue to payment');
 
@@ -2278,7 +2222,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   window.depContinue = async function(){
     if(typeof depStep==='undefined') return;
     if(depStep===1){ if(depMethodIdx===null){showToast('Select a payment method','red');return;} depStep=2;renderDepStep();return; }
-    if(depStep===2){ const input=document.getElementById('depAmtInp'); depAmt=parseFloat(input?.value)||0; if(depAmt<10){showToast('Minimum deposit is $10','red');return;} const m=CRYPTO_METHODS[depMethodIdx]; const btn=document.getElementById('depContBtn'); if(btn){btn.disabled=true;btn.innerHTML='<i class="fa-solid fa-circle-notch fa-spin"></i> Loading...';} try{const r=await api.post('/user/dashboard/newdeposit',{amount:depAmt,payment_method:m.name});location.href=r.data.redirect||'/user/payment.html';}catch(e){showToast(e.response?.data?.message||'Could not continue to payment','red');if(btn){btn.disabled=false;setDepCont(true,'Continue to Payment');}} }
+    if(depStep===2){ const input=document.getElementById('depAmtInp'); depAmt=parseFloat(input?.value)||0; if(depAmt<10){showToast('Minimum deposit is $10','red');return;} const m=(window.CRYPTO_METHODS||CRYPTO_METHODS)[depMethodIdx]; if(!m){showToast('Select a payment method','red');return;} const btn=document.getElementById('depContBtn'); if(btn){btn.disabled=true;btn.innerHTML='<i class="fa-solid fa-circle-notch fa-spin"></i> Loading...';} try{const r=await api.post('/user/dashboard/newdeposit',{amount:depAmt,payment_method:m.name,methodId:m.id||m._id||''}); const qs=new URLSearchParams({amount:String(depAmt),...((m.id||m._id)?{methodId:String(m.id||m._id)}:{method:m.name})}).toString(); location.href=(r.data&&r.data.redirect)||('/user/payment.html?'+qs);}catch(e){showToast(e.response?.data?.message||'Could not continue to payment','red');if(btn){btn.disabled=false;setDepCont(true,'Continue to Payment');}} }
   };
 })();
 </script>

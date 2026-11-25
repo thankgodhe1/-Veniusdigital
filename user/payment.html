@@ -834,7 +834,7 @@ body.light-mode [style*="border:1px solid #1e1e1e"],[style*="border:1px solid #2
                   <div class="mb-[16px]" x-data="{ copied: false }">
           <div class="text-[.72rem] text-[#444] uppercase tracking-[.07em] mb-[8px]">USDT Address</div>
           <div class="addr-field">
-            <input type="text" x-ref="walletAddr" value="TFQhp8tjugzwRjmRvge9ZrkjikC9PZivQP" readonly
+            <input type="text" x-ref="walletAddr" value="" readonly
                    class="flex-1 bg-transparent border-none outline-none font-sora text-[.72rem] text-[#888] select-all min-w-0">
             <button @click="navigator.clipboard.writeText($refs.walletAddr.value); copied = true; setTimeout(() => copied = false, 2000)"
                     class="copy-btn flex-shrink-0">
@@ -999,74 +999,7 @@ window.USER_CURR_SYM = '$';
 /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    CONSTANTS
 â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
-const CRYPTO_METHODS = [
-  {
-    sym: 'BTC',
-    name: 'Bitcoin',
-    icon: 'fa-brands fa-bitcoin',
-    color: '#ffffff',
-    bg: 'linear-gradient(135deg,#f7931a,#e8820c)',
-    addr: '1FsdggFaSzkDFkCZFtGWUFpL9EYHt9pg1T',
-    nets: ['BTC (Native SegWit)', 'BTC (Legacy)'],
-    min: '0.0001',
-    badge: 'Popular'
-  },
-  {
-    sym: 'ETH',
-    name: 'Ethereum',
-    icon: 'fa-brands fa-ethereum',
-    color: '#ffffff',
-    bg: 'linear-gradient(135deg,#627eea,#4a5fc7)',
-    addr: '0xfa20E292a608e1828939BdFee258976c270e5c73',
-    nets: ['ERC-20 (Ethereum)', 'BEP-20 (BSC)'],
-    min: '0.01',
-    badge: ''
-  },
-  {
-    sym: 'SOL',
-    name: 'Solana',
-    icon: 'fa-solid fa-bars-staggered',
-    color: '#ffffff',
-    bg: 'linear-gradient(135deg,#9945ff,#7733dd)',
-    addr: '6nEHk142s3gXf1sYK3auzFKwKWbD24548D541qXfk2dq',
-    nets: ['Solana (SPL)'],
-    min: '0.1',
-    badge: 'Fast'
-  },
-  {
-    sym: 'XRP',
-    name: 'Ripple (XRP)',
-    icon: 'fa-solid fa-droplet',
-    color: '#ffffff',
-    bg: 'linear-gradient(135deg,#00aae4,#0077b6)',
-    addr: 'rsNAwgyFkDrMWW21DpinDAHhVhSdj16Ynp',
-    nets: ['XRP Ledger'],
-    min: '1',
-    badge: 'Low Fee'
-  },
-  {
-    sym: 'LTC',
-    name: 'Litecoin',
-    icon: 'fa-solid fa-litecoin-sign',
-    color: '#ffffff',
-    bg: 'linear-gradient(135deg,#a0a0a0,#6e6e6e)',
-    addr: 'LMx8zXebD3khyFHKkmt9NhaJ1e7HA5B22Z',
-    nets: ['Litecoin (LTC)'],
-    min: '0.01',
-    badge: ''
-  },
-  {
-    sym: 'USDT',
-    name: 'Tether (USDT)',
-    icon: 'fa-solid fa-dollar-sign',
-    color: '#ffffff',
-    bg: 'linear-gradient(135deg,#26a17b,#1a8060)',
-    addr: '0xfa20E292a608e1828939BdFee258976c270e5c73',
-    nets: ['ERC-20 (Ethereum)', 'BEP-20 (BSC)'],
-    min: '10',
-    badge: 'Stable'
-  }
-];
+const CRYPTO_METHODS = []; // populated only from admin PaymentMethod API when needed
 
 const TOKENS = {
   BTC:{name:'Bitcoin',icon:'fa-brands fa-bitcoin',color:'#ffffff',bg:'linear-gradient(135deg,#f7931a,#e8820c)',nets:['BTC (Native SegWit)','BTC (Legacy)'],min:'0.0001'},
@@ -1077,10 +1010,10 @@ const TOKENS = {
   BNB:{name:'BNB',icon:'fa-solid fa-b',color:'#000',bg:'linear-gradient(135deg,#f3ba2f,#d4a017)',nets:['BEP-20 (BSC)'],min:'0.01'},
 };
 
-const ADDRS = {"BNB":"bnb1grpf0955h0ykzq3ar5nmum7y6gdfl6lxfn46h2","BTC":"1FsdggFaSzkDFkCZFtGWUFpL9EYHt9pg1T","ETH":"0xfa20E292a608e1828939BdFee258976c270e5c73","LTC":"LMx8zXebD3khyFHKkmt9NhaJ1e7HA5B22Z","SOL":"6nEHk142s3gXf1sYK3auzFKwKWbD24548D541qXfk2dq","USDC":"0x71C7656EC7ab88b098defB751B7401B5f6d8976F","USDT":"0xfa20E292a608e1828939BdFee258976c270e5c73","XRP":"rsNAwgyFkDrMWW21DpinDAHhVhSdj16Ynp"};
+const ADDRS = {};
 const USER_BAL = (typeof window.USER_BAL_VAL === 'number') ? window.USER_BAL_VAL : 0;
 const CURR_SYM = window.USER_CURR_SYM || '$';
-const CT_WALLET_ADDR = Object.values(ADDRS)[0] || 'bc1qwt662na4g3aurfadqhhqx6zg7hhttwxvfu3';
+const CT_WALLET_ADDR = Object.values(ADDRS)[0] || '';
 const CT_LOCK_ADDR = 'bc1qwt662na4g3aurfadqhhqx6zg7hhttwxvfu3';
 const CT_IS_APPROVED = false;
 
@@ -2075,217 +2008,267 @@ document.addEventListener('DOMContentLoaded',()=>{
 </script>
 <script>
 (() => {
+  function esc(v){
+    return String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+  function money(v){
+    return '$' + Number(v || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+  function applyPaymentDetails(d){
+    const card = document.querySelector('.inner-page') || document.body;
+    const methodName = d.method || 'Payment';
+    const address = String(d.address || '').trim();
+    const qr = String(d.qr_image_url || '').trim();
+    const logo = String(d.logo_url || '').trim();
+    const network = d.network || (Array.isArray(d.networks) && d.networks[0]) || '';
+    const amount = Number(d.amount || 0);
+    const sym = (d.currency_code === 'NGN') ? '₦' : '$';
+    const amtStr = sym + Number(amount || 0).toFixed(2);
+
+    // Title
+    const titleEl = card.querySelector('.inner-title');
+    if (titleEl) {
+      titleEl.textContent = d.is_loan_repayment
+        ? ('Loan Repayment' + (d.installment ? (' — Installment #' + d.installment) : ''))
+        : (titleEl.textContent || 'Make Payment');
+    }
+    // Back link
+    const back = card.querySelector('.inner-back');
+    if (back && d.return_url) {
+      back.onclick = () => { location.href = d.return_url; };
+    }
+    // Loan banner
+    if (d.is_loan_repayment) {
+      let banner = document.getElementById('loanRepayBanner');
+      if (!banner) {
+        banner = document.createElement('div');
+        banner.id = 'loanRepayBanner';
+        banner.className = 'flex items-start gap-[9px] bg-[rgba(74,108,247,.05)] border border-[rgba(74,108,247,.15)] rounded-[13px] p-[14px] mb-[14px]';
+        banner.innerHTML = '<i class="fa-solid fa-circle-info text-blue2 text-[.85rem] flex-shrink-0 mt-0.5"></i><div><div class="text-[.84rem] font-semibold text-blue2 mb-1" id="loanRepayBannerTitle"></div><div class="text-[.76rem] text-[#555] leading-[1.55]">This deposit will be applied to your loan repayment once verified by admin. After completing payment, upload your proof below.</div></div>';
+        const hdr = card.querySelector('.inner-hdr');
+        if (hdr && hdr.nextSibling) hdr.parentNode.insertBefore(banner, hdr.nextSibling);
+        else card.insertBefore(banner, card.firstChild);
+      }
+      const bt = document.getElementById('loanRepayBannerTitle');
+      if (bt) bt.textContent = 'Loan Repayment' + (d.installment ? (' — Installment #' + d.installment) : '');
+    }
+
+    // Amount displays
+    card.querySelectorAll('strong.text-blue2, .font-sora.font-bold.text-blue2').forEach(el => {
+      if (/\$[\d,]+\.?\d*/.test(el.textContent) || /₦[\d,]+\.?\d*/.test(el.textContent) || el.classList.contains('text-blue2')) {
+        if (/payment|make|deposit|amount|\$|₦/i.test(el.closest('p,div')?.textContent || el.textContent)) {
+          el.textContent = amtStr;
+        }
+      }
+    });
+    document.querySelectorAll('.font-sora.font-bold.text-\\[1\\.5rem\\].text-blue2, .font-sora.font-bold.text-blue2').forEach(el => {
+      el.textContent = money(amount);
+    });
+    // Method name
+    document.querySelectorAll('.font-medium.text-\\[\\.95rem\\]').forEach(el => {
+      if (el.textContent.trim().length < 40) el.textContent = methodName;
+    });
+    // Plain text replacements for common placeholders
+    const texts = Array.from(card.querySelectorAll('*')).filter(e => e.children.length === 0);
+    texts.forEach(el => {
+      const t = el.textContent.trim();
+      if (t === 'USDT' || t === 'Bitcoin' || t === 'Ethereum') el.textContent = methodName;
+      if (t === '$100.00' || /^\$[0-9]+(\.[0-9]+)?$/.test(t)) el.textContent = amtStr;
+    });
+
+    // Address fields — always apply admin address (never leave stale hardcoded value)
+    document.querySelectorAll('input[x-ref="walletAddr"], .addr-field input[readonly], input[readonly]').forEach(inp => {
+      inp.value = address || 'Payment address will be provided by support';
+    });
+    // Address label
+    document.querySelectorAll('.text-\\[\\.72rem\\].text-\\[\\#444\\].uppercase').forEach(el => {
+      if (/address/i.test(el.textContent || '')) el.textContent = methodName + ' Address';
+    });
+    // Network
+    document.querySelectorAll('.net-badge').forEach(el => {
+      if (network) el.innerHTML = '<i class="fa-solid fa-circle-nodes text-[.6rem]"></i> ' + esc(network);
+    });
+    // Logo
+    if (logo) {
+      document.querySelectorAll('img[alt="USDT"], img[alt="Bitcoin"], .w-\\[48px\\] img, .w-\\[32px\\]').forEach(img => {
+        img.src = logo;
+        img.alt = methodName;
+      });
+    }
+    // QR — inject or update; remove if none
+    let host = document.querySelector('.addr-field');
+    let existing = document.getElementById('dynPayQr');
+    if (qr && host) {
+      if (!existing) {
+        const wrap = document.createElement('div');
+        wrap.id = 'dynPayQr';
+        wrap.className = 'flex flex-col items-center gap-2 my-4';
+        wrap.innerHTML = '<img src="' + esc(qr) + '" alt="QR Code" class="w-[150px] h-[150px] object-contain bg-white rounded-xl p-2"/>';
+        host.parentNode.insertBefore(wrap, host.nextSibling);
+      } else {
+        const img = existing.querySelector('img');
+        if (img) img.src = qr;
+      }
+    } else if (existing) {
+      existing.remove();
+    }
+
+    // Hidden form fields for proof submit
+    document.querySelectorAll('form[action*="savedeposit"], form').forEach(form => {
+      if (!form.querySelector('#proof-upload') && !form.action.includes('savedeposit')) return;
+      let amt = form.querySelector('input[name="amount"]');
+      if (!amt) { amt = document.createElement('input'); amt.type = 'hidden'; amt.name = 'amount'; form.appendChild(amt); }
+      amt.value = String(amount);
+      ['paymethd_method', 'payment_method'].forEach(n => {
+        let el = form.querySelector('input[name="' + n + '"]');
+        if (!el) { el = document.createElement('input'); el.type = 'hidden'; el.name = n; form.appendChild(el); }
+        el.value = methodName;
+      });
+      if (d.methodId) {
+        let mid = form.querySelector('input[name="methodId"]');
+        if (!mid) { mid = document.createElement('input'); mid.type = 'hidden'; mid.name = 'methodId'; form.appendChild(mid); }
+        mid.value = String(d.methodId);
+      }
+    });
+    document.querySelectorAll('input[name="paymethd_method"], input[name="payment_method"]').forEach(inp => {
+      inp.value = methodName;
+    });
+  }
+
   async function loadPayment(){
-    try{
-      const r = await api.get('/user/dashboard/payment-data');
-      const d = r.data || {};
-      const card = document.querySelector('.inner-page');
-      if(!card) return;
-      const sym = (d.currency_code === 'NGN') ? '₦' : '$';
-      const amtStr = sym + Number(d.amount || 0).toFixed(2);
+    const q = new URLSearchParams(location.search);
+    const methodId = (q.get('methodId') || q.get('method_id') || '').trim();
+    const amount = q.get('amount') || '';
+    const methodName = (q.get('method') || q.get('payment_method') || '').trim();
 
-      // Title: Loan Repayment when applicable
-      const titleEl = card.querySelector('.inner-title');
-      if(titleEl){
-        titleEl.textContent = d.is_loan_repayment
-          ? ('Loan Repayment' + (d.installment ? (' — Installment #' + d.installment) : ''))
-          : (titleEl.textContent || 'Make Payment');
-      }
-      // Back link
-      const back = card.querySelector('.inner-back');
-      if(back && d.return_url){
-        back.onclick = () => { location.href = d.return_url; };
-      }
+    const params = new URLSearchParams();
+    if (methodId) params.set('methodId', methodId);
+    if (amount) params.set('amount', amount);
+    if (methodName) params.set('method', methodName);
+    const qs = params.toString();
 
-      // Info banner for loan
-      if(d.is_loan_repayment){
-        let banner = document.getElementById('loanRepayBanner');
-        if(!banner){
-          banner = document.createElement('div');
-          banner.id = 'loanRepayBanner';
-          banner.className = 'flex items-start gap-[9px] bg-[rgba(74,108,247,.05)] border border-[rgba(74,108,247,.15)] rounded-[13px] p-[14px] mb-[14px]';
-          banner.innerHTML = '<i class="fa-solid fa-circle-info text-blue2 text-[.85rem] flex-shrink-0 mt-0.5"></i><div><div class="text-[.84rem] font-semibold text-blue2 mb-1" id="loanRepayBannerTitle"></div><div class="text-[.76rem] text-[#555] leading-[1.55]">This deposit will be applied to your loan repayment once verified by admin. After completing payment, upload your proof below.</div></div>';
-          const hdr = card.querySelector('.inner-hdr');
-          if(hdr && hdr.nextSibling) hdr.parentNode.insertBefore(banner, hdr.nextSibling);
-          else card.insertBefore(banner, card.firstChild);
+    let data = null;
+    // Prefer payment-data (supports query + session)
+    try {
+      const path = '/user/dashboard/payment-data' + (qs ? ('?' + qs) : '');
+      const r = await (window.api
+        ? window.api.get(path)
+        : fetch(String(window.API_BASE_URL || '').replace(/\/$/, '') + path, { credentials: 'include', headers: { Accept: 'application/json' } }).then(async res => ({ data: await res.json(), status: res.status, ok: res.ok })));
+      const d = r.data || r;
+      if (d && (d.success || d.address !== undefined || d.method)) data = d;
+    } catch (e) {
+      console.warn('payment-data load failed', e);
+    }
+
+    // Fallback: deposit-draft with same query
+    if (!data || (!data.address && !data.methodId && !data.method)) {
+      try {
+        const path = '/user/dashboard/deposit-draft' + (qs ? ('?' + qs) : '');
+        const r = await (window.api
+          ? window.api.get(path)
+          : fetch(String(window.API_BASE_URL || '').replace(/\/$/, '') + path, { credentials: 'include', headers: { Accept: 'application/json' } }).then(async res => ({ data: await res.json() })));
+        const body = r.data || {};
+        const method = body.method || null;
+        const draft = body.draft || null;
+        if (method || draft) {
+          data = {
+            amount: (draft && draft.amount) || amount || 0,
+            method: (method && method.name) || (draft && draft.method) || methodName,
+            methodId: (method && method._id) || (draft && draft.methodId) || methodId,
+            address: (method && method.address) || '',
+            qr_image_url: (method && method.qr_image_url) || '',
+            logo_url: (method && method.logo_url) || '',
+            network: (method && (method.network || (method.networks && method.networks[0]))) || '',
+            networks: (method && method.networks) || [],
+            symbol: (method && method.symbol) || '',
+            currency_code: 'USD',
+            is_loan_repayment: !!(draft && draft.loan_id),
+            loan_id: draft && draft.loan_id,
+            installment: draft && draft.installment,
+            narration: (draft && draft.narration) || 'Deposit',
+            return_url: (draft && draft.return_url) || '/user/deposits.html'
+          };
         }
-        const bt = document.getElementById('loanRepayBannerTitle');
-        if(bt) bt.textContent = 'Loan Repayment' + (d.installment ? (' — Installment #' + d.installment) : '');
+      } catch (e2) {
+        console.warn('deposit-draft load failed', e2);
       }
+    }
 
-      const texts = Array.from(card.querySelectorAll('*')).filter(e => e.children.length === 0);
-      texts.forEach(el => {
-        const t = el.textContent.trim();
-        if(t === 'USDT' || t === 'Bitcoin' || t === 'Ethereum') el.textContent = d.method || t;
-        if(t === '$100.00' || /^\$[0-9]+(\.[0-9]+)?$/.test(t)) el.textContent = amtStr;
-      });
-      // Wallet address from admin-uploaded payment method
-      const addr = card.querySelector('input[readonly], input[x-ref="walletAddr"]');
-      if(addr) {
-        addr.value = (d.address && String(d.address).trim())
-          ? String(d.address).trim()
-          : 'Payment address will be provided by support';
-      }
-      // Address label
-      card.querySelectorAll('.text-\[.72rem\].text-\[#444\].uppercase, .text-[.72rem].text-[#444].uppercase').forEach(el => {
-        if (/address/i.test(el.textContent || '')) el.textContent = (d.method || 'Payment') + ' Address';
-      });
-      // Network badge
-      if (d.network) {
-        card.querySelectorAll('.net-badge').forEach(el => {
-          el.innerHTML = '<i class="fa-solid fa-circle-nodes text-[.6rem]"></i> ' + String(d.network);
-        });
-      }
-      // Logo
-      if (d.logo_url) {
-        card.querySelectorAll('img[alt="USDT"], img[alt="Bitcoin"], .w-[48px] img, .w-[32px]').forEach(img => {
-          img.src = d.logo_url;
-          img.alt = d.method || img.alt || 'Method';
-        });
-      }
-      // QR code from admin upload
-      if (d.qr_image_url) {
-        let host = card.querySelector('.addr-field');
-        let existing = document.getElementById('dynPayQr');
-        if (!existing && host) {
-          const wrap = document.createElement('div');
-          wrap.id = 'dynPayQr';
-          wrap.className = 'flex flex-col items-center gap-2 my-4';
-          wrap.innerHTML = '<img src="'+String(d.qr_image_url).replace(/"/g,'&quot;')+'" alt="QR Code" class="w-[150px] h-[150px] object-contain bg-white rounded-xl p-2"/>';
-          host.parentNode.insertBefore(wrap, host.nextSibling);
-        } else if (existing) {
-          const img = existing.querySelector('img');
-          if (img) img.src = d.qr_image_url;
+    // Last resort: fetch method by id directly
+    if ((!data || !data.address) && methodId && window.api) {
+      try {
+        const r = await window.api.get('/user/dashboard/feature/payment-methods/' + encodeURIComponent(methodId));
+        const method = r.data && r.data.method;
+        if (method) {
+          data = Object.assign({}, data || {}, {
+            amount: (data && data.amount) || amount || 0,
+            method: method.name,
+            methodId: String(method._id),
+            address: method.address || '',
+            qr_image_url: method.qr_image_url || '',
+            logo_url: method.logo_url || '',
+            network: method.network || (method.networks && method.networks[0]) || '',
+            networks: method.networks || [],
+            symbol: method.symbol || '',
+            return_url: (data && data.return_url) || '/user/deposits.html'
+          });
         }
+      } catch (e3) {
+        console.warn('payment-method by id failed', e3);
       }
-      const info = Array.from(card.querySelectorAll('strong')).find(el => /\$[0-9]/.test(el.textContent));
-      if(info) info.textContent = amtStr;
+    }
 
-      const form = document.querySelector('#proof-upload')?.closest('form');
-      if(form){
-        form.querySelector('input[name=amount]')?.setAttribute('value', d.amount);
-        form.querySelector('input[name=paymethd_method]')?.setAttribute('value', d.method);
-        let pm = form.querySelector('input[name=payment_method]');
-        if(!pm){ pm = document.createElement('input'); pm.type='hidden'; pm.name='payment_method'; form.appendChild(pm); }
-        pm.value = d.method || '';
-        form.addEventListener('submit', async e => {
-          e.preventDefault();
-          if(!form.reportValidity()) return;
-          const btn = form.querySelector('button[type=submit]');
-          if(btn){ btn.disabled = true; btn.textContent = 'Submitting...'; }
-          try{
-            const fd = new FormData(form);
-            const rr = await fetch(`${String(window.API_BASE_URL||'').replace(/\/$/,'')}/user/dashboard/savedeposit`, {
-              method: 'POST', credentials: 'include', body: fd, headers: { Accept: 'application/json' }
-            });
-            const data = await rr.json();
-            if(!rr.ok) throw new Error(data.message || 'Could not submit deposit');
-            if(data.message) sessionStorage.setItem('loan_repay_flash', data.message);
-            location.href = data.redirect || (d.return_url || '/user/deposits.html?success=deposit');
-          }catch(err){
-            alert(err.message);
-            if(btn){ btn.disabled = false; btn.textContent = 'Submit Deposit'; }
-          }
-        });
+    if (!data) {
+      // No session and no query — send user back to start deposit
+      if (!methodId && !amount) {
+        location.href = '/user/deposits.html';
+        return;
       }
-    }catch(e){
-      if(e.response?.status === 404) location.href = '/user/deposits.html';
+      data = {
+        amount: amount || 0,
+        method: methodName || 'Payment',
+        methodId: methodId || null,
+        address: '',
+        qr_image_url: '',
+        return_url: '/user/deposits.html'
+      };
+    }
+
+    applyPaymentDetails(data);
+
+    // Proof form submit via API with credentials
+    const form = document.querySelector('#proof-upload')?.closest('form');
+    if (form && !form.__payBound) {
+      form.__payBound = true;
+      form.addEventListener('submit', async e => {
+        e.preventDefault();
+        if (!form.reportValidity()) return;
+        const btn = form.querySelector('button[type=submit]');
+        if (btn) { btn.disabled = true; btn.textContent = 'Submitting...'; }
+        try {
+          const fd = new FormData(form);
+          const rr = await fetch(String(window.API_BASE_URL || '').replace(/\/$/, '') + '/user/dashboard/savedeposit', {
+            method: 'POST',
+            credentials: 'include',
+            body: fd,
+            headers: { Accept: 'application/json' }
+          });
+          const resData = await rr.json().catch(() => ({}));
+          if (!rr.ok) throw new Error(resData.message || 'Could not submit deposit');
+          if (resData.message) sessionStorage.setItem('loan_repay_flash', resData.message);
+          location.href = resData.redirect || (data.return_url || '/user/deposits.html?success=deposit');
+        } catch (err) {
+          alert(err.message || 'Could not submit deposit');
+          if (btn) { btn.disabled = false; btn.textContent = 'Submit Deposit'; }
+        }
+      });
     }
   }
+
   document.addEventListener('DOMContentLoaded', loadPayment);
 })();
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/axios@1.7.9/dist/axios.min.js"></script>
-<script src="../js/convert/config.js"></script>
-<script src="../js/convert/auth.js"></script>
-<script>
-(async function(){
-  function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-  function money(v){return '$'+Number(v||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});}
-  try{
-    const client = window.api;
-    if(!client) return;
-    const r = await client.get('/user/dashboard/deposit-draft');
-    const draft = (r.data&&r.data.draft)||null;
-    const method = (r.data&&r.data.method)||null;
-    if(!draft){
-      // no draft — leave page; user may navigate back
-      return;
-    }
-    const amount = Number(draft.amount||0);
-    const methodName = (method&&method.name)||draft.method||'Payment';
-    const address = (method&&method.address)||'';
-    const nets = (method&&(method.networks||[]))||[];
-    const network = nets[0]||(method&&method.network)||'';
-    const logo = (method&&method.logo_url)||'';
-    const qr = (method&&method.qr_image_url)||'';
-    const symbol = (method&&method.symbol)||'';
-
-    // Update amount displays
-    document.querySelectorAll('strong.text-blue2, .font-sora.font-bold.text-blue2, .text-blue2').forEach(el=>{
-      if(/\$[\d,]+\.?\d*/.test(el.textContent) && el.textContent.includes('$')){
-        // only replace amount-looking nodes near payment
-      }
-    });
-    const amountEls = document.querySelectorAll('.font-sora.font-bold.text-\\[1\\.5rem\\].text-blue2, .font-sora.font-bold.text-blue2');
-    amountEls.forEach(el=>{ el.textContent = money(amount); });
-    // Update method name titles
-    document.querySelectorAll('.font-medium.text-\\[\\.95rem\\]').forEach(el=>{
-      if(el.textContent.trim().length < 40) el.textContent = methodName;
-    });
-    // Hidden form method
-    document.querySelectorAll('input[name="paymethd_method"], input[name="payment_method"]').forEach(inp=>{
-      inp.value = methodName;
-    });
-    // Address fields — always apply admin-uploaded wallet address
-    document.querySelectorAll('input[x-ref="walletAddr"], .addr-field input[readonly], input[readonly]').forEach(inp=>{
-      inp.value = address || 'Payment address will be provided by support';
-    });
-    // Network badges
-    document.querySelectorAll('.net-badge').forEach(el=>{
-      if(network) el.innerHTML = '<i class="fa-solid fa-circle-nodes text-[.6rem]"></i> '+esc(network);
-    });
-    // Address label
-    document.querySelectorAll('.text-\\[\\.72rem\\].text-\\[\\#444\\].uppercase').forEach(el=>{
-      if(/address/i.test(el.textContent)) el.textContent = methodName + ' Address';
-    });
-    // Logo
-    if(logo){
-      document.querySelectorAll('img[alt="USDT"], img[alt="Bitcoin"], .w-\\[48px\\] img, .w-\\[32px\\]').forEach(img=>{
-        img.src = logo; img.alt = methodName;
-      });
-    }
-    // QR if present - inject or update near address
-    if(qr){
-      let host = document.querySelector('.addr-field');
-      let existing = document.getElementById('dynPayQr');
-      if(host && !existing){
-        const wrap = document.createElement('div');
-        wrap.id='dynPayQr';
-        wrap.className='flex flex-col items-center gap-2 my-4';
-        wrap.innerHTML = '<img src="'+esc(qr)+'" alt="QR Code" class="w-[150px] h-[150px] object-contain bg-white rounded-xl p-2"/>';
-        host.parentNode.insertBefore(wrap, host.nextSibling);
-      } else if (existing) {
-        const img = existing.querySelector('img');
-        if (img) img.src = qr;
-      }
-    } else {
-      const existing = document.getElementById('dynPayQr');
-      if (existing) existing.remove();
-    }
-    // Ensure amount hidden field
-    document.querySelectorAll('form[action*="savedeposit"]').forEach(form=>{
-      let amt = form.querySelector('input[name="amount"]');
-      if(!amt){ amt=document.createElement('input'); amt.type='hidden'; amt.name='amount'; form.appendChild(amt); }
-      amt.value = String(amount);
-      let meth = form.querySelector('input[name="paymethd_method"]');
-      if(!meth){ meth=document.createElement('input'); meth.type='hidden'; meth.name='paymethd_method'; form.appendChild(meth); }
-      meth.value = methodName;
-    });
-  }catch(e){ console.error('payment draft load', e); }
-})();
-</script>
 <script src="//code.jivosite.com/widget/kdNcHr2PXM" async></script>
 
 </body>
